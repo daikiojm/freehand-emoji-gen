@@ -20,14 +20,73 @@
           GitHub
         </a>
       </div>
+      <svg @pointerdown="handlePointerDown" @pointermove="handlePointerMove">
+        <path v-if="currentMark" :d="stroke"></path>
+      </svg>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent, reactive } from '@nuxtjs/composition-api'
+import getStroke from 'perfect-freehand'
+import { getSvgPathFromStroke } from '../utils/svg'
 
-export default defineComponent({})
+type Mark = {
+  type: string
+  points: number[][]
+}
+
+export default defineComponent({
+  setup() {
+    const currentMark = reactive<Mark>({
+      type: '',
+      points: [],
+    })
+
+    const setCurrentMark = (mark: Mark) => {
+      currentMark.type = mark.type
+      currentMark.points = mark.points
+    }
+
+    const handlePointerDown = (e: PointerEvent) => {
+      e.preventDefault()
+      setCurrentMark({
+        type: e.pointerType,
+        points: [[e.pageX, e.pageY, e.pressure]],
+      })
+    }
+
+    const handlePointerMove = (e: PointerEvent) => {
+      e.preventDefault()
+      if (e.buttons === 1) {
+        setCurrentMark({
+          ...currentMark,
+          points: [...currentMark.points, [e.pageX, e.pageY, e.pressure]],
+        })
+      }
+    }
+
+    const stroke = computed(() =>
+      getSvgPathFromStroke(
+        getStroke(currentMark.points, {
+          size: 24,
+          thinning: 0.75,
+          smoothing: 0.5,
+          streamline: 0.5,
+          simulatePressure: currentMark.type !== 'pen',
+        })
+      )
+    )
+
+    return {
+      handlePointerDown,
+      handlePointerMove,
+      currentMark,
+      stroke,
+    }
+  },
+})
 </script>
 
 <style>
@@ -65,5 +124,15 @@ export default defineComponent({})
 
 .links {
   padding-top: 15px;
+}
+
+svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  touch-action: none;
 }
 </style>
