@@ -32,6 +32,8 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    // https://composition-api.nuxtjs.org/
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -39,6 +41,10 @@ export const nuxtConfig: NuxtConfig = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  generate: {
+    // choose to suit your project
+    interval: 2000,
+  },
 }
 
 module.exports = nuxtConfig

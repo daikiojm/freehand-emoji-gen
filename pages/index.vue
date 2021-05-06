@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
       <h1 class="title">freehand-emoji-gen</h1>
       <div class="links">
         <a
@@ -26,9 +25,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@nuxtjs/composition-api'
 
-export default Vue.extend({})
+export default defineComponent({})
 </script>
 
 <style>
