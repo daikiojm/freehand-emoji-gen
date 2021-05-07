@@ -20,9 +20,11 @@
           GitHub
         </a>
       </div>
-      <svg @pointerdown="handlePointerDown" @pointermove="handlePointerMove">
-        <path v-if="currentMark" :d="stroke"></path>
-      </svg>
+      <div class="svg-container border border-gray-200 mt-4 mx-auto">
+        <svg @pointerdown="handlePointerDown" @pointermove="handlePointerMove">
+          <path v-if="currentMark" :d="stroke"></path>
+        </svg>
+      </div>
     </div>
   </div>
 </template>
@@ -50,10 +52,18 @@ export default defineComponent({
     }
 
     const handlePointerDown = (e: PointerEvent) => {
+      // eslint-disable-next-line no-console
+      console.log(e.pageX, e.pageY)
+      // eslint-disable-next-line no-console
+      console.log(e.clientX, e.clientY)
+      // eslint-disable-next-line no-console
+      console.log(e.offsetX, e.offsetY)
+
       e.preventDefault()
       setCurrentMark({
         type: e.pointerType,
-        points: [[e.pageX, e.pageY, e.pressure]],
+        // points: [[e.pageX, e.pageY, e.pressure]],
+        points: [[e.offsetX, e.offsetY, e.pressure]],
       })
     }
 
@@ -62,7 +72,8 @@ export default defineComponent({
       if (e.buttons === 1) {
         setCurrentMark({
           ...currentMark,
-          points: [...currentMark.points, [e.pageX, e.pageY, e.pressure]],
+          // points: [...currentMark.points, [e.pageX, e.pageY, e.pressure]],
+          points: [...currentMark.points, [e.offsetX, e.offsetY, e.pressure]],
         })
       }
     }
@@ -89,7 +100,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped lang="scss">
 /* Sample `apply` at-rules with Tailwind CSS
 .container {
 @apply min-h-screen flex justify-center items-center text-center mx-auto;
@@ -127,12 +138,21 @@ export default defineComponent({
 }
 
 svg {
-  position: fixed;
-  top: 0;
-  left: 0;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;
   touch-action: none;
+}
+
+.svg-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
 }
 </style>

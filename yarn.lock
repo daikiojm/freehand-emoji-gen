@@ -3643,6 +3643,21 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
+"chokidar@>=3.0.0 <4.0.0", chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
+  integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
+  dependencies:
+    anymatch "~3.1.1"
+    braces "~3.0.2"
+    glob-parent "~5.1.0"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.5.0"
+  optionalDependencies:
+    fsevents "~2.3.1"
+
 chokidar@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
@@ -3661,21 +3676,6 @@ chokidar@^2.1.8:
     upath "^1.1.1"
   optionalDependencies:
     fsevents "^1.2.7"
-
-chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
-  integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
-  dependencies:
-    anymatch "~3.1.1"
-    braces "~3.0.2"
-    glob-parent "~5.1.0"
-    is-binary-path "~2.1.0"
-    is-glob "~4.0.1"
-    normalize-path "~3.0.0"
-    readdirp "~3.5.0"
-  optionalDependencies:
-    fsevents "~2.3.1"
 
 chownr@^1.1.1:
   version "1.1.4"
@@ -4093,9 +4093,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.10.0, core-js-compat@^3.9.0, core-js-compat@^3.9.1:
-  version "3.11.3"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.11.3.tgz#031b4b4b92fe7066c4c56da6cf6b540c22849389"
-  integrity sha512-oNjHN/qUHOA0dPv+v5prqHfeSvIEJrk3hYVoaUK4MNzL9U433uu0MN+pImcdntV8o9pDq0r1v+9lTfKPjjbX/A==
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.12.0.tgz#a031e51fe411085e33cb629bfee2acaa53bc309a"
+  integrity sha512-vvaN8EOvYBEjrr+MN3vCKrMNc/xdYZI+Rt/uPMROi4T5Hj8Fz6TiPQm2mrB9aZoQVW1lCFHYmMrv99aUct9mkg==
   dependencies:
     browserslist "^4.16.6"
     semver "7.0.0"
@@ -10085,7 +10085,7 @@ postcss-values-parser@^4.0.0:
     is-url-superb "^4.0.0"
     postcss "^7.0.5"
 
-postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.21, postcss@^7.0.26, postcss@^7.0.27, postcss@^7.0.32, postcss@^7.0.35, postcss@^7.0.5, postcss@^7.0.6:
+postcss@7.x.x, postcss@^7, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.21, postcss@^7.0.26, postcss@^7.0.27, postcss@^7.0.32, postcss@^7.0.35, postcss@^7.0.5, postcss@^7.0.6:
   version "7.0.35"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
   integrity sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg==
@@ -10103,7 +10103,7 @@ postcss@^6.0.9:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^8.1.10, postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.10, postcss@^8.2.13, postcss@^8.2.8:
+postcss@^8.1.10, postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.10, postcss@^8.2.13:
   version "8.2.14"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
   integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
@@ -10892,6 +10892,13 @@ sass-loader@^10.1.1:
     neo-async "^2.6.2"
     schema-utils "^3.0.0"
     semver "^7.3.2"
+
+sass@^1.32.12:
+  version "1.32.12"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.12.tgz#a2a47ad0f1c168222db5206444a30c12457abb9f"
+  integrity sha512-zmXn03k3hN0KaiVTjohgkg98C3UowhL1/VSGdj4/VAAiMKGQOE80PFPxFP2Kyq0OUskPKcY5lImkhBKEHlypJA==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
 
 sax@~1.2.4:
   version "1.2.4"

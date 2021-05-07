@@ -45,6 +45,9 @@ export const nuxtConfig: NuxtConfig = {
     // choose to suit your project
     interval: 2000,
   },
+  tailwindcss: {
+    jit: true,
+  },
 }
 
 module.exports = nuxtConfig
