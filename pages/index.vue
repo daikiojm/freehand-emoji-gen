@@ -16,12 +16,17 @@
           target="_blank"
           rel="noopener noreferrer"
           class="button--grey"
+          @click.prevent="handlePngDownload"
         >
-          GitHub
+          to PNG
         </a>
       </div>
       <div class="svg-container border border-gray-200 mt-4 mx-auto">
-        <svg @pointerdown="handlePointerDown" @pointermove="handlePointerMove">
+        <svg
+          ref="svgEl"
+          @pointerdown="handlePointerDown"
+          @pointermove="handlePointerMove"
+        >
           <path v-if="currentMark" :d="stroke"></path>
         </svg>
       </div>
@@ -30,7 +35,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  reactive,
+  ref,
+} from '@nuxtjs/composition-api'
 import getStroke from 'perfect-freehand'
 import { getSvgPathFromStroke } from '../utils/svg'
 
@@ -45,6 +55,8 @@ export default defineComponent({
       type: '',
       points: [],
     })
+
+    const svgEl = ref(null)
 
     const setCurrentMark = (mark: Mark) => {
       currentMark.type = mark.type
@@ -90,11 +102,34 @@ export default defineComponent({
       )
     )
 
+    const handlePngDownload = () => {
+      const svg = (svgEl.value as unknown) as Node
+      const svgData = new XMLSerializer().serializeToString(svg)
+      const canvas = document.createElement('canvas')
+      canvas.width = 400
+      canvas.height = 400
+
+      const ctx = canvas.getContext('2d')
+      const image = new Image()
+      image.onload = () => {
+        ctx?.drawImage(image, 0, 0, 400, 400, 0, 0, 100, 100)
+        const a = document.createElement('a')
+        a.href = canvas.toDataURL('image/png')
+        a.setAttribute('download', 'image.png')
+        a.dispatchEvent(new MouseEvent('click'))
+      }
+      image.src =
+        'data:image/svg+xml;charset=utf-8;base64,' +
+        btoa(unescape(encodeURIComponent(svgData)))
+    }
+
     return {
       handlePointerDown,
       handlePointerMove,
       currentMark,
       stroke,
+      svgEl,
+      handlePngDownload,
     }
   },
 })
