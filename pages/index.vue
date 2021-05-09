@@ -1,34 +1,45 @@
 <template>
-  <div>
-    <div class="svg-container border border-gray-200 mt-10 mx-auto">
-      <svg
-        ref="svgEl"
-        @pointerdown="handlePointerDown"
-        @pointerup="handlePointerUp"
-        @pointermove="handlePointerMove"
-      >
-        <g stroke-width="0" stroke="#000" fill="#000">
-          <path
-            v-for="(stroke, index) of strokes"
-            :key="index"
-            :d="stroke"
-          ></path>
-        </g>
-      </svg>
-    </div>
-
-    <div class="flex my-4 mx-10 justify-center">
-      <button
-        href="https://github.com/nuxt/nuxt.js"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="w-1/3 h-10 flex items-center justify-center bg-gray-300 rounded-md border border-gray-300 ml-2"
-        @click.prevent="handlePngDownload"
-      >
-        Download
-      </button>
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-subheader class="font-weight-bold">手書き入力</v-subheader>
+        <v-card class="mx-auto svg-container" max-width="400" outlined>
+          <svg
+            ref="svgEl"
+            @pointerdown="handlePointerDown"
+            @pointerup="handlePointerUp"
+            @pointermove="handlePointerMove"
+          >
+            <g stroke-width="0" stroke="#000" fill="#000">
+              <path
+                v-for="(stroke, index) of strokes"
+                :key="index"
+                :d="stroke"
+              ></path>
+            </g>
+          </svg>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-subheader class="font-weight-bold">設定</v-subheader>
+        <v-card
+          color="grey lighten-4"
+          class="mx-auto svg-container pa-4"
+          max-width="400"
+          outlined
+        >
+          <p>TODO</p>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <div class="d-flex justify-center mt-6">
+          <v-btn outlined @click.prevent="handlePngDownload">保存</v-btn>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">

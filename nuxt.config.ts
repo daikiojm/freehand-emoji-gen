@@ -1,7 +1,7 @@
 import { NuxtConfig } from '@nuxt/types'
+import colors from 'vuetify/es5/util/colors'
 
 export const nuxtConfig: NuxtConfig = {
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'freehand-emoji-gen',
     htmlAttrs: {
@@ -17,38 +17,49 @@ export const nuxtConfig: NuxtConfig = {
   router: {
     base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
   },
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
-    // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
-    // https://composition-api.nuxtjs.org/
     '@nuxtjs/composition-api/module',
+    '@nuxtjs/vuetify',
   ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   generate: {
-    // choose to suit your project
     interval: 2000,
   },
-  tailwindcss: {
-    jit: true,
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
+    theme: {
+      dark: false,
+      default: false,
+      disable: false,
+      options: {},
+      themes: {
+        light: {
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+        },
+        dark: {
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+        },
+      },
+    },
   },
 }
 
