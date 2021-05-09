@@ -53,7 +53,8 @@ import {
   ref,
 } from '@nuxtjs/composition-api'
 import getStroke from 'perfect-freehand'
-import { getSvgPathFromStroke } from '../utils/svg'
+
+import { getSvgPathFromStroke } from '~/utils/svg'
 
 type Mark = {
   type: string

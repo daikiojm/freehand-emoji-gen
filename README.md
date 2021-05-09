@@ -1,5 +1,12 @@
 # freehand-emoji-gen
 
+[![github pages](https://github.com/daikiojm/freehand-emoji-gen/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/daikiojm/freehand-emoji-gen/actions/workflows/gh-pages.yml)
+
+![Screenshot](.github/screenshot.png)
+
+https://daikiojm.github.io/freehand-emoji-gen/
+
+
 ## Build Setup
 
 ```bash
