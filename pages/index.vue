@@ -102,25 +102,42 @@ export default defineComponent({
       )
     )
 
-    const handlePngDownload = () => {
-      const svg = (svgEl.value as unknown) as Node
+    const loadImagePromise = (src: string): Promise<HTMLImageElement> =>
+      new Promise((resolve, reject) => {
+        const image = new Image()
+        image.addEventListener('load', () => resolve(image))
+        image.addEventListener('error', (err) => reject(err))
+        image.src = src
+      })
+
+    const handlePngDownload = async () => {
+      const svg = (svgEl.value as unknown) as SVGElement
+      svg.style.background = 'white'
       const svgData = new XMLSerializer().serializeToString(svg)
       const canvas = document.createElement('canvas')
       canvas.width = 400
       canvas.height = 400
 
       const ctx = canvas.getContext('2d')
-      const image = new Image()
-      image.onload = () => {
-        ctx?.drawImage(image, 0, 0, 400, 400, 0, 0, 100, 100)
-        const a = document.createElement('a')
-        a.href = canvas.toDataURL('image/png')
-        a.setAttribute('download', 'image.png')
-        a.dispatchEvent(new MouseEvent('click'))
-      }
-      image.src =
+      const src =
         'data:image/svg+xml;charset=utf-8;base64,' +
         btoa(unescape(encodeURIComponent(svgData)))
+      const image = await loadImagePromise(src)
+
+      ctx?.drawImage(image, 0, 0, 400, 400, 0, 0, 100, 100)
+      const imageStr = canvas.toDataURL('image/png')
+
+      const croppedImage = await loadImagePromise(imageStr)
+      const croppedCanvas = document.createElement('canvas')
+      croppedCanvas.width = 100
+      croppedCanvas.height = 100
+      const croppedCtx = croppedCanvas.getContext('2d')
+      croppedCtx?.drawImage(croppedImage, 0, 0, 100, 100, 0, 0, 100, 100)
+      const a = document.createElement('a')
+      const croppedImageStr = croppedCanvas.toDataURL('image/png')
+      a.href = croppedImageStr
+      a.setAttribute('download', 'image.png')
+      a.dispatchEvent(new MouseEvent('click'))
     }
 
     return {
