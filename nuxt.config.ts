@@ -14,7 +14,9 @@ export const nuxtConfig: NuxtConfig = {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-
+  router: {
+    base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
