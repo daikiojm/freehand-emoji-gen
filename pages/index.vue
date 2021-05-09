@@ -35,7 +35,10 @@
     <v-row>
       <v-col>
         <div class="d-flex justify-center mt-6">
-          <v-btn outlined @click.prevent="handlePngDownload">保存</v-btn>
+          <v-btn outlined @click.prevent="handleClear">クリア</v-btn>
+          <v-btn class="ml-4" outlined @click.prevent="handlePngDownload"
+            >保存</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -76,7 +79,6 @@ export default defineComponent({
       e.preventDefault()
       setCurrentMark({
         type: e.pointerType,
-        // points: [[e.pageX, e.pageY, e.pressure]],
         points: [[e.offsetX, e.offsetY, e.pressure]],
       })
     }
@@ -86,7 +88,6 @@ export default defineComponent({
       if (e.buttons === 1) {
         setCurrentMark({
           ...currentMark,
-          // points: [...currentMark.points, [e.pageX, e.pageY, e.pressure]],
           points: [...currentMark.points, [e.offsetX, e.offsetY, e.pressure]],
         })
       }
@@ -149,15 +150,23 @@ export default defineComponent({
       a.dispatchEvent(new MouseEvent('click'))
     }
 
+    const handleClear = () => {
+      marks.value = []
+      setCurrentMark({
+        type: '',
+        points: [],
+      })
+    }
+
     return {
       handlePointerDown,
       handlePointerMove,
       handlePointerUp,
       currentMark,
-      // stroke,
       strokes,
       svgEl,
       handlePngDownload,
+      handleClear,
     }
   },
 })

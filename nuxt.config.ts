@@ -2,23 +2,33 @@ import { NuxtConfig } from '@nuxt/types'
 import colors from 'vuetify/es5/util/colors'
 
 export const nuxtConfig: NuxtConfig = {
+  target: 'static',
   head: {
-    title: 'freehand-emoji-gen',
+    title: 'Freehand Emoji Gen | フリーハンド絵文字ジェネレーター📝',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ja',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'フリーハンド(手書き)でSlackなど向けの絵文字画像を作成',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href:
+          'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>',
+      },
+    ],
   },
   router: {
     base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
   },
-  css: [],
-  plugins: [],
   components: true,
   buildModules: [
     '@nuxt/typescript-build',
@@ -26,8 +36,6 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
   ],
-  modules: [],
-  build: {},
   generate: {
     interval: 2000,
   },
