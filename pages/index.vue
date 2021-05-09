@@ -1,35 +1,32 @@
 <template>
-  <div class="container">
-    <div>
-      <h1 class="title">freehand-emoji-gen</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-          @click.prevent="handlePngDownload"
-        >
-          to PNG
-        </a>
-      </div>
-      <div class="svg-container border border-gray-200 mt-4 mx-auto">
-        <svg
-          ref="svgEl"
-          @pointerdown="handlePointerDown"
-          @pointermove="handlePointerMove"
-        >
-          <path v-if="currentMark" :d="stroke"></path>
-        </svg>
-      </div>
+  <div>
+    <div class="svg-container border border-gray-200 mt-10 mx-auto">
+      <svg
+        ref="svgEl"
+        @pointerdown="handlePointerDown"
+        @pointerup="handlePointerUp"
+        @pointermove="handlePointerMove"
+      >
+        <g stroke-width="0" stroke="#000" fill="#000">
+          <path
+            v-for="(stroke, index) of strokes"
+            :key="index"
+            :d="stroke"
+          ></path>
+        </g>
+      </svg>
+    </div>
+
+    <div class="flex my-4 mx-10 justify-center">
+      <button
+        href="https://github.com/nuxt/nuxt.js"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-1/3 h-10 flex items-center justify-center bg-gray-300 rounded-md border border-gray-300 ml-2"
+        @click.prevent="handlePngDownload"
+      >
+        Download
+      </button>
     </div>
   </div>
 </template>
@@ -55,6 +52,7 @@ export default defineComponent({
       type: '',
       points: [],
     })
+    const marks = ref<Mark[]>([])
 
     const svgEl = ref(null)
 
@@ -64,13 +62,6 @@ export default defineComponent({
     }
 
     const handlePointerDown = (e: PointerEvent) => {
-      // eslint-disable-next-line no-console
-      console.log(e.pageX, e.pageY)
-      // eslint-disable-next-line no-console
-      console.log(e.clientX, e.clientY)
-      // eslint-disable-next-line no-console
-      console.log(e.offsetX, e.offsetY)
-
       e.preventDefault()
       setCurrentMark({
         type: e.pointerType,
@@ -90,17 +81,24 @@ export default defineComponent({
       }
     }
 
-    const stroke = computed(() =>
-      getSvgPathFromStroke(
-        getStroke(currentMark.points, {
-          size: 24,
-          thinning: 0.75,
-          smoothing: 0.5,
-          streamline: 0.5,
-          simulatePressure: currentMark.type !== 'pen',
-        })
+    const handlePointerUp = (e: PointerEvent) => {
+      e.preventDefault()
+      marks.value = [...marks.value, { ...currentMark }]
+    }
+
+    const strokes = computed(() => {
+      return [...marks.value, currentMark].map((mark) =>
+        getSvgPathFromStroke(
+          getStroke(mark.points, {
+            size: 24,
+            thinning: 0.75,
+            smoothing: 0.5,
+            streamline: 0.5,
+            simulatePressure: mark.type !== 'pen',
+          })
+        )
       )
-    )
+    })
 
     const loadImagePromise = (src: string): Promise<HTMLImageElement> =>
       new Promise((resolve, reject) => {
@@ -143,8 +141,10 @@ export default defineComponent({
     return {
       handlePointerDown,
       handlePointerMove,
+      handlePointerUp,
       currentMark,
-      stroke,
+      // stroke,
+      strokes,
       svgEl,
       handlePngDownload,
     }
@@ -153,49 +153,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-
 svg {
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // position: absolute;
-  // top: 0;
-  // left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;

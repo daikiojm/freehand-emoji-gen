@@ -1,8 +1,20 @@
 <template>
-  <div>
+  <div class="h-screen bg-gray-100">
+    <TopHeader />
     <Nuxt />
   </div>
 </template>
+<script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api'
+
+import TopHeader from '~/components/TopHeader.vue'
+
+export default defineComponent({
+  components: {
+    TopHeader,
+  },
+})
+</script>
 
 <style>
 html {
