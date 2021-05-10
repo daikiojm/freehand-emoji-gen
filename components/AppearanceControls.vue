@@ -1,8 +1,8 @@
 <template>
   <v-card
-    color="grey lighten-4"
     class="mx-auto controls-container pa-4"
     :style="controlsContainerStyle"
+    elevation="2"
     outlined
   >
     <div v-for="(option, index) of strokeOptions" :key="index">
@@ -12,9 +12,7 @@
         class="mt-n1"
         dense
         hide-details
-        :step="option.step"
-        :min="option.min"
-        :max="option.max"
+        v-bind="option"
       ></v-slider>
     </div>
 
@@ -31,6 +29,7 @@
 
     <v-btn
       class="mx-auto setting-reset-button"
+      outlined
       :disabled="!settingsHasChanged"
       @click="handleSettingReset"
       >設定をリセット</v-btn

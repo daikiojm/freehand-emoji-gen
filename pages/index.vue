@@ -12,7 +12,7 @@
       </v-col>
       <v-col>
         <AppSubheader>
-          <template #default>⚙️ 設定</template>
+          <template #default>⚙️ 絵文字設定</template>
           <template #caption>
             (お好みの見た目になるように先の太さや色を調整できます)
           </template>
@@ -22,21 +22,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <div class="d-flex justify-center mt-6">
-          <v-btn
-            outlined
-            :disabled="!dataHasChanged"
-            @click.prevent="handleClear"
-            >クリア</v-btn
-          >
-          <v-btn
-            class="ml-4"
-            :disabled="!dataHasChanged"
-            outlined
-            @click.prevent="handlePngDownload"
-            >保存</v-btn
-          >
-        </div>
+        <AppSubheader>
+          <template #default>️ 💾 保存設定</template>
+        </AppSubheader>
+        <DownloadControls />
       </v-col>
     </v-row>
   </v-container>
@@ -48,43 +37,19 @@ import { defineComponent, provide } from '@nuxtjs/composition-api'
 import AppSubheader from '~/components/AppSubheader.vue'
 import FreehandCanvas from '~/components/FreehandCanvas.vue'
 import AppearanceControls from '~/components/AppearanceControls.vue'
+import DownloadControls from '~/components/DownloadControls.vue'
 
-import { useStore } from '~/store'
-import { useImageDownload } from '~/composables/useImageDownload'
-import { SvgRefKey, useSvgRef, svgRef } from '~/composables/useSvgRef'
+import { SvgRefKey, svgRef } from '~/composables/useSvgRef'
 
 export default defineComponent({
   components: {
     AppSubheader,
     FreehandCanvas,
     AppearanceControls,
+    DownloadControls,
   },
   setup() {
     provide(SvgRefKey, svgRef())
-
-    const { dataHasChanged, resetData } = useStore()
-    const { downloadPngFromSvg } = useImageDownload()
-
-    const { svgElement } = useSvgRef()
-
-    const handlePngDownload = async () =>
-      await downloadPngFromSvg(svgElement.value!)
-
-    const handleClear = () => resetData()
-
-    return {
-      dataHasChanged,
-      handlePngDownload,
-      handleClear,
-    }
   },
 })
 </script>
-
-<style scoped lang="scss">
-.settings-container {
-  position: relative;
-  width: 400px;
-  height: 400px;
-}
-</style>
