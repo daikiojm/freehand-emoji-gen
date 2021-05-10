@@ -2,11 +2,21 @@
   <v-container>
     <v-row>
       <v-col>
-        <AppSubheader>手書き入力</AppSubheader>
+        <AppSubheader>
+          <template #default>🖋 手書き入力</template>
+          <template #caption>
+            (クリックしたままカーソルを動かして線を描けます)
+          </template>
+        </AppSubheader>
         <FreehandCanvas />
       </v-col>
       <v-col>
-        <AppSubheader>設定</AppSubheader>
+        <AppSubheader>
+          <template #default>⚙️ 設定</template>
+          <template #caption>
+            (お好みの見た目になるように先の太さや色を調整できます)
+          </template>
+        </AppSubheader>
         <AppearanceControls />
       </v-col>
     </v-row>

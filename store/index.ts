@@ -21,6 +21,7 @@ type State = {
     strokeColor: string
     // hex(a)
     backgroundColor: string
+    activeColorPicker: 'stroke' | 'background'
   }
   data: {
     currentMark: Mark
@@ -35,8 +36,9 @@ const defaultSettings: State['settings'] = {
   smoothing: 0.5,
   streamline: 0.5,
   // application options
-  strokeColor: '#000',
-  backgroundColor: '#fff',
+  strokeColor: '#000000FF',
+  backgroundColor: '#FFFFFFFF',
+  activeColorPicker: 'stroke',
 }
 
 const defaultData: State['data'] = {

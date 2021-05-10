@@ -5,61 +5,58 @@
     :style="controlsContainerStyle"
     outlined
   >
-    <label class="text-caption">線の太さ(size)</label>
-    <v-slider
-      v-model="settings.size"
-      class="mt-n1"
-      dense
-      hide-details
-      max="50"
-      min="1"
-    ></v-slider>
+    <div v-for="(option, index) of strokeOptions" :key="index">
+      <label class="text-caption">{{ option.title }}</label>
+      <v-slider
+        v-model="settings[option.key]"
+        class="mt-n1"
+        dense
+        hide-details
+        :step="option.step"
+        :min="option.min"
+        :max="option.max"
+      ></v-slider>
+    </div>
 
     <label class="text-caption">線の色/背景色</label>
-    <div class="d-flex justify-space-between">
+    <div class="d-flex justify-start">
+      <AppColorPicker v-model="color" />
       <div>
-        <v-btn-toggle class="ml-4 mt-4" v-model="toggle_exclusive">
-          <v-btn>線</v-btn>
-          <v-btn>背景</v-btn>
-        </v-btn-toggle>
+        <AppActiveColorPickerToggle
+          v-model="settings.activeColorPicker"
+          class="ml-4 mt-4"
+        />
       </div>
-      <v-color-picker
-        v-model="settings.strokeColor"
-        canvas-height="100"
-        width="280"
-        class="mx-0 my-4"
-        dot-size="10"
-        hide-inputs
-        mode="hexa"
-        show-swatches
-        :swatches="swatches"
-      ></v-color-picker>
     </div>
 
-    <div class="d-flex justify-center">
-      <v-btn
-        class="mx-auto"
-        small
-        :disabled="!settingsHasChanged"
-        @click="handleSettingReset"
-        >設定をリセット</v-btn
-      >
-    </div>
+    <v-btn
+      class="mx-auto setting-reset-button"
+      :disabled="!settingsHasChanged"
+      @click="handleSettingReset"
+      >設定をリセット</v-btn
+    >
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent } from '@nuxtjs/composition-api'
+
+import AppColorPicker from '@/components/AppColorPicker.vue'
+import AppActiveColorPickerToggle from '@/components/AppActiveColorPickerToggle.vue'
 
 import { useStore } from '~/store'
 import { useStaticConfig } from '~/composables/useStaticConfig'
 
 export default defineComponent({
+  components: {
+    AppColorPicker,
+    AppActiveColorPickerToggle,
+  },
   setup() {
     const {
-      swatches,
       freehandCanvasWidth,
       freehandCanvasHeight,
+      strokeOptions,
     } = useStaticConfig()
     const { settings, settingsHasChanged, resetSettings } = useStore()
 
@@ -70,12 +67,24 @@ export default defineComponent({
 
     const handleSettingReset = () => resetSettings()
 
+    const color = computed({
+      get: () =>
+        settings.value.activeColorPicker === 'stroke'
+          ? settings.value.strokeColor
+          : settings.value.backgroundColor,
+      set: (color: string) =>
+        settings.value.activeColorPicker === 'stroke'
+          ? (settings.value.strokeColor = color)
+          : (settings.value.backgroundColor = color),
+    })
+
     return {
       controlsContainerStyle,
-      swatches,
       settings,
       settingsHasChanged,
       handleSettingReset,
+      color,
+      strokeOptions,
     }
   },
 })
@@ -84,5 +93,11 @@ export default defineComponent({
 <style scoped lang="scss">
 .controls-container {
   position: relative;
+
+  .setting-reset-button {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+  }
 }
 </style>

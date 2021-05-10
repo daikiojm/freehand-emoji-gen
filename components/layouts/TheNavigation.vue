@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar dense flat app>
-    <v-toolbar-title class="subtitle-2"
+  <v-app-bar flat app>
+    <v-toolbar-title class="subtitle"
       ><span class="font-weight-bold">Freehand Emoji Gen</span> |
       <span class="caption"
         >フリーハンド絵文字ジェネレーター<span class="subtitle-2"

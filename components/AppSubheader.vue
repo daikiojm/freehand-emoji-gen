@@ -4,6 +4,9 @@
     :style="{ width: width + 'px' }"
   >
     <slot />
+    <span class="text-caption ml-1">
+      <slot name="caption" />
+    </span>
   </v-subheader>
 </template>
 
