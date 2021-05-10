@@ -10,15 +10,20 @@
   </v-app>
 </template>
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, provide } from '@nuxtjs/composition-api'
 
 import TheNavigation from '~/components/layouts/TheNavigation.vue'
 import TheFooter from '~/components/layouts/TheFooter.vue'
+
+import { StoreKey, store } from '~/store'
 
 export default defineComponent({
   components: {
     TheNavigation,
     TheFooter,
+  },
+  setup() {
+    provide(StoreKey, store())
   },
 })
 </script>

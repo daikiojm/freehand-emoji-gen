@@ -1,5 +1,8 @@
 <template>
-  <v-subheader class="mx-auto font-weight-bold app-subheader">
+  <v-subheader
+    class="mx-auto font-weight-bold"
+    :style="{ width: width + 'px' }"
+  >
     <slot />
   </v-subheader>
 </template>
@@ -7,11 +10,15 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-export default defineComponent({})
-</script>
+import { useStaticConfig } from '~/composables/useStaticConfig'
 
-<style scoped lang="scss">
-.app-subheader {
-  max-width: 400px;
-}
-</style>
+export default defineComponent({
+  setup() {
+    const { freehandCanvasWidth } = useStaticConfig()
+
+    return {
+      width: freehandCanvasWidth,
+    }
+  },
+})
+</script>
