@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row no-gutters>
       <v-col>
         <AppSubheader>
           <template #default>🖋 手書き入力</template>
