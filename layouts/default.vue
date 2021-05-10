@@ -1,24 +1,24 @@
 <template>
   <v-app>
-    <Navigation />
+    <TheNavigation />
     <v-main>
       <v-container fill-height fluid>
         <Nuxt />
       </v-container>
     </v-main>
-    <Footer />
+    <TheFooter />
   </v-app>
 </template>
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-import Navigation from '~/components/Navigation.vue'
-import Footer from '~/components/Footer.vue'
+import TheNavigation from '~/components/layouts/TheNavigation.vue'
+import TheFooter from '~/components/layouts/TheFooter.vue'
 
 export default defineComponent({
   components: {
-    Navigation,
-    Footer,
+    TheNavigation,
+    TheFooter,
   },
 })
 </script>

@@ -9,11 +9,27 @@
       ></v-toolbar-title
     >
     <v-spacer></v-spacer>
+    <v-btn
+      icon
+      rel="noopener"
+      target="_blank"
+      aria-label="github"
+      href="https://github.com/daikiojm/freehand-emoji-gen"
+    >
+      <v-icon>mdi-github</v-icon>
+    </v-btn>
+    <ToggleDarkModeIconButton />
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-export default defineComponent({})
+import ToggleDarkModeIconButton from '../ToggleDarkModeIconButton.vue'
+
+export default defineComponent({
+  components: {
+    ToggleDarkModeIconButton,
+  },
+})
 </script>

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-subheader class="font-weight-bold">手書き入力</v-subheader>
+        <AppSubheader>手書き入力</AppSubheader>
         <v-card class="mx-auto svg-container" max-width="400" outlined>
           <svg
             ref="svgEl"
@@ -21,7 +21,7 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-subheader class="font-weight-bold">設定</v-subheader>
+        <AppSubheader>設定</AppSubheader>
         <v-card
           color="grey lighten-4"
           class="mx-auto svg-container pa-4"
@@ -54,6 +54,8 @@ import {
 } from '@nuxtjs/composition-api'
 import getStroke from 'perfect-freehand'
 
+import AppSubheader from '~/components/AppSubheader.vue'
+
 import { getSvgPathFromStroke } from '~/utils/svg'
 
 type Mark = {
@@ -62,6 +64,9 @@ type Mark = {
 }
 
 export default defineComponent({
+  components: {
+    AppSubheader,
+  },
   setup() {
     const currentMark = reactive<Mark>({
       type: '',
