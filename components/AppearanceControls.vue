@@ -52,11 +52,8 @@ export default defineComponent({
     AppActiveColorPickerToggle,
   },
   setup() {
-    const {
-      freehandCanvasWidth,
-      freehandCanvasHeight,
-      strokeOptions,
-    } = useStaticConfig()
+    const { freehandCanvasWidth, freehandCanvasHeight, strokeOptions } =
+      useStaticConfig()
     const { state, settingsHasChanged, resetSettings } = useStore()
 
     const controlsContainerStyle = {
