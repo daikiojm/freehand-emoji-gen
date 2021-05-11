@@ -1,0 +1,20 @@
+export default {
+  title: 'Freehand Emoji Gen',
+  subtitle: 'freehand emoji generator',
+  editorTitle: 'Freehand Input',
+  editorSubtitle: 'You can draw a line by moving the cursor while clicking',
+  appearanceTitle: 'Emoji Setting',
+  appearanceSubtitle: 'Adjust thickness and color of the tip',
+  saveSettingTitle: 'Save Setting',
+
+  lineSize: 'Line Size',
+  option1: 'Thinning',
+  option2: 'Smoothing',
+  option3: 'Streamline',
+  lineAndBackgroundColor: 'Line and Background Color',
+  clear: 'Clear',
+  save: 'Save',
+  resetSetting: 'Reset Settings',
+  line: 'Line',
+  background: 'Background',
+}

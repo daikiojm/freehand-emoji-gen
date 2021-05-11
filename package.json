@@ -25,8 +25,11 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.23.4",
+    "@vueuse/core": "^4.9.2",
+    "add": "^2.0.6",
     "core-js": "^3.12.1",
     "nuxt": "^2.15.5",
+    "nuxt-i18n": "^6.27.0",
     "perfect-freehand": "^0.4.71",
     "vue": "^2.6.12"
   },

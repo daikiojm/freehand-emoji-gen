@@ -3,9 +3,7 @@
     <v-toolbar-title class="subtitle"
       ><span class="font-weight-bold">Freehand Emoji Gen</span> |
       <span class="caption"
-        >フリーハンド絵文字ジェネレーター<span class="subtitle-2"
-          >📝</span
-        ></span
+        >{{ $t('subtitle') }}<span class="subtitle-2">📝</span></span
       ></v-toolbar-title
     >
     <v-spacer></v-spacer>
@@ -18,6 +16,7 @@
     >
       <v-icon>mdi-github</v-icon>
     </v-btn>
+    <LocaleSelector />
     <ToggleDarkModeIconButton />
   </v-app-bar>
 </template>
@@ -26,10 +25,12 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 import ToggleDarkModeIconButton from '@/components/ToggleDarkModeIconButton.vue'
+import LocaleSelector from '../LocaleSelector.vue'
 
 export default defineComponent({
   components: {
     ToggleDarkModeIconButton,
+    LocaleSelector,
   },
 })
 </script>

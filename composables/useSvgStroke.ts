@@ -28,26 +28,27 @@ const getSvgPathFromStroke = (stroke: number[][]) => {
 }
 
 export const useSvgStroke = () => {
-  const { data, settings } = useStore()
+  const { state } = useStore()
 
   const strokes = computed(() => {
     if (
-      data.value.marks.length < 1 &&
-      data.value.currentMark.points.length < 1
+      state.value.data.marks.length < 1 &&
+      state.value.data.currentMark.points.length < 1
     ) {
       return []
     }
 
-    return [...data.value.marks, data.value.currentMark].map((mark) =>
-      getSvgPathFromStroke(
-        getStroke(mark.points, {
-          size: settings.value.size,
-          thinning: settings.value.thinning,
-          smoothing: settings.value.smoothing,
-          streamline: settings.value.streamline,
-          simulatePressure: mark.type !== 'pen',
-        })
-      )
+    return [...state.value.data.marks, state.value.data.currentMark].map(
+      (mark) =>
+        getSvgPathFromStroke(
+          getStroke(mark.points, {
+            size: state.value.settings.size,
+            thinning: state.value.settings.thinning,
+            smoothing: state.value.settings.smoothing,
+            streamline: state.value.settings.streamline,
+            simulatePressure: mark.type !== 'pen',
+          })
+        )
     )
   })
 

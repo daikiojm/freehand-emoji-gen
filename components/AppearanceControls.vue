@@ -6,9 +6,9 @@
     outlined
   >
     <div v-for="(option, index) of strokeOptions" :key="index">
-      <label class="text-caption">{{ option.title }}</label>
+      <label class="text-caption">{{ $t(option.title) }}</label>
       <v-slider
-        v-model="settings[option.key]"
+        v-model="state.settings[option.key]"
         class="mt-n1"
         dense
         hide-details
@@ -16,12 +16,12 @@
       ></v-slider>
     </div>
 
-    <label class="text-caption">線の色/背景色</label>
+    <label class="text-caption">{{ $t('lineAndBackgroundColor') }}</label>
     <div class="d-flex justify-start">
       <AppColorPicker v-model="color" />
       <div>
         <AppActiveColorPickerToggle
-          v-model="settings.activeColorPicker"
+          v-model="state.settings.activeColorPicker"
           class="ml-4 mt-4"
         />
       </div>
@@ -32,7 +32,7 @@
       outlined
       :disabled="!settingsHasChanged"
       @click="handleSettingReset"
-      >設定をリセット</v-btn
+      >{{ $t('resetSetting') }}</v-btn
     >
   </v-card>
 </template>
@@ -57,7 +57,7 @@ export default defineComponent({
       freehandCanvasHeight,
       strokeOptions,
     } = useStaticConfig()
-    const { settings, settingsHasChanged, resetSettings } = useStore()
+    const { state, settingsHasChanged, resetSettings } = useStore()
 
     const controlsContainerStyle = {
       width: `${freehandCanvasWidth}px`,
@@ -68,18 +68,18 @@ export default defineComponent({
 
     const color = computed({
       get: () =>
-        settings.value.activeColorPicker === 'stroke'
-          ? settings.value.strokeColor
-          : settings.value.backgroundColor,
+        state.value.settings.activeColorPicker === 'stroke'
+          ? state.value.settings.strokeColor
+          : state.value.settings.backgroundColor,
       set: (color: string) =>
-        settings.value.activeColorPicker === 'stroke'
-          ? (settings.value.strokeColor = color)
-          : (settings.value.backgroundColor = color),
+        state.value.settings.activeColorPicker === 'stroke'
+          ? (state.value.settings.strokeColor = color)
+          : (state.value.settings.backgroundColor = color),
     })
 
     return {
       controlsContainerStyle,
-      settings,
+      state,
       settingsHasChanged,
       handleSettingReset,
       color,

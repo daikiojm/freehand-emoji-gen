@@ -1,7 +1,7 @@
 <template>
   <v-btn-toggle v-model="toggle" dense>
-    <v-btn>線</v-btn>
-    <v-btn>背景</v-btn>
+    <v-btn>{{ $t('line') }}</v-btn>
+    <v-btn>{{ $t('background') }}</v-btn>
   </v-btn-toggle>
 </template>
 

@@ -1,5 +1,6 @@
 import { NuxtConfig } from '@nuxt/types'
 import colors from 'vuetify/es5/util/colors'
+import messages from './locales/message'
 
 export const nuxtConfig: NuxtConfig = {
   target: 'static',
@@ -30,6 +31,7 @@ export const nuxtConfig: NuxtConfig = {
     base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
   },
   components: true,
+  modules: ['nuxt-i18n'],
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/stylelint-module',
@@ -67,6 +69,16 @@ export const nuxtConfig: NuxtConfig = {
           success: colors.green.accent3,
         },
       },
+    },
+  },
+  i18n: {
+    locales: [
+      { code: 'ja', name: '日本語' },
+      { code: 'en', name: 'English' },
+    ],
+    defaultLocale: 'ja',
+    vueI18n: {
+      messages,
     },
   },
 }

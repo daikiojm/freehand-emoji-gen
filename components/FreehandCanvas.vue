@@ -7,7 +7,7 @@
       @pointerup="handlePointerUp"
       @pointermove="handlePointerMove"
     >
-      <g stroke-width="0" :stroke="strokeColor" :fill="strokeColor">
+      <g stroke-width="0" :style="svgGroupStyle">
         <path
           v-for="(stroke, index) of strokes"
           :key="index"
@@ -30,18 +30,25 @@ import { useStore } from '~/store'
 export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
-    const { settings } = useStore()
+    const { state } = useStore()
 
     const svgContainerStyle = {
       width: `${freehandCanvasWidth}px`,
       height: `${freehandCanvasHeight}px`,
     }
 
-    const strokeColor = computed(() => settings.value.strokeColor)
+    const strokeColor = computed(() => state.value.settings.strokeColor)
 
     const svgStyle = computed(() => {
       return {
-        backgroundColor: settings.value.backgroundColor,
+        backgroundColor: state.value.settings.backgroundColor,
+      }
+    })
+
+    const svgGroupStyle = computed(() => {
+      return {
+        stroke: state.value.settings.strokeColor,
+        fill: state.value.settings.strokeColor,
       }
     })
 
@@ -52,6 +59,7 @@ export default defineComponent({
       svgContainerStyle,
       svgStyle,
       strokeColor,
+      svgGroupStyle,
     }
   },
 })

@@ -1,18 +1,20 @@
 import {
-  reactive,
-  toRefs,
+  ref,
   InjectionKey,
   inject,
   computed,
+  WatchStopHandle,
 } from '@nuxtjs/composition-api'
+import { debouncedWatch, useLocalStorage } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
+import { useStaticConfig } from '../composables/useStaticConfig'
 
 type Mark = {
   type: string
   points: number[][]
 }
 
-type State = {
+export type State = {
   ui: {
     darkMode: boolean
   }
@@ -50,7 +52,9 @@ const defaultData: State['data'] = {
 }
 
 export const store = () => {
-  const state = reactive<State>({
+  const { localStorageKey } = useStaticConfig()
+
+  const state = useLocalStorage<State>(localStorageKey, {
     ui: {
       darkMode: false,
     },
@@ -58,42 +62,63 @@ export const store = () => {
     data: { ...defaultData },
   })
 
+  const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
+
   const resetData = () => {
-    state.data = { ...defaultData }
+    state.value.data = { ...defaultData }
   }
 
   const resetSettings = () => {
-    state.settings = { ...defaultSettings }
+    state.value.settings = { ...defaultSettings }
   }
 
   const setCurrentMark = (mark: Mark) => {
-    state.data.currentMark = {
+    state.value.data.currentMark = {
       type: mark.type,
       points: mark.points,
     }
   }
 
   const updateCurrentMark = (mark: Mark) => {
-    state.data.currentMark.points = [
-      ...state.data.currentMark.points,
+    state.value.data.currentMark.points = [
+      ...state.value.data.currentMark.points,
       ...mark.points,
     ]
   }
 
   const endMark = () => {
-    state.data.marks = [...state.data.marks, { ...state.data.currentMark }]
+    state.value.data.marks = [
+      ...state.value.data.marks,
+      { ...state.value.data.currentMark },
+    ]
   }
 
   const settingsHasChanged = computed(
-    () => JSON.stringify(state.settings) !== JSON.stringify(defaultSettings)
+    () =>
+      JSON.stringify(state.value.settings) !== JSON.stringify(defaultSettings)
   )
 
   const dataHasChanged = computed(
-    () => JSON.stringify(state.data) !== JSON.stringify(defaultData)
+    () => JSON.stringify(state.value.data) !== JSON.stringify(defaultData)
   )
 
+  const onUpdate = (
+    callbackFn: (state: State) => void,
+    options?: { debounce: number }
+  ) => {
+    unsubscribeOnUpdate.value = debouncedWatch(
+      state.value,
+      (data: State) => {
+        callbackFn(data)
+      },
+      { debounce: options?.debounce || 100 }
+    )
+  }
+
   return {
-    ...toRefs(state),
+    state,
+    onUpdate,
+    unsubscribeOnUpdate,
     resetData,
     resetSettings,
     setCurrentMark,

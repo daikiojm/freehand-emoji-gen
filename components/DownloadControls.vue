@@ -11,14 +11,14 @@
         outlined
         :disabled="!dataHasChanged"
         @click.prevent="handleClear"
-        >クリア</v-btn
+        >{{ $t('clear') }}</v-btn
       >
       <v-btn
         class="ml-4 my-auto"
         :disabled="!dataHasChanged"
         outlined
         @click.prevent="handlePngDownload"
-        >保存</v-btn
+        >{{ $t('save') }}</v-btn
       >
     </div>
   </v-card>

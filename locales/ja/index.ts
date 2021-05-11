@@ -1,0 +1,20 @@
+export default {
+  title: 'Freehand Emoji Gen',
+  subtitle: 'フリーハンド絵文字ジェネレーター',
+  editorTitle: '手書き入力',
+  editorSubtitle: 'クリックしたままカーソルを動かして線を描けます',
+  appearanceTitle: '絵文字設定',
+  appearanceSubtitle: 'お好みの見た目になるように先の太さや色を調整できます',
+  saveSettingTitle: '保存設定',
+
+  lineSize: '線の太さ (size)',
+  option1: 'オプション1 (thinning)',
+  option2: 'オプション2 (smoothing)',
+  option3: 'オプション3 (streamline)',
+  lineAndBackgroundColor: '線の色/背景色',
+  clear: 'クリア',
+  save: '保存',
+  resetSetting: '設定をリセット',
+  line: '線',
+  background: '背景',
+}

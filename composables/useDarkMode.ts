@@ -1,6 +1,6 @@
-import { wrapProperty, computed } from '@nuxtjs/composition-api'
+import { computed } from '@nuxtjs/composition-api'
 
-const useVuetify = wrapProperty('$vuetify', true)
+import { useVuetify } from './useVuetify'
 
 export const useDarkMode = () => {
   const vuetify = useVuetify()

@@ -3,19 +3,15 @@
     <v-row no-gutters>
       <v-col>
         <AppSubheader>
-          <template #default>🖋 手書き入力</template>
-          <template #caption>
-            (クリックしたままカーソルを動かして線を描けます)
-          </template>
+          <template #default>🖋 {{ $t('editorTitle') }}</template>
+          <template #caption> ({{ $t('editorSubtitle') }}) </template>
         </AppSubheader>
         <FreehandCanvas />
       </v-col>
       <v-col>
         <AppSubheader>
-          <template #default>⚙️ 絵文字設定</template>
-          <template #caption>
-            (お好みの見た目になるように先の太さや色を調整できます)
-          </template>
+          <template #default>⚙️ {{ $t('appearanceTitle') }}</template>
+          <template #caption> ({{ $t('appearanceSubtitle') }}) </template>
         </AppSubheader>
         <AppearanceControls />
       </v-col>
@@ -23,7 +19,7 @@
     <v-row>
       <v-col>
         <AppSubheader>
-          <template #default>️ 💾 保存設定</template>
+          <template #default>️ 💾 {{ $t('saveSettingTitle') }}</template>
         </AppSubheader>
         <DownloadControls />
       </v-col>
