@@ -5,7 +5,7 @@ import {
   computed,
   WatchStopHandle,
 } from '@nuxtjs/composition-api'
-import { debouncedWatch, useLocalStorage } from '@vueuse/core'
+import { debouncedWatch, useLocalStorage, toRefs } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 import { useStaticConfig } from '../composables/useStaticConfig'
 
@@ -116,7 +116,7 @@ export const store = () => {
   }
 
   return {
-    state,
+    ...toRefs(state),
     onUpdate,
     unsubscribeOnUpdate,
     resetData,

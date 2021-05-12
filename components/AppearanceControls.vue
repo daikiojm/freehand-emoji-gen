@@ -8,11 +8,11 @@
     <div v-for="(option, index) of strokeOptions" :key="index">
       <label class="text-caption">{{ $t(option.title) }}</label>
       <v-slider
-        v-model="state.settings[option.key]"
+        v-model="settings[option.key]"
         class="mt-n1"
         dense
         hide-details
-        v-bind="option"
+        v-bind="pickBindOption(option)"
       ></v-slider>
     </div>
 
@@ -21,7 +21,7 @@
       <AppColorPicker v-model="color" />
       <div>
         <AppActiveColorPickerToggle
-          v-model="state.settings.activeColorPicker"
+          v-model="settings.activeColorPicker"
           class="ml-4 mt-4"
         />
       </div>
@@ -39,12 +39,14 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '@nuxtjs/composition-api'
+import { reactivePick, get, set, toRefs } from '@vueuse/core'
 
 import AppColorPicker from '@/components/AppColorPicker.vue'
 import AppActiveColorPickerToggle from '@/components/AppActiveColorPickerToggle.vue'
 
 import { useStore } from '~/store'
 import { useStaticConfig } from '~/composables/useStaticConfig'
+import type { AppStrokeOption } from '~/composables/useStaticConfig'
 
 export default defineComponent({
   components: {
@@ -54,7 +56,8 @@ export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight, strokeOptions } =
       useStaticConfig()
-    const { state, settingsHasChanged, resetSettings } = useStore()
+    const { settings, settingsHasChanged, resetSettings } = useStore()
+    const { activeColorPicker, strokeColor, backgroundColor } = toRefs(settings)
 
     const controlsContainerStyle = {
       width: `${freehandCanvasWidth}px`,
@@ -63,22 +66,26 @@ export default defineComponent({
 
     const handleSettingReset = () => resetSettings()
 
+    const pickBindOption = (option: AppStrokeOption) =>
+      reactivePick(option, 'step', 'min', 'max')
+
     const color = computed({
       get: () =>
-        state.value.settings.activeColorPicker === 'stroke'
-          ? state.value.settings.strokeColor
-          : state.value.settings.backgroundColor,
+        get(activeColorPicker) === 'stroke'
+          ? get(strokeColor)
+          : get(backgroundColor),
       set: (color: string) =>
-        state.value.settings.activeColorPicker === 'stroke'
-          ? (state.value.settings.strokeColor = color)
-          : (state.value.settings.backgroundColor = color),
+        get(activeColorPicker) === 'stroke'
+          ? set(strokeColor, color)
+          : set(backgroundColor, color),
     })
 
     return {
       controlsContainerStyle,
-      state,
+      settings,
       settingsHasChanged,
       handleSettingReset,
+      pickBindOption,
       color,
       strokeOptions,
     }

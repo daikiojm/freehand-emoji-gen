@@ -1,4 +1,4 @@
-type AppStrokeOption = {
+export type AppStrokeOption = {
   title: string
   key: string
   step: number

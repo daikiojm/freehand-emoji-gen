@@ -1,4 +1,5 @@
 import { computed } from '@nuxtjs/composition-api'
+import { get } from '@vueuse/core'
 import getStroke from 'perfect-freehand'
 
 import { useStore } from '~/store'
@@ -28,27 +29,22 @@ const getSvgPathFromStroke = (stroke: number[][]) => {
 }
 
 export const useSvgStroke = () => {
-  const { state } = useStore()
+  const { settings, data } = useStore()
 
   const strokes = computed(() => {
-    if (
-      state.value.data.marks.length < 1 &&
-      state.value.data.currentMark.points.length < 1
-    ) {
+    if (get(data).marks.length < 1 && get(data).currentMark.points.length < 1) {
       return []
     }
-
-    return [...state.value.data.marks, state.value.data.currentMark].map(
-      (mark) =>
-        getSvgPathFromStroke(
-          getStroke(mark.points, {
-            size: state.value.settings.size,
-            thinning: state.value.settings.thinning,
-            smoothing: state.value.settings.smoothing,
-            streamline: state.value.settings.streamline,
-            simulatePressure: mark.type !== 'pen',
-          })
-        )
+    return [...get(data).marks, get(data).currentMark].map((mark) =>
+      getSvgPathFromStroke(
+        getStroke(mark.points, {
+          size: get(settings).size,
+          thinning: get(settings).thinning,
+          smoothing: get(settings).smoothing,
+          streamline: get(settings).streamline,
+          simulatePressure: mark.type !== 'pen',
+        })
+      )
     )
   })
 

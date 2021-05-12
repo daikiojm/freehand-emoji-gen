@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { get } from '@vueuse/core'
 
 import { useEvents } from '~/composables/useEvents'
 import { useSvgStroke } from '~/composables/useSvgStroke'
@@ -30,25 +31,25 @@ import { useStore } from '~/store'
 export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
-    const { state } = useStore()
+    const { settings } = useStore()
 
     const svgContainerStyle = {
       width: `${freehandCanvasWidth}px`,
       height: `${freehandCanvasHeight}px`,
     }
 
-    const strokeColor = computed(() => state.value.settings.strokeColor)
+    const strokeColor = computed(() => get(settings).strokeColor)
 
     const svgStyle = computed(() => {
       return {
-        backgroundColor: state.value.settings.backgroundColor,
+        backgroundColor: get(settings).backgroundColor,
       }
     })
 
     const svgGroupStyle = computed(() => {
       return {
-        stroke: state.value.settings.strokeColor,
-        fill: state.value.settings.strokeColor,
+        stroke: get(settings).strokeColor,
+        fill: get(settings).strokeColor,
       }
     })
 
