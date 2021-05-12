@@ -5,18 +5,26 @@ import {
   computed,
   WatchStopHandle,
 } from '@nuxtjs/composition-api'
-import { debouncedWatch, useLocalStorage, toRefs } from '@vueuse/core'
+import { debouncedWatch, useLocalStorage, toRefs, useTimeoutFn } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
-import { useStaticConfig } from '../composables/useStaticConfig'
+
+import { useStaticConfig } from '~/composables/useStaticConfig'
 
 type Mark = {
   type: string
   points: number[][]
 }
 
+type Snackbar = {
+  show: boolean
+  message: string
+  type: 'info' | 'success' | 'warning' | 'error'
+}
+
 export type State = {
   ui: {
     darkMode: boolean
+    snackbar: Snackbar
   }
   settings: StrokeOptions & {
     // hex(a)
@@ -57,12 +65,32 @@ export const store = () => {
   const state = useLocalStorage<State>(localStorageKey, {
     ui: {
       darkMode: false,
+      snackbar: {
+        show: false,
+        message: '',
+        type: 'info',
+      },
     },
     settings: { ...defaultSettings },
     data: { ...defaultData },
   })
 
   const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
+
+  const showSnackbar = (snackbar: Omit<Snackbar, 'show'>) => {
+    const duration = 3000
+
+    state.value.ui.snackbar = {
+      show: true,
+      ...snackbar,
+    }
+
+    if (snackbar.type === 'error') return
+
+    useTimeoutFn(() => {
+      state.value.ui.snackbar.show = false
+    }, duration)
+  }
 
   const resetData = () => {
     state.value.data = { ...defaultData }
@@ -117,6 +145,7 @@ export const store = () => {
 
   return {
     ...toRefs(state),
+    showSnackbar,
     onUpdate,
     unsubscribeOnUpdate,
     resetData,
