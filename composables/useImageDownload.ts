@@ -1,4 +1,5 @@
 import { useStaticConfig } from './useStaticConfig'
+import { useStore } from '~/store/index'
 
 const loadImagePromise = (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
@@ -17,6 +18,7 @@ export const useImageDownload = () => {
     outputImageExtension,
     outputImageDefaultName,
   } = useStaticConfig()
+  const { downloadFileName } = useStore()
 
   const downloadPngFromSvg = async (svg: SVGElement) => {
     const svgData = new XMLSerializer().serializeToString(svg)
@@ -67,7 +69,9 @@ export const useImageDownload = () => {
     a.href = croppedImageStr
     a.setAttribute(
       'download',
-      `${outputImageDefaultName}.${outputImageExtension}`
+      `${
+        downloadFileName.value || outputImageDefaultName
+      }.${outputImageExtension}`
     )
     a.dispatchEvent(new MouseEvent('click'))
   }

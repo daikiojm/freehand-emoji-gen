@@ -22,8 +22,7 @@ export const nuxtConfig: NuxtConfig = {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href:
-          'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>',
+        href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>',
       },
     ],
   },
@@ -57,7 +56,7 @@ export const nuxtConfig: NuxtConfig = {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: colors.teal.lighten1,
         },
         dark: {
           primary: colors.blue.darken2,
@@ -66,7 +65,7 @@ export const nuxtConfig: NuxtConfig = {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: colors.teal.lighten1,
         },
       },
     },

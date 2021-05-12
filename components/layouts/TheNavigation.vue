@@ -3,7 +3,7 @@
     <v-toolbar-title class="subtitle"
       ><span class="font-weight-bold">Freehand Emoji Gen</span> |
       <span class="caption"
-        >{{ $t('subtitle') }}<span class="subtitle-2">📝</span></span
+        >{{ $t('subtitle') }}<span class="subtitle-1">📝</span></span
       ></v-toolbar-title
     >
     <v-spacer></v-spacer>

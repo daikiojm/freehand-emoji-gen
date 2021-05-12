@@ -18,6 +18,8 @@ export default {
   resetSetting: 'Reset Settings',
   line: 'Line',
   background: 'Background',
+  fileName: 'File Name (Optional)',
+  useFileName: 'Custom Name',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',

@@ -6,8 +6,10 @@
     outlined
   >
     <v-text-field
+      v-model="download.fileName"
+      :disabled="!download.useCustomFileName"
       class="mx-auto my-4"
-      label="名前(オプション)"
+      :label="$t('fileName')"
       placeholder="avocado_freehand"
       style="width: 200px"
       outlined
@@ -17,8 +19,11 @@
 
     <div class="d-flex justify-center">
       <div class="d-flex flex-column my-auto mr-4">
-        <label class="text-caption">名前をつける</label>
-        <v-checkbox v-model="checkbox" class="mt-0 mb-n4 mx-auto"></v-checkbox>
+        <label class="text-caption">{{ $t('useFileName') }}</label>
+        <v-checkbox
+          v-model="download.useCustomFileName"
+          class="mt-0 mb-n4 mx-auto"
+        ></v-checkbox>
       </div>
 
       <v-btn
@@ -57,7 +62,7 @@ import { useVuetify } from '~/composables/useVuetify'
 export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
-    const { dataHasChanged, resetData } = useStore()
+    const { dataHasChanged, resetData, download } = useStore()
     const { svgElement } = useSvgRef()
     const { downloadPngFromSvg } = useImageDownload()
     const snackbar = useSnackbar()
@@ -98,6 +103,7 @@ export default defineComponent({
     return {
       controlsContainerStyle,
       dataHasChanged,
+      download,
       handlePngDownload,
       handleClear,
     }

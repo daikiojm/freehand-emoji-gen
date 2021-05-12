@@ -18,6 +18,8 @@ export default {
   resetSetting: '設定をリセット',
   line: '線',
   background: '背景',
+  fileName: '名前(オプション)',
+  useFileName: '名前をつける',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

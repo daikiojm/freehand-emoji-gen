@@ -5,13 +5,7 @@ import {
   computed,
   WatchStopHandle,
 } from '@nuxtjs/composition-api'
-import {
-  debouncedWatch,
-  useLocalStorage,
-  toRefs,
-  useTimeoutFn,
-  Fn,
-} from '@vueuse/core'
+import { debouncedWatch, useLocalStorage, toRefs, Fn } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
@@ -43,6 +37,10 @@ export type State = {
   data: {
     currentMark: Mark
     marks: Mark[]
+  }
+  download: {
+    useCustomFileName: boolean
+    fileName: string | null
   }
 }
 
@@ -82,26 +80,22 @@ export const store = () => {
       },
       settings: { ...defaultSettings },
       data: { ...defaultData },
+      download: {
+        useCustomFileName: false,
+        fileName: null,
+      },
     },
     { deep: true, listenToStorageChanges: true }
   )
 
   const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
 
-  const showSnackbar = (snackbar: Omit<Snackbar, 'show'>) => {
-    const duration = 3000
-
-    state.value.ui.snackbar = {
-      show: true,
-      ...snackbar,
-    }
-
-    if (snackbar.type === 'error') return
-
-    useTimeoutFn(() => {
-      state.value.ui.snackbar.show = false
-    }, duration)
-  }
+  const downloadFileName = computed(
+    () =>
+      (state.value.download.useCustomFileName &&
+        state.value.download.fileName) ||
+      ''
+  )
 
   const resetData = () => {
     state.value.data = { ...defaultData }
@@ -156,7 +150,6 @@ export const store = () => {
 
   return {
     ...toRefs(state),
-    showSnackbar,
     onUpdate,
     unsubscribeOnUpdate,
     resetData,
@@ -166,6 +159,7 @@ export const store = () => {
     endMark,
     settingsHasChanged,
     dataHasChanged,
+    downloadFileName,
   }
 }
 
