@@ -34,6 +34,8 @@ export default defineComponent({
     const { settings } = useStore()
 
     const svgContainerStyle = {
+      minWidth: `${freehandCanvasWidth}px`,
+      minHeight: `${freehandCanvasHeight}px`,
       width: `${freehandCanvasWidth}px`,
       height: `${freehandCanvasHeight}px`,
     }

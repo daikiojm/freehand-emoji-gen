@@ -60,6 +60,8 @@ export default defineComponent({
     const { activeColorPicker, strokeColor, backgroundColor } = toRefs(settings)
 
     const controlsContainerStyle = {
+      minWidth: `${freehandCanvasWidth}px`,
+      minHeight: `${freehandCanvasHeight}px`,
       width: `${freehandCanvasWidth}px`,
       height: `${freehandCanvasHeight}px`,
     }

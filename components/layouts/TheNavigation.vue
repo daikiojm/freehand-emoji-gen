@@ -8,6 +8,7 @@
     >
     <v-spacer></v-spacer>
     <v-btn
+      class="mx-2"
       icon
       rel="noopener"
       target="_blank"
@@ -16,8 +17,8 @@
     >
       <v-icon>mdi-github</v-icon>
     </v-btn>
-    <LocaleSelector />
-    <ToggleDarkModeIconButton />
+    <LocaleSelector class="mx-2" />
+    <ToggleDarkModeIconButton class="ml-2" />
   </v-app-bar>
 </template>
 

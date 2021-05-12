@@ -5,18 +5,36 @@
     elevation="2"
     outlined
   >
-    <div class="d-flex justify-center my-auto" style="height: 100%">
+    <v-text-field
+      class="mx-auto my-4"
+      label="名前(オプション)"
+      placeholder="avocado_freehand"
+      style="width: 200px"
+      outlined
+      dense
+      hide-details
+    ></v-text-field>
+
+    <div class="d-flex justify-center">
+      <div class="d-flex flex-column my-auto mr-4">
+        <label class="text-caption">名前をつける</label>
+        <v-checkbox v-model="checkbox" class="mt-0 mb-n4 mx-auto"></v-checkbox>
+      </div>
+
       <v-btn
-        class="my-auto"
+        class="my-auto font-weight-bold"
+        width="80"
         outlined
         :disabled="!dataHasChanged"
         @click.prevent="handleClear"
         >{{ $t('clear') }}</v-btn
       >
       <v-btn
-        class="ml-4 my-auto"
+        class="ml-4 my-auto font-weight-bold"
+        width="80"
+        color="primary"
         :disabled="!dataHasChanged"
-        outlined
+        depressed
         @click.prevent="handlePngDownload"
         >{{ $t('save') }}</v-btn
       >
@@ -25,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, computed } from '@nuxtjs/composition-api'
 
 import { useStore } from '~/store'
 
@@ -34,6 +52,7 @@ import { useImageDownload } from '~/composables/useImageDownload'
 import { useSvgRef } from '~/composables/useSvgRef'
 import { useSnackbar } from '~/composables/useSnackbar'
 import { useI18n } from '~/composables/useI18n'
+import { useVuetify } from '~/composables/useVuetify'
 
 export default defineComponent({
   setup() {
@@ -43,11 +62,24 @@ export default defineComponent({
     const { downloadPngFromSvg } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
+    const vuetify = useVuetify()
 
-    const controlsContainerStyle = {
-      width: `${freehandCanvasWidth}px`,
-      height: `${freehandCanvasHeight / 4}px`,
-    }
+    const controlsContainerStyle = computed(() => {
+      return {
+        width: `${freehandCanvasWidth}px`,
+        minWidth: `${freehandCanvasWidth}px`,
+        minHeight: `${
+          vuetify.value.breakpoint.xlOnly
+            ? freehandCanvasHeight
+            : freehandCanvasHeight / 3
+        }px`,
+        height: `${
+          vuetify.value.breakpoint.xlOnly
+            ? freehandCanvasHeight
+            : freehandCanvasHeight / 4
+        }px`,
+      }
+    })
 
     const handlePngDownload = async () => {
       try {

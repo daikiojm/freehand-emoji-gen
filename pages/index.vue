@@ -1,27 +1,31 @@
 <template>
-  <v-container>
+  <v-container :fluid="$vuetify.breakpoint.mdAndDown">
     <v-row no-gutters>
-      <v-col>
-        <AppSubheader>
-          <template #default>🖋 {{ $t('editorTitle') }}</template>
-          <template #caption> ({{ $t('editorSubtitle') }}) </template>
-        </AppSubheader>
-        <FreehandCanvas />
+      <v-col cols="12" xl="4" lg="6" md="6" sm="12">
+        <div class="mb-4">
+          <AppSubheader>
+            <template #default>🖋 {{ $t('editorTitle') }}</template>
+            <template #caption> ({{ $t('editorSubtitle') }}) </template>
+          </AppSubheader>
+          <FreehandCanvas />
+        </div>
       </v-col>
-      <v-col>
-        <AppSubheader>
-          <template #default>⚙️ {{ $t('appearanceTitle') }}</template>
-          <template #caption> ({{ $t('appearanceSubtitle') }}) </template>
-        </AppSubheader>
-        <AppearanceControls />
+      <v-col cols="12" xl="4" lg="6" md="6" sm="12">
+        <div class="mb-4">
+          <AppSubheader>
+            <template #default>⚙️ {{ $t('appearanceTitle') }}</template>
+            <template #caption> ({{ $t('appearanceSubtitle') }}) </template>
+          </AppSubheader>
+          <AppearanceControls />
+        </div>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <AppSubheader>
-          <template #default>️ 💾 {{ $t('saveSettingTitle') }}</template>
-        </AppSubheader>
-        <DownloadControls />
+      <v-col cols="12" xl="4" lg="12" md="12" sm="12">
+        <div class="mb-4">
+          <AppSubheader>
+            <template #default>️ 💾 {{ $t('saveSettingTitle') }}</template>
+          </AppSubheader>
+          <DownloadControls />
+        </div>
       </v-col>
     </v-row>
   </v-container>
