@@ -14,7 +14,12 @@ export default {
   lineAndBackgroundColor: '線の色/背景色',
   clear: 'クリア',
   save: '保存',
+  dismiss: '閉じる',
   resetSetting: '設定をリセット',
   line: '線',
   background: '背景',
+
+  clearSuccessMessage: 'クリアしました',
+  saveSuccessMessage: '絵文字を保存しました',
+  saveErrorMessage: '絵文字の保存に失敗しました',
 }

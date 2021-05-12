@@ -28,9 +28,12 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 import { useStore } from '~/store'
+
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageDownload } from '~/composables/useImageDownload'
 import { useSvgRef } from '~/composables/useSvgRef'
+import { useSnackbar } from '~/composables/useSnackbar'
+import { useI18n } from '~/composables/useI18n'
 
 export default defineComponent({
   setup() {
@@ -38,16 +41,27 @@ export default defineComponent({
     const { dataHasChanged, resetData } = useStore()
     const { svgElement } = useSvgRef()
     const { downloadPngFromSvg } = useImageDownload()
+    const snackbar = useSnackbar()
+    const i18n = useI18n()
 
     const controlsContainerStyle = {
       width: `${freehandCanvasWidth}px`,
       height: `${freehandCanvasHeight / 4}px`,
     }
 
-    const handlePngDownload = async () =>
-      await downloadPngFromSvg(svgElement.value!)
+    const handlePngDownload = async () => {
+      try {
+        await downloadPngFromSvg(svgElement.value!)
+        snackbar.success(i18n.t('saveSuccessMessage').toString())
+      } catch {
+        snackbar.error(i18n.t('saveErrorMessage').toString())
+      }
+    }
 
-    const handleClear = () => resetData()
+    const handleClear = () => {
+      resetData()
+      snackbar.success(i18n.t('clearSuccessMessage').toString())
+    }
 
     return {
       controlsContainerStyle,

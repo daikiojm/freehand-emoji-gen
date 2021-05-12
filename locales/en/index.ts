@@ -14,7 +14,12 @@ export default {
   lineAndBackgroundColor: 'Line and Background Color',
   clear: 'Clear',
   save: 'Save',
+  dismiss: 'Dismiss',
   resetSetting: 'Reset Settings',
   line: 'Line',
   background: 'Background',
+
+  clearSuccessMessage: 'Clear Success',
+  saveSuccessMessage: 'Save Success',
+  saveErrorMessage: 'Save Error',
 }

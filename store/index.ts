@@ -5,20 +5,27 @@ import {
   computed,
   WatchStopHandle,
 } from '@nuxtjs/composition-api'
-import { debouncedWatch, useLocalStorage, toRefs, useTimeoutFn } from '@vueuse/core'
+import {
+  debouncedWatch,
+  useLocalStorage,
+  toRefs,
+  useTimeoutFn,
+  Fn,
+} from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 
-type Mark = {
+export type Mark = {
   type: string
   points: number[][]
 }
 
-type Snackbar = {
+export type Snackbar = {
   show: boolean
   message: string
   type: 'info' | 'success' | 'warning' | 'error'
+  dismissTimerRef?: Fn | null
 }
 
 export type State = {
@@ -62,18 +69,22 @@ const defaultData: State['data'] = {
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
 
-  const state = useLocalStorage<State>(localStorageKey, {
-    ui: {
-      darkMode: false,
-      snackbar: {
-        show: false,
-        message: '',
-        type: 'info',
+  const state = useLocalStorage<State>(
+    localStorageKey,
+    {
+      ui: {
+        darkMode: false,
+        snackbar: {
+          show: false,
+          message: '',
+          type: 'info',
+        },
       },
+      settings: { ...defaultSettings },
+      data: { ...defaultData },
     },
-    settings: { ...defaultSettings },
-    data: { ...defaultData },
-  })
+    { deep: true, listenToStorageChanges: true }
+  )
 
   const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
 
