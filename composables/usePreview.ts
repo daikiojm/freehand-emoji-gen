@@ -1,3 +1,11 @@
+import { ref } from '@nuxtjs/composition-api'
+
 export const usePreview = () => {
-  return {}
+  const previewImage = ref<string>('')
+  const animationImage = ref<string>('')
+
+  return {
+    previewImage,
+    animationImage,
+  }
 }
