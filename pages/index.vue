@@ -4,7 +4,9 @@
       <v-col cols="12" xl="4" lg="6" md="6" sm="12">
         <div class="mb-4">
           <AppSubheader>
-            <template #default>🖋 {{ $t('editorTitle') }}</template>
+            <template #default
+              ><span class="mr-2">🖋</span> {{ $t('editorTitle') }}</template
+            >
             <template #caption> ({{ $t('editorSubtitle') }}) </template>
           </AppSubheader>
           <FreehandCanvas />
@@ -13,16 +15,33 @@
       <v-col cols="12" xl="4" lg="6" md="6" sm="12">
         <div class="mb-4">
           <AppSubheader>
-            <template #default>⚙️ {{ $t('appearanceTitle') }}</template>
+            <template #default
+              ><span class="mr-2">⚙️</span>️
+              {{ $t('appearanceTitle') }}</template
+            >
             <template #caption> ({{ $t('appearanceSubtitle') }}) </template>
           </AppSubheader>
           <AppearanceControls />
         </div>
       </v-col>
-      <v-col cols="12" xl="4" lg="12" md="12" sm="12">
+      <v-col cols="12" xl="4" lg="6" md="6" sm="12">
         <div class="mb-4">
           <AppSubheader>
-            <template #default>️ 💾 {{ $t('saveSettingTitle') }}</template>
+            <template #default
+              ><span class="mr-2">💩</span> {{ $t('animationTitle') }}</template
+            >
+            <template #caption> ({{ $t('animationSubtitle') }}) </template>
+          </AppSubheader>
+          <AnimationControls />
+        </div>
+      </v-col>
+      <v-col cols="12" xl="4" lg="6" md="6" sm="12">
+        <div class="mb-4">
+          <AppSubheader>
+            <template #default
+              >️<span class="mr-2">💾</span>
+              {{ $t('saveSettingTitle') }}</template
+            >
           </AppSubheader>
           <DownloadControls />
         </div>
@@ -37,6 +56,7 @@ import { defineComponent, provide } from '@nuxtjs/composition-api'
 import AppSubheader from '~/components/AppSubheader.vue'
 import FreehandCanvas from '~/components/FreehandCanvas.vue'
 import AppearanceControls from '~/components/AppearanceControls.vue'
+import AnimationControls from '~/components/AnimationControls.vue'
 import DownloadControls from '~/components/DownloadControls.vue'
 
 import { SvgRefKey, svgRef } from '~/composables/useSvgRef'
@@ -46,6 +66,7 @@ export default defineComponent({
     AppSubheader,
     FreehandCanvas,
     AppearanceControls,
+    AnimationControls,
     DownloadControls,
   },
   setup() {

@@ -6,6 +6,8 @@ export default {
   appearanceTitle: '絵文字設定',
   appearanceSubtitle: 'お好みの見た目になるように先の太さや色を調整できます',
   saveSettingTitle: '保存設定',
+  animationTitle: '治安',
+  animationSubtitle: 'アニメーション',
 
   lineSize: '線の太さ (size)',
   option1: 'オプション1 (thinning)',

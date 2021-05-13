@@ -6,6 +6,8 @@ export default {
   appearanceTitle: 'Emoji Setting',
   appearanceSubtitle: 'Adjust thickness and color of the tip',
   saveSettingTitle: 'Save Setting',
+  animationTitle: 'Animation Setting',
+  animationSubtitle: '-',
 
   lineSize: 'Line Size',
   option1: 'Thinning',

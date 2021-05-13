@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 
 import { useStore } from '~/store'
 
@@ -57,7 +57,6 @@ import { useImageDownload } from '~/composables/useImageDownload'
 import { useSvgRef } from '~/composables/useSvgRef'
 import { useSnackbar } from '~/composables/useSnackbar'
 import { useI18n } from '~/composables/useI18n'
-import { useVuetify } from '~/composables/useVuetify'
 
 export default defineComponent({
   setup() {
@@ -67,24 +66,13 @@ export default defineComponent({
     const { downloadPngFromSvg } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
-    const vuetify = useVuetify()
 
-    const controlsContainerStyle = computed(() => {
-      return {
-        width: `${freehandCanvasWidth}px`,
-        minWidth: `${freehandCanvasWidth}px`,
-        minHeight: `${
-          vuetify.value.breakpoint.xlOnly
-            ? freehandCanvasHeight
-            : freehandCanvasHeight / 3
-        }px`,
-        height: `${
-          vuetify.value.breakpoint.xlOnly
-            ? freehandCanvasHeight
-            : freehandCanvasHeight / 4
-        }px`,
-      }
-    })
+    const controlsContainerStyle = {
+      minWidth: `${freehandCanvasWidth}px`,
+      minHeight: `${freehandCanvasHeight}px`,
+      width: `${freehandCanvasWidth}px`,
+      height: `${freehandCanvasHeight}px`,
+    }
 
     const handlePngDownload = async () => {
       try {
