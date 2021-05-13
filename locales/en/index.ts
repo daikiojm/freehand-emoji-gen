@@ -5,7 +5,7 @@ export default {
   editorSubtitle: 'You can draw a line by moving the cursor while clicking',
   appearanceTitle: 'Emoji Setting',
   appearanceSubtitle: 'Adjust thickness and color of the tip',
-  saveSettingTitle: 'Save Setting',
+  saveSettingTitle: 'Preview / Save Setting',
   animationTitle: 'Animation Setting',
   animationSubtitle: '-',
 

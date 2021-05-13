@@ -5,7 +5,7 @@ export default {
   editorSubtitle: 'クリックしたままカーソルを動かして線を描けます',
   appearanceTitle: '絵文字設定',
   appearanceSubtitle: 'お好みの見た目になるように先の太さや色を調整できます',
-  saveSettingTitle: '保存設定',
+  saveSettingTitle: 'プレビュー / 保存設定',
   animationTitle: '治安',
   animationSubtitle: 'アニメーション',
 

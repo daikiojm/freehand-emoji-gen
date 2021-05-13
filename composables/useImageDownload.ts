@@ -1,5 +1,5 @@
 import { useStaticConfig } from './useStaticConfig'
-import { useStore } from '~/store/index'
+import { useStore } from '~/store'
 
 const loadImagePromise = (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
