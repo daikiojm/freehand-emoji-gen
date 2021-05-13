@@ -40,8 +40,8 @@ export const useImageDownload = () => {
       freehandCanvasHeight,
       0,
       0,
-      freehandCanvasHeight,
-      freehandCanvasHeight
+      outputImageWidth,
+      outputImageWidth
     )
     const imageStr = canvas.toDataURL('image/png')
 
