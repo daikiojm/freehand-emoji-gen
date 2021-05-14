@@ -17,6 +17,7 @@ import TheNavigation from '~/components/layouts/TheNavigation.vue'
 import TheFooter from '~/components/layouts/TheFooter.vue'
 import AppSnackbar from '~/components/AppSnackbar.vue'
 
+import { SvgRefKey, svgRef } from '~/composables/useSvgRef'
 import { StoreKey, store } from '~/store'
 
 export default defineComponent({
@@ -26,6 +27,7 @@ export default defineComponent({
     AppSnackbar,
   },
   setup() {
+    provide(SvgRefKey, svgRef())
     provide(StoreKey, store())
   },
 })

@@ -9,6 +9,8 @@ import { debouncedWatch, useLocalStorage, toRefs, Fn } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
+import { useImageRender } from '~/composables/useImageRender'
+import { useSvgRef } from '~/composables/useSvgRef'
 
 export type Mark = {
   type: string
@@ -39,6 +41,7 @@ export type State = {
     marks: Mark[]
   }
   download: {
+    resultImage: string
     useCustomFileName: boolean
     fileName: string | null
   }
@@ -66,6 +69,8 @@ const defaultData: State['data'] = {
 
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
+  const { renderPngFromSvg } = useImageRender()
+  const { svgElement } = useSvgRef()
 
   const state = useLocalStorage<State>(
     localStorageKey,
@@ -81,6 +86,7 @@ export const store = () => {
       settings: { ...defaultSettings },
       data: { ...defaultData },
       download: {
+        resultImage: '',
         useCustomFileName: false,
         fileName: null,
       },
@@ -147,6 +153,23 @@ export const store = () => {
       { debounce: options?.debounce || 100 }
     )
   }
+
+  debouncedWatch(
+    state,
+    async (newValue: State, oldValue: State) => {
+      if (
+        JSON.stringify(newValue.data.marks) ===
+          JSON.stringify(oldValue.data.marks) &&
+        JSON.stringify(newValue.data.currentMark) ===
+          JSON.stringify(oldValue.data.currentMark)
+      )
+        return
+
+      const image = await renderPngFromSvg(svgElement.value!)
+      state.value.download.resultImage = image
+    },
+    { deep: true, debounce: 200 }
+  )
 
   return {
     ...toRefs(state),

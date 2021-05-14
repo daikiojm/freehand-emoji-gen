@@ -5,6 +5,9 @@
     elevation="2"
     outlined
   >
+    <picture>
+      <img :src="[download.resultImage]" />
+    </picture>
     <v-text-field
       v-model="download.fileName"
       :disabled="!download.useCustomFileName"
@@ -54,7 +57,6 @@ import { useStore } from '~/store'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageDownload } from '~/composables/useImageDownload'
-import { useSvgRef } from '~/composables/useSvgRef'
 import { useSnackbar } from '~/composables/useSnackbar'
 import { useI18n } from '~/composables/useI18n'
 
@@ -62,8 +64,7 @@ export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
     const { dataHasChanged, resetData, download } = useStore()
-    const { svgElement } = useSvgRef()
-    const { downloadPngFromSvg } = useImageDownload()
+    const { downloadPngImage } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
 
@@ -74,9 +75,9 @@ export default defineComponent({
       height: `${freehandCanvasHeight}px`,
     }
 
-    const handlePngDownload = async () => {
+    const handlePngDownload = () => {
       try {
-        await downloadPngFromSvg(svgElement.value!)
+        downloadPngImage()
         snackbar.success(i18n.t('saveSuccessMessage').toString())
       } catch {
         snackbar.error(i18n.t('saveErrorMessage').toString())

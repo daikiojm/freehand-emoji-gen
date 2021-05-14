@@ -51,15 +51,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 
 import AppSubheader from '~/components/AppSubheader.vue'
 import FreehandCanvas from '~/components/FreehandCanvas.vue'
 import AppearanceControls from '~/components/AppearanceControls.vue'
 import AnimationControls from '~/components/AnimationControls.vue'
 import DownloadControls from '~/components/DownloadControls.vue'
-
-import { SvgRefKey, svgRef } from '~/composables/useSvgRef'
 
 export default defineComponent({
   components: {
@@ -68,9 +66,6 @@ export default defineComponent({
     AppearanceControls,
     AnimationControls,
     DownloadControls,
-  },
-  setup() {
-    provide(SvgRefKey, svgRef())
   },
 })
 </script>
