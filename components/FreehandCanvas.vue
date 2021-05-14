@@ -26,7 +26,11 @@ import { useEvents } from '~/composables/useEvents'
 import { useSvgStroke } from '~/composables/useSvgStroke'
 import { useSvgRef } from '~/composables/useSvgRef'
 import { useStaticConfig } from '~/composables/useStaticConfig'
+
 import { useStore } from '~/store'
+
+const checkerboard = `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
+const transparentColor = '#00000000'
 
 export default defineComponent({
   setup() {
@@ -44,7 +48,10 @@ export default defineComponent({
 
     const svgStyle = computed(() => {
       return {
-        backgroundColor: get(settings).backgroundColor,
+        background:
+          get(settings).backgroundColor !== transparentColor
+            ? get(settings).backgroundColor
+            : checkerboard,
       }
     })
 

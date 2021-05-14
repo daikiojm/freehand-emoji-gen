@@ -1,19 +1,30 @@
-// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
-//
-// The variables you want to modify
+/*
+ * Vuetify.js
+ * Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+ * The variables you want to modify
+ */
 $font-size-root: 16px;
+
+// fab
 $fab-sizes: ('x-small', 32);
 $fab-icon-sizes: ('x-small': 14);
+
+// chip
 $chip-padding: 0 8px;
+
+// subheader
 $subheader-item-single-height: 36px;
+
+// color picker
 $color-picker-swatch-color-width: 18px;
 $color-picker-swatch-color-height: 18px;
 $color-picker-swatch-color-margin: 2px 4px;
 $color-picker-swatch-margin-bottom: 8px;
 $color-picker-canvas-dot-size: 10px;
 $color-picker-controls-padding: 10px;
-$slider-thumb-label-font-size: 12px;
 
+// slider
+$slider-thumb-label-font-size: 12px;
 
 // snackbars
 $snackbar-bottom: 24px;
