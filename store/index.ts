@@ -156,15 +156,7 @@ export const store = () => {
 
   debouncedWatch(
     state,
-    async (newValue: State, oldValue: State) => {
-      if (
-        JSON.stringify(newValue.data.marks) ===
-          JSON.stringify(oldValue.data.marks) &&
-        JSON.stringify(newValue.data.currentMark) ===
-          JSON.stringify(oldValue.data.currentMark)
-      )
-        return
-
+    async () => {
       const image = await renderPngFromSvg(svgElement.value!)
       state.value.download.resultImage = image
     },
