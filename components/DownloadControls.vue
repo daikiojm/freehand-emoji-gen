@@ -6,7 +6,11 @@
     outlined
   >
     <picture>
-      <img :src="[download.resultImage]" />
+      <img
+        height="128px"
+        width="128px"
+        :src="download.resultImage ? [download.resultImage] : null"
+      />
     </picture>
     <v-text-field
       v-model="download.fileName"
