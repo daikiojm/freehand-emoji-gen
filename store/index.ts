@@ -1,11 +1,12 @@
+import { InjectionKey, inject, computed } from '@nuxtjs/composition-api'
 import {
-  ref,
-  InjectionKey,
-  inject,
-  computed,
-  WatchStopHandle,
-} from '@nuxtjs/composition-api'
-import { debouncedWatch, useLocalStorage, toRefs, Fn } from '@vueuse/core'
+  debouncedWatch,
+  useLocalStorage,
+  toRefs,
+  Fn,
+  get,
+  set,
+} from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
@@ -94,79 +95,63 @@ export const store = () => {
     { deep: true, listenToStorageChanges: true }
   )
 
-  const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
+  const { ui, settings, data, download } = toRefs(state)
 
   const downloadFileName = computed(
-    () =>
-      (state.value.download.useCustomFileName &&
-        state.value.download.fileName) ||
-      ''
+    () => (get(download).useCustomFileName && get(download).fileName) || ''
   )
 
   const resetData = () => {
-    state.value.data = { ...defaultData }
+    set(data, { ...defaultData })
   }
 
   const resetSettings = () => {
-    state.value.settings = { ...defaultSettings }
+    set(settings, { ...defaultSettings })
   }
 
   const setCurrentMark = (mark: Mark) => {
-    state.value.data.currentMark = {
+    data.value.currentMark = {
       type: mark.type,
       points: mark.points,
     }
   }
 
   const updateCurrentMark = (mark: Mark) => {
-    state.value.data.currentMark.points = [
-      ...state.value.data.currentMark.points,
+    data.value.currentMark.points = [
+      ...data.value.currentMark.points,
       ...mark.points,
     ]
   }
 
   const endMark = () => {
-    state.value.data.marks = [
-      ...state.value.data.marks,
+    data.value.marks = [
+      ...data.value.marks,
       { ...state.value.data.currentMark },
     ]
   }
 
   const settingsHasChanged = computed(
-    () =>
-      JSON.stringify(state.value.settings) !== JSON.stringify(defaultSettings)
+    () => JSON.stringify(settings.value) !== JSON.stringify(defaultSettings)
   )
 
   const dataHasChanged = computed(
-    () => JSON.stringify(state.value.data) !== JSON.stringify(defaultData)
+    () => JSON.stringify(data.value) !== JSON.stringify(defaultData)
   )
 
-  const onUpdate = (
-    callbackFn: (state: State) => void,
-    options?: { debounce: number }
-  ) => {
-    unsubscribeOnUpdate.value = debouncedWatch(
-      state.value,
-      (data: State) => {
-        callbackFn(data)
-      },
-      { debounce: options?.debounce || 100 }
-    )
-  }
-
   debouncedWatch(
-    state,
+    [settings, data],
     async () => {
       const image = await renderPngFromSvg(svgElement.value!)
-      state.value.download.resultImage = image
+      download.value.resultImage = image
     },
     { deep: true, debounce: 200 }
   )
 
   return {
-    ...toRefs(state),
-    onUpdate,
-    unsubscribeOnUpdate,
+    ui,
+    settings,
+    data,
+    download,
     resetData,
     resetSettings,
     setCurrentMark,

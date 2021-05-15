@@ -5,13 +5,7 @@
     elevation="2"
     outlined
   >
-    <picture>
-      <img
-        height="128px"
-        width="128px"
-        :src="download.resultImage ? [download.resultImage] : null"
-      />
-    </picture>
+    <ImagePreview :image="download.resultImage" />
     <v-text-field
       v-model="download.fileName"
       :disabled="!download.useCustomFileName"
@@ -57,6 +51,8 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
+import ImagePreview from './ImagePreview.vue'
+
 import { useStore } from '~/store'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
@@ -65,6 +61,9 @@ import { useSnackbar } from '~/composables/useSnackbar'
 import { useI18n } from '~/composables/useI18n'
 
 export default defineComponent({
+  components: {
+    ImagePreview,
+  },
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
     const { dataHasChanged, resetData, download } = useStore()
