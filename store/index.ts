@@ -70,7 +70,7 @@ const defaultData: State['data'] = {
 
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
-  const { renderPngFromSvg } = useImageRender()
+  const { renderPngFromSvg, renderGifFromSvg } = useImageRender()
   const { svgElement } = useSvgRef()
 
   const state = useLocalStorage<State>(
@@ -142,7 +142,9 @@ export const store = () => {
     [settings, data],
     async () => {
       const image = await renderPngFromSvg(svgElement.value!)
-      download.value.resultImage = image
+      console.log(image)
+      const image2 = await renderGifFromSvg(svgElement.value!)
+      download.value.resultImage = image2
     },
     { deep: true, debounce: 200 }
   )

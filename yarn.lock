@@ -1934,6 +1934,11 @@
   dependencies:
     "@types/webpack" "^4"
 
+"@types/gif.js@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/gif.js/-/gif.js-0.2.0.tgz#732ca93cd7dce65c6f4e96fa4bd81d2380701f82"
+  integrity sha512-7Mnnpo5PE3ASo6VQ4jP84MSs09uYLAe4hI1USnzaK1Ij/rIvqWUM81wJveZX1uvmDBnIqf31XtKxEO6DobM/tQ==
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -5809,6 +5814,11 @@ getpass@^0.1.1:
   integrity sha1-Xv+OPmhNVprkyysSgmBOi6YhSfo=
   dependencies:
     assert-plus "^1.0.0"
+
+gif.js@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/gif.js/-/gif.js-0.2.0.tgz#615e6e3788850cd3a20c85fe9f09539e784903e8"
+  integrity sha1-YV5uN4iFDNOiDIX+nwlTnnhJA+g=
 
 git-config-path@^2.0.0:
   version "2.0.0"

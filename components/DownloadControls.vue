@@ -70,7 +70,7 @@ export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
     const { dataHasChanged, resetData, download } = useStore()
-    const { downloadPngImage } = useImageDownload()
+    const { downloadGifImage } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
 
@@ -83,7 +83,8 @@ export default defineComponent({
 
     const handlePngDownload = () => {
       try {
-        downloadPngImage()
+        // downloadPngImage()
+        downloadGifImage()
         snackbar.success(i18n.t('saveSuccessMessage').toString())
       } catch {
         snackbar.error(i18n.t('saveErrorMessage').toString())

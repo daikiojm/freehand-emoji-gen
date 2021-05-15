@@ -43,7 +43,6 @@ const baseConfig = {
   freehandCanvasHeight: 500,
   outputImageWidth: 128,
   outputImageHeight: 128,
-  outputImageExtension: 'png',
   outputImageDefaultName: 'image_freehand',
   swatches: [
     ['#000000FF'],
