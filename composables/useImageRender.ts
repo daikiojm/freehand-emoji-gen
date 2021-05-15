@@ -62,7 +62,6 @@ export const useImageRender = () => {
     const croppedImageStr = croppedCanvas.toDataURL(
       `image/${outputImageExtension}`
     )
-    console.log(croppedImageStr)
 
     return croppedImageStr
   }
