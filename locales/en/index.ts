@@ -22,6 +22,8 @@ export default {
   background: 'Background',
   fileName: 'File Name (Optional)',
   useFileName: 'Custom Name',
+  preview: 'Preview',
+  saveSettingLabel: 'Save Setting',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',

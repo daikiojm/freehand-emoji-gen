@@ -22,6 +22,8 @@ export default {
   background: '背景',
   fileName: '名前(オプション)',
   useFileName: '名前をつける',
+  preview: 'プレビュー',
+  saveSettingLabel: '保存設定',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

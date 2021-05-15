@@ -5,7 +5,10 @@
     elevation="2"
     outlined
   >
+    <label class="text-caption">{{ $t('preview') }}</label>
     <ImagePreview :image="download.resultImage" />
+
+    <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
     <v-text-field
       v-model="download.fileName"
       :disabled="!download.useCustomFileName"
