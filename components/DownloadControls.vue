@@ -1,53 +1,64 @@
 <template>
   <v-card
-    class="mx-auto controls-container pa-4"
+    class="
+      mx-auto
+      controls-container
+      pa-4
+      d-flex
+      flex-column
+      justify-space-around
+    "
     :style="controlsContainerStyle"
     elevation="2"
     outlined
   >
-    <label class="text-caption">{{ $t('preview') }}</label>
-    <ImagePreview :image="download.resultImage" />
+    <section>
+      <label class="text-caption">{{ $t('preview') }}</label>
+      <ImagePreview :image="download.resultImage" />
+    </section>
 
-    <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
-    <v-text-field
-      v-model="download.fileName"
-      :disabled="!download.useCustomFileName"
-      class="mx-auto my-4"
-      :label="$t('fileName')"
-      placeholder="avocado_freehand"
-      style="width: 200px"
-      outlined
-      dense
-      hide-details
-    ></v-text-field>
-
-    <div class="d-flex justify-center">
-      <div class="d-flex flex-column my-auto mr-4">
-        <label class="text-caption">{{ $t('useFileName') }}</label>
-        <v-checkbox
-          v-model="download.useCustomFileName"
-          class="mt-0 mb-n4 mx-auto"
-        ></v-checkbox>
-      </div>
-
-      <v-btn
-        class="my-auto font-weight-bold"
-        width="80"
+    <section>
+      <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
+      <v-text-field
+        v-model="download.fileName"
+        :disabled="!download.useCustomFileName"
+        class="mx-auto my-4"
+        :label="$t('fileName')"
+        placeholder="avocado_freehand"
+        style="width: 200px"
         outlined
-        :disabled="!dataHasChanged"
-        @click.prevent="handleClear"
-        >{{ $t('clear') }}</v-btn
-      >
-      <v-btn
-        class="ml-4 my-auto font-weight-bold"
-        width="80"
-        color="primary"
-        :disabled="!dataHasChanged"
-        depressed
-        @click.prevent="handlePngDownload"
-        >{{ $t('save') }}</v-btn
-      >
-    </div>
+        dense
+        hide-details
+      ></v-text-field>
+
+      <div class="d-flex justify-center">
+        <div class="d-flex flex-column my-auto mr-4">
+          <label class="text-caption">{{ $t('useFileName') }}</label>
+          <v-checkbox
+            v-model="download.useCustomFileName"
+            class="mt-0 mb-n4 mx-auto"
+          ></v-checkbox>
+        </div>
+
+        <v-btn
+          class="my-auto font-weight-bold"
+          width="80"
+          outlined
+          :disabled="!dataHasChanged"
+          @click.prevent="handleClear"
+          >{{ $t('clear') }}</v-btn
+        >
+        <v-btn
+          class="ml-4 my-auto font-weight-bold"
+          width="80"
+          color="primary"
+          :disabled="!dataHasChanged"
+          depressed
+          @click.prevent="handlePngDownload"
+          >{{ $t('save') }}</v-btn
+        >
+      </div>
+    </section>
   </v-card>
 </template>
 

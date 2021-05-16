@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "predev": "yarn run copy:gifjs",
-    "prebuild": "yarn run copy:gifjs",
+    "predev": "yarn run copy:gifjs && yarn run copy:ccapturejs",
+    "prebuild": "yarn run copy:gifjs && yarn run copy:ccapturejs",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
@@ -14,7 +14,8 @@
     "lint": "yarn lint:js && yarn lint:style",
     "test": "jest",
     "upgrade:interactive": "yarn upgrade-interactive --latest",
-    "copy:gifjs": "cp ./node_modules/gif.js/dist/gif.worker.js* ./static/js/"
+    "copy:gifjs": "cp ./node_modules/gif.js/dist/gif.worker.js* ./static/js/",
+    "copy:ccapturejs": "cp ./node_modules/ccapture.js/src/* ./static/js/"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint",
@@ -30,8 +31,10 @@
     "@nuxtjs/composition-api": "^0.23.4",
     "@vueuse/core": "^4.9.2",
     "add": "^2.0.6",
+    "ccapture.js": "aceslowman/ccapture.js#npm-fix",
     "core-js": "^3.12.1",
     "gif.js": "^0.2.0",
+    "gsap": "^3.6.1",
     "nuxt": "^2.15.5",
     "nuxt-i18n": "^6.27.0",
     "perfect-freehand": "^0.4.71",

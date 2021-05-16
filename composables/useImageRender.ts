@@ -1,4 +1,3 @@
-import GIF from 'gif.js'
 import { useStaticConfig } from './useStaticConfig'
 
 const loadImagePromise = (src: string): Promise<HTMLImageElement> => {
@@ -93,15 +92,6 @@ export const useImageRender = () => {
       outputImageWidth,
       outputImageHeight
     )
-    const gif = new GIF({
-      workerScript: '/js/gif.worker.js',
-    })
-    console.log('gif', gif)
-    gif.addFrame(canvas, { delay: 200 })
-    gif.on('finished', (blob) => {
-      console.log(URL.createObjectURL(blob))
-    })
-    gif.render()
 
     const croppedImageStr = canvas.toDataURL(`image/gif`)
 
@@ -109,6 +99,7 @@ export const useImageRender = () => {
   }
 
   return {
+    convertSvgToResizedCanvas,
     renderPngFromSvg,
     renderGifFromSvg,
   }
