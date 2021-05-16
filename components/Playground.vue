@@ -98,40 +98,6 @@ export default defineComponent({
           onComplete: complateAnimate,
         })
 
-        // const tl = gsap.timeline({
-        //   defaults: {
-        //     duration: 0.2,
-        //     ease: Linear.easeNone,
-        //   },
-        //   onUpdate: animateCanvas,
-        //   onComplete: complateAnimate,
-        // })
-
-        // tl.from(positions, {
-        //   dx: 0,
-        //   dy: 50,
-        // })
-        //   .to(positions, {
-        //     dx: 25,
-        //     dy: 50,
-        //   })
-        //   .to(positions, {
-        //     dx: 50,
-        //     dy: 50,
-        //   })
-        //   .to(positions, {
-        //     dx: 75,
-        //     dy: 50,
-        //   })
-        //   .to(
-        //     positions,
-        //     {
-        //       dx: 100,
-        //       dy: 50,
-        //     },
-        //     '<'
-        //   )
-
         gif.on('start', () => {
           console.log('start')
         })
@@ -146,11 +112,6 @@ export default defineComponent({
 
         gif.on('finished', (blob) => {
           console.log('finished', blob)
-          // const url = URL.createObjectURL(blob)
-          // const a = document.createElement('a')
-          // a.download = 'test.gif'
-          // a.href = url
-          // a.dispatchEvent(new MouseEvent('click'))
           const reader = new FileReader()
           reader.readAsDataURL(blob)
           reader.onload = () => {

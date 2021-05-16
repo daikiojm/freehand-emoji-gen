@@ -24,6 +24,7 @@ export default {
   useFileName: 'Custom Name',
   preview: 'Preview',
   saveSettingLabel: 'Save Setting',
+  animation: 'Animation',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',

@@ -8,6 +8,8 @@ import {
   set,
 } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
+import GIF from 'gif.js'
+import gsap, { Linear } from 'gsap'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
@@ -36,6 +38,7 @@ export type State = {
     // hex(a)
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
+    animation: boolean
   }
   data: {
     currentMark: Mark
@@ -58,6 +61,7 @@ const defaultSettings: State['settings'] = {
   strokeColor: '#000000FF',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
+  animation: false,
 }
 
 const defaultData: State['data'] = {
@@ -70,7 +74,7 @@ const defaultData: State['data'] = {
 
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
-  const { renderPngFromSvg, renderGifFromSvg } = useImageRender()
+  const { convertSvgToResizedCanvas, renderPngFromSvg } = useImageRender()
   const { svgElement } = useSvgRef()
 
   const state = useLocalStorage<State>(
@@ -141,10 +145,76 @@ export const store = () => {
   debouncedWatch(
     [settings, data],
     async () => {
-      const image = await renderPngFromSvg(svgElement.value!)
-      console.log(image)
-      const image2 = await renderGifFromSvg(svgElement.value!)
-      download.value.resultImage = image2
+      if (!settings.value.animation) {
+        const image = await renderPngFromSvg(svgElement.value!)
+        download.value.resultImage = image
+      } else {
+        const SIZE = 128
+        const gif = new GIF({
+          workers: 4,
+          quality: 6,
+          width: SIZE,
+          height: SIZE,
+          debug: true,
+          transparent: '#ffffff00',
+          workerScript: '/js/gif.worker.js',
+        })
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')!
+
+        const image = await convertSvgToResizedCanvas(
+          svgElement.value!,
+          500,
+          500,
+          SIZE,
+          SIZE
+        )
+
+        const positions = { dx: 0, dy: 0 }
+
+        const animateCanvas = () => {
+          ctx.clearRect(0, 0, SIZE, SIZE)
+          ctx.drawImage(image, positions.dx, positions.dy)
+          gif.addFrame(canvas, {
+            copy: true,
+            delay: 20,
+          })
+        }
+
+        const complateAnimate = () => {
+          gif.render()
+        }
+
+        gsap.to(positions, {
+          delay: 0,
+          duration: 0.3,
+          dx: 125,
+          dy: 0,
+          ease: Linear.easeNone,
+          onUpdate: animateCanvas,
+          onComplete: complateAnimate,
+        })
+
+        gif.on('start', () => {
+          console.log('start')
+        })
+
+        gif.on('abort', () => {
+          console.log('abort')
+        })
+
+        gif.on('progress', (percent: number) => {
+          console.log('progress', percent)
+        })
+
+        gif.on('finished', (blob) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(blob)
+          reader.onload = () => {
+            download.value.resultImage = reader.result as string
+          }
+        })
+      }
     },
     { deep: true, debounce: 200 }
   )

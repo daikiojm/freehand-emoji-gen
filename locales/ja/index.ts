@@ -24,6 +24,7 @@ export default {
   useFileName: '名前をつける',
   preview: 'プレビュー',
   saveSettingLabel: '保存設定',
+  animation: 'アニメーション',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

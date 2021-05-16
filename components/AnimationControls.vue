@@ -5,18 +5,21 @@
     elevation="2"
     outlined
   >
-    <p class="subtitle-2">TODO</p>
+    <label class="text-caption">{{ $t('animation') }}</label>
+    <v-checkbox v-model="settings.animation" inset></v-checkbox>
   </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
+import { useStore } from '~/store'
 import { useStaticConfig } from '~/composables/useStaticConfig'
 
 export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
+    const { settings } = useStore()
 
     const controlsContainerStyle = {
       minWidth: `${freehandCanvasWidth}px`,
@@ -26,6 +29,7 @@ export default defineComponent({
     }
 
     return {
+      settings,
       controlsContainerStyle,
     }
   },
