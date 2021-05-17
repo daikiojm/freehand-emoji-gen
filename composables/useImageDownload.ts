@@ -3,42 +3,27 @@ import { useStore } from '~/store'
 
 export const useImageDownload = () => {
   const { outputImageDefaultName } = useStaticConfig()
-  const { downloadFileName, download } = useStore()
+  const { downloadFileName, download, settings } = useStore()
 
-  const downloadPngImage = () => {
+  const downloadImage = () => {
     if (!download.value.resultImage) {
       throw new Error('result image not exist')
     }
 
     const linkElement = document.createElement('a')
 
-    linkElement.href = download.value.resultImage
-    linkElement.setAttribute(
-      'download',
-      `${downloadFileName.value || outputImageDefaultName}.png`
-    )
-
-    linkElement.dispatchEvent(new MouseEvent('click'))
-  }
-
-  const downloadGifImage = () => {
-    if (!download.value.resultImage) {
-      throw new Error('result image not exist')
-    }
-
-    const linkElement = document.createElement('a')
+    const extention = settings.value.animation ? 'gif' : 'png'
 
     linkElement.href = download.value.resultImage
     linkElement.setAttribute(
       'download',
-      `${downloadFileName.value || outputImageDefaultName}.gif`
+      `${downloadFileName.value || outputImageDefaultName}.${extention}`
     )
 
     linkElement.dispatchEvent(new MouseEvent('click'))
   }
 
   return {
-    downloadPngImage,
-    downloadGifImage,
+    downloadImage,
   }
 }

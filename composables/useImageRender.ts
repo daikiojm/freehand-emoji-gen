@@ -84,23 +84,8 @@ export const useImageRender = () => {
     return croppedImageStr
   }
 
-  const renderGifFromSvg = async (svg: SVGElement) => {
-    const canvas = await convertSvgToResizedCanvas(
-      svg,
-      freehandCanvasWidth,
-      freehandCanvasHeight,
-      outputImageWidth,
-      outputImageHeight
-    )
-
-    const croppedImageStr = canvas.toDataURL(`image/gif`)
-
-    return croppedImageStr
-  }
-
   return {
     convertSvgToResizedCanvas,
     renderPngFromSvg,
-    renderGifFromSvg,
   }
 }

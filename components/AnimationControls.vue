@@ -7,19 +7,27 @@
   >
     <label class="text-caption">{{ $t('animation') }}</label>
     <v-checkbox v-model="settings.animation" inset></v-checkbox>
+    <v-select
+      v-model="settings.animationType"
+      :items="animationTypes"
+      dense
+      outlined
+    ></v-select>
   </v-card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-import { useStore } from '~/store'
+import { useStore, AnimationTypes } from '~/store'
 import { useStaticConfig } from '~/composables/useStaticConfig'
+import { useI18n } from '~/composables/useI18n'
 
 export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
     const { settings } = useStore()
+    const i18n = useI18n()
 
     const controlsContainerStyle = {
       minWidth: `${freehandCanvasWidth}px`,
@@ -28,7 +36,13 @@ export default defineComponent({
       height: `${freehandCanvasHeight}px`,
     }
 
+    const animationTypes = AnimationTypes.map((type) => ({
+      value: type,
+      text: i18n.t(type).toString() || type,
+    }))
+
     return {
+      animationTypes,
       settings,
       controlsContainerStyle,
     }

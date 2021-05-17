@@ -36,6 +36,7 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/stylelint-module',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-fonts',
   ],
   generate: {
     interval: 2000,
@@ -79,6 +80,16 @@ export const nuxtConfig: NuxtConfig = {
     vueI18n: {
       messages,
     },
+  },
+  googleFonts: {
+    families: {
+      Pacifico: true,
+      Roboto: {
+        wght: [400],
+      },
+    },
+    display: 'swap',
+    useStylesheet: true,
   },
 }
 

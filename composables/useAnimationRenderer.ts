@@ -1,0 +1,133 @@
+import GIF from 'gif.js'
+import gsap from 'gsap'
+import { firstValueFrom, fromEvent } from 'rxjs'
+
+import { useStaticConfig } from './useStaticConfig'
+import { useImageRender } from './useImageRender'
+import { Settings } from '~/store'
+
+const readFilePromise = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => resolve(reader.result as string))
+    reader.addEventListener('error', (err) => reject(err))
+    reader.readAsDataURL(blob)
+  })
+}
+
+export const useAnimationRenderer = () => {
+  const {
+    freehandCanvasWidth,
+    freehandCanvasHeight,
+    outputImageWidth,
+    outputImageHeight,
+  } = useStaticConfig()
+  const { convertSvgToResizedCanvas } = useImageRender()
+
+  const renderWithAnimation = async (svg: SVGElement, settings: Settings) => {
+    const gif = new GIF({
+      // forever
+      repeat: 0,
+      // lower is better
+      quality: 6,
+      workers: 4,
+      width: outputImageWidth,
+      height: outputImageHeight,
+      debug: true,
+      /*
+       * see: https://github.com/jnordberg/gif.js/pull/77
+       * このバグを背景色の調整で目立ちにくくする
+       */
+      transparent:
+        settings.backgroundColor === '#FFFFFFFF' ? null : '#00000000',
+      background: settings.strokeColor,
+      workerScript: '/js/gif.worker.js',
+    })
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')!
+
+    const image = await convertSvgToResizedCanvas(
+      svg,
+      freehandCanvasWidth,
+      freehandCanvasHeight,
+      outputImageWidth,
+      outputImageHeight
+    )
+
+    const positions = [
+      { dx: 0, dy: 0 },
+      { dx: 0, dy: 0 },
+      { dx: 0, dy: 0 },
+    ]
+
+    const animateCanvas = () => {
+      ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
+      for (const position of positions) {
+        ctx.drawImage(image, position.dx, position.dy)
+      }
+
+      gif.addFrame(canvas, {
+        copy: true,
+        // minimum delay limited by browser spec
+        delay: 20,
+      })
+    }
+
+    const complateAnimate = () => {
+      gif.render()
+    }
+
+    const getGsapSetOptions = (): gsap.TweenVars => {
+      let dx: (i: number) => number | undefined
+      let dy: (i: number) => number | undefined
+
+      if (settings.animationType === 'horizontalScroll') {
+        dx = (i: number) => i * outputImageWidth
+      } else if (settings.animationType === 'verticalScroll') {
+        dy = (i: number) => i * outputImageHeight
+      }
+
+      return {
+        dx: dx!,
+        dy: dy!,
+      }
+    }
+
+    gsap.set(positions, {
+      ...getGsapSetOptions(),
+    })
+
+    const getGsapToOptions = (): gsap.TweenVars => {
+      let dx: number | string = 0
+      let dy: number | string = 0
+
+      if (settings.animationType === 'horizontalScroll') {
+        dx = `-=${outputImageWidth}`
+      } else if (settings.animationType === 'verticalScroll') {
+        dy = `-=${outputImageHeight}`
+      }
+
+      return {
+        delay: 0,
+        duration: 0.6,
+        dx,
+        dy,
+        ease: 'none',
+        onUpdate: animateCanvas,
+        onComplete: complateAnimate,
+      }
+    }
+
+    gsap.to(positions, {
+      ...getGsapToOptions(),
+    })
+
+    const result = await firstValueFrom(fromEvent(gif, 'finished'))
+    return readFilePromise((result as [Blob, any])[0] as Blob)
+  }
+
+  return {
+    renderWithAnimation,
+  }
+}

@@ -26,6 +26,9 @@ export default {
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',
 
+  horizontalScroll: 'Horizontal Scroll',
+  verticalScroll: 'Vertical Scroll',
+
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',
   saveErrorMessage: 'Save Error',

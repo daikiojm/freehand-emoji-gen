@@ -8,12 +8,11 @@ import {
   set,
 } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
-import GIF from 'gif.js'
-import gsap from 'gsap'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
 import { useSvgRef } from '~/composables/useSvgRef'
+import { useAnimationRenderer } from '~/composables/useAnimationRenderer'
 
 export type Mark = {
   type: string
@@ -27,6 +26,9 @@ export type Snackbar = {
   dismissTimerRef?: Fn | null
 }
 
+export const AnimationTypes = ['horizontalScroll', 'verticalScroll'] as const
+export type AnimationType = typeof AnimationTypes[number]
+
 export type State = {
   ui: {
     darkMode: boolean
@@ -39,6 +41,7 @@ export type State = {
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
     animation: boolean
+    animationType: AnimationType
   }
   data: {
     currentMark: Mark
@@ -51,7 +54,10 @@ export type State = {
   }
 }
 
-const defaultSettings: State['settings'] = {
+export type Settings = State['settings']
+export type Data = State['data']
+
+const defaultSettings: Settings = {
   // prefect-freehand StrokeOptions
   size: 24,
   thinning: 0.75,
@@ -62,9 +68,10 @@ const defaultSettings: State['settings'] = {
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: false,
+  animationType: 'horizontalScroll',
 }
 
-const defaultData: State['data'] = {
+const defaultData: Data = {
   currentMark: {
     type: '',
     points: [],
@@ -74,8 +81,9 @@ const defaultData: State['data'] = {
 
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
-  const { convertSvgToResizedCanvas, renderPngFromSvg } = useImageRender()
+  const { renderPngFromSvg } = useImageRender()
   const { svgElement } = useSvgRef()
+  const { renderWithAnimation } = useAnimationRenderer()
 
   const state = useLocalStorage<State>(
     localStorageKey,
@@ -135,86 +143,24 @@ export const store = () => {
   }
 
   const settingsHasChanged = computed(
-    () => JSON.stringify(settings.value) !== JSON.stringify(defaultSettings)
+    () => JSON.stringify(get(settings)) !== JSON.stringify(defaultSettings)
   )
 
   const dataHasChanged = computed(
-    () => JSON.stringify(data.value) !== JSON.stringify(defaultData)
+    () => JSON.stringify(get(data)) !== JSON.stringify(defaultData)
   )
 
   debouncedWatch(
     [settings, data],
     async () => {
-      if (!settings.value.animation) {
-        const image = await renderPngFromSvg(svgElement.value!)
+      if (!get(settings).animation) {
+        const image = await renderPngFromSvg(get(svgElement)!)
         download.value.resultImage = image
       } else {
-        const SIZE = 128
-        const gif = new GIF({
-          workers: 4,
-          quality: 6,
-          width: SIZE,
-          height: SIZE,
-          debug: true,
-          transparent: '#ffffff00',
-          workerScript: '/js/gif.worker.js',
-        })
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')!
-
-        const image = await convertSvgToResizedCanvas(
-          svgElement.value!,
-          500,
-          500,
-          SIZE,
-          SIZE
+        download.value.resultImage = await renderWithAnimation(
+          get(svgElement)!,
+          get(settings)
         )
-
-        const positions = [
-          { dx: 0, dy: 0 },
-          { dx: 0, dy: 0 },
-          { dx: 0, dy: 0 },
-        ]
-
-        const animateCanvas = () => {
-          ctx.clearRect(0, 0, SIZE, SIZE)
-          for (const position of positions) {
-            ctx.drawImage(image, position.dx, position.dy)
-          }
-          gif.addFrame(canvas, {
-            copy: true,
-            // minimum delay by browser spec
-            delay: 20,
-          })
-        }
-
-        const complateAnimate = () => {
-          gif.render()
-        }
-
-        gsap.set(positions, {
-          dx: (i: number) => {
-            return i * SIZE
-          },
-        })
-
-        gsap.to(positions, {
-          delay: 0,
-          duration: 0.6,
-          dx: `-=${SIZE}`,
-          dy: 0,
-          ease: 'none',
-          onUpdate: animateCanvas,
-          onComplete: complateAnimate,
-        })
-
-        gif.on('finished', (blob) => {
-          const reader = new FileReader()
-          reader.readAsDataURL(blob)
-          reader.onload = () => {
-            download.value.resultImage = reader.result as string
-          }
-        })
       }
     },
     { deep: true, debounce: 200 }

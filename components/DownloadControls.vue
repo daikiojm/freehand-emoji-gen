@@ -19,27 +19,27 @@
 
     <section>
       <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
-      <v-text-field
-        v-model="download.fileName"
-        :disabled="!download.useCustomFileName"
-        class="mx-auto my-4"
-        :label="$t('fileName')"
-        placeholder="avocado_freehand"
-        style="width: 200px"
-        outlined
-        dense
-        hide-details
-      ></v-text-field>
+      <div class="d-flex justify-center">
+        <v-checkbox
+          v-model="download.useCustomFileName"
+          hide-details
+          :label="$t('useFileName')"
+          class="my-auto mx-auto mr-4"
+        ></v-checkbox>
+        <v-text-field
+          v-model="download.fileName"
+          :disabled="!download.useCustomFileName"
+          class="mx-auto my-4"
+          :label="$t('fileName')"
+          placeholder="avocado_freehand"
+          style="width: 200px"
+          outlined
+          dense
+          hide-details
+        ></v-text-field>
+      </div>
 
       <div class="d-flex justify-center">
-        <div class="d-flex flex-column my-auto mr-4">
-          <label class="text-caption">{{ $t('useFileName') }}</label>
-          <v-checkbox
-            v-model="download.useCustomFileName"
-            class="mt-0 mb-n4 mx-auto"
-          ></v-checkbox>
-        </div>
-
         <v-btn
           class="my-auto font-weight-bold"
           width="80"
@@ -81,7 +81,7 @@ export default defineComponent({
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
     const { dataHasChanged, resetData, download } = useStore()
-    const { downloadGifImage } = useImageDownload()
+    const { downloadImage } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
 
@@ -94,8 +94,7 @@ export default defineComponent({
 
     const handlePngDownload = () => {
       try {
-        // downloadPngImage()
-        downloadGifImage()
+        downloadImage()
         snackbar.success(i18n.t('saveSuccessMessage').toString())
       } catch {
         snackbar.error(i18n.t('saveErrorMessage').toString())

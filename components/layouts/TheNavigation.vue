@@ -1,8 +1,11 @@
 <template>
   <v-app-bar flat app>
-    <v-toolbar-title class="subtitle"
-      ><span class="font-weight-bold">Freehand Emoji Gen</span> |
-      <span class="caption"
+    <v-toolbar-title class="text-h5 mb-n4" style="height: 48px"
+      ><span class="font-weight-bold" style="font-family: 'Pacifico', cursive"
+        >Freehand Emoji Gen</span
+      >
+      |
+      <span class="text-caption font-weight-bold"
         >{{ $t('subtitle') }}<span class="subtitle-1">📝</span></span
       ></v-toolbar-title
     >

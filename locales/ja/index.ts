@@ -6,7 +6,7 @@ export default {
   appearanceTitle: '絵文字設定',
   appearanceSubtitle: 'お好みの見た目になるように先の太さや色を調整できます',
   saveSettingTitle: 'プレビュー / 保存設定',
-  animationTitle: '治安',
+  animationTitle: 'アニメーション/エフェクト',
   animationSubtitle: 'アニメーション',
 
   lineSize: '線の太さ (size)',
@@ -25,6 +25,9 @@ export default {
   preview: 'プレビュー',
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',
+
+  horizontalScroll: '横スクロール',
+  verticalScroll: '縦スクロール',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

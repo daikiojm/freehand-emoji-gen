@@ -1,10 +1,10 @@
 <template>
   <v-subheader
-    class="mx-auto font-weight-bold"
+    class="mx-auto font-weight-bold text-subtitle-1"
     :style="{ width: !fullWidth ? width + 'px' : '100%' }"
   >
     <slot />
-    <span class="text-caption ml-1">
+    <span class="text-caption font-weight-bold ml-1 mt-1">
       <slot name="caption" />
     </span>
   </v-subheader>

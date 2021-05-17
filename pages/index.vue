@@ -30,7 +30,6 @@
             <template #default
               ><span class="mr-2">💩</span> {{ $t('animationTitle') }}</template
             >
-            <template #caption> ({{ $t('animationSubtitle') }}) </template>
           </AppSubheader>
           <AnimationControls />
         </div>
