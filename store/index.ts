@@ -170,14 +170,20 @@ export const store = () => {
           SIZE
         )
 
-        const positions = { dx: 0, dy: 0 }
+        const positions = [
+          { dx: 0, dy: 0 },
+          { dx: 0, dy: 0 },
+          { dx: 0, dy: 0 },
+        ]
 
         const animateCanvas = () => {
           ctx.clearRect(0, 0, SIZE, SIZE)
-          ctx.drawImage(image, positions.dx, positions.dy)
+          for (const position of positions) {
+            ctx.drawImage(image, position.dx, position.dy)
+          }
           gif.addFrame(canvas, {
             copy: true,
-            delay: 20,
+            delay: 1,
           })
         }
 
@@ -185,26 +191,20 @@ export const store = () => {
           gif.render()
         }
 
+        gsap.set(positions, {
+          dx: (i: number) => {
+            return i * SIZE
+          },
+        })
+
         gsap.to(positions, {
           delay: 0,
-          duration: 0.3,
-          dx: 125,
+          duration: 0.2,
+          dx: `-=${SIZE}`,
           dy: 0,
           ease: Linear.easeNone,
           onUpdate: animateCanvas,
           onComplete: complateAnimate,
-        })
-
-        gif.on('start', () => {
-          console.log('start')
-        })
-
-        gif.on('abort', () => {
-          console.log('abort')
-        })
-
-        gif.on('progress', (percent: number) => {
-          console.log('progress', percent)
         })
 
         gif.on('finished', (blob) => {
