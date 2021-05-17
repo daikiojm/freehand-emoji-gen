@@ -9,7 +9,7 @@ import {
 } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 import GIF from 'gif.js'
-import gsap, { Linear } from 'gsap'
+import gsap from 'gsap'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
@@ -202,7 +202,7 @@ export const store = () => {
           duration: 0.2,
           dx: `-=${SIZE}`,
           dy: 0,
-          ease: Linear.easeNone,
+          ease: 'none',
           onUpdate: animateCanvas,
           onComplete: complateAnimate,
         })
