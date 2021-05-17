@@ -183,7 +183,8 @@ export const store = () => {
           }
           gif.addFrame(canvas, {
             copy: true,
-            delay: 1,
+            // minimum delay by browser spec
+            delay: 20,
           })
         }
 
@@ -199,7 +200,7 @@ export const store = () => {
 
         gsap.to(positions, {
           delay: 0,
-          duration: 0.2,
+          duration: 0.6,
           dx: `-=${SIZE}`,
           dy: 0,
           ease: 'none',
