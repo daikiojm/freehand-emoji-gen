@@ -6,9 +6,9 @@
     outlined
   >
     <label class="text-caption">{{ $t('animation') }}</label>
-    <v-checkbox v-model="settings.animation" inset></v-checkbox>
     <v-select
-      v-model="settings.animationType"
+      style="width: 200px"
+      v-model="settings.animation"
       :items="animationTypes"
       dense
       outlined

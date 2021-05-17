@@ -1,6 +1,6 @@
 <template>
   <v-subheader
-    class="mx-auto font-weight-bold text-subtitle-1"
+    class="mx-auto font-weight-bold text-subtitle-1 text-no-wrap"
     :style="{ width: !fullWidth ? width + 'px' : '100%' }"
   >
     <slot />

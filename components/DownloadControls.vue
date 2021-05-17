@@ -21,6 +21,7 @@
       <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
       <div class="d-flex justify-center">
         <v-checkbox
+          dense
           v-model="download.useCustomFileName"
           hide-details
           :label="$t('useFileName')"

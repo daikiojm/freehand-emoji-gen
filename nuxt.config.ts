@@ -24,6 +24,7 @@ export const nuxtConfig: NuxtConfig = {
         type: 'image/x-icon',
         href: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>',
       },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Pacifico&display=swap' }
     ],
   },
   router: {
@@ -36,7 +37,6 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/stylelint-module',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
-    '@nuxtjs/google-fonts',
   ],
   generate: {
     interval: 2000,
@@ -80,16 +80,6 @@ export const nuxtConfig: NuxtConfig = {
     vueI18n: {
       messages,
     },
-  },
-  googleFonts: {
-    families: {
-      Pacifico: true,
-      Roboto: {
-        wght: [400],
-      },
-    },
-    display: 'swap',
-    useStylesheet: true,
   },
 }
 

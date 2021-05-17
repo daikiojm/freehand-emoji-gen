@@ -25,9 +25,12 @@ export default {
   preview: 'プレビュー',
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',
+  animationEnable: 'アニメーションを有効にする',
 
+  none: 'なし',
   horizontalScroll: '横スクロール',
   verticalScroll: '縦スクロール',
+  rotation: '回転',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

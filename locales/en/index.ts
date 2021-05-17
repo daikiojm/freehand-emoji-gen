@@ -25,9 +25,12 @@ export default {
   preview: 'Preview',
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',
+  animationEnable: 'Enable Animation',
 
+  none: 'None',
   horizontalScroll: 'Horizontal Scroll',
   verticalScroll: 'Vertical Scroll',
+  rotation: 'Rotation',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',

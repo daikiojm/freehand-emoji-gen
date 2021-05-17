@@ -26,7 +26,7 @@ export type Snackbar = {
   dismissTimerRef?: Fn | null
 }
 
-export const AnimationTypes = ['horizontalScroll', 'verticalScroll'] as const
+export const AnimationTypes = ['none', 'horizontalScroll', 'verticalScroll', 'rotation'] as const
 export type AnimationType = typeof AnimationTypes[number]
 
 export type State = {
@@ -40,8 +40,7 @@ export type State = {
     // hex(a)
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
-    animation: boolean
-    animationType: AnimationType
+    animation: AnimationType
   }
   data: {
     currentMark: Mark
@@ -67,8 +66,7 @@ const defaultSettings: Settings = {
   strokeColor: '#000000FF',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
-  animation: false,
-  animationType: 'horizontalScroll',
+  animation: 'none',
 }
 
 const defaultData: Data = {
@@ -153,7 +151,7 @@ export const store = () => {
   debouncedWatch(
     [settings, data],
     async () => {
-      if (!get(settings).animation) {
+      if (get(settings).animation  === 'none') {
         const image = await renderPngFromSvg(get(svgElement)!)
         download.value.resultImage = image
       } else {

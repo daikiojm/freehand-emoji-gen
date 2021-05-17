@@ -15,6 +15,84 @@ const readFilePromise = (blob: Blob): Promise<string> => {
   })
 }
 
+const animatePosition = (
+  gif: GIF,
+  image: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  settings: Settings,
+  outputImageWidth: number,
+  outputImageHeight: number
+) => {
+  const positions = [
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+    { dx: 0, dy: 0 },
+  ]
+
+  const animateCanvas = () => {
+    ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
+    for (const position of positions) {
+      ctx.drawImage(image, position.dx, position.dy)
+    }
+
+    gif.addFrame(canvas, {
+      copy: true,
+      // minimum delay limited by browser spec
+      delay: 20,
+    })
+  }
+
+  const complateAnimate = () => {
+    gif.render()
+  }
+
+  const getGsapSetOptions = (): gsap.TweenVars => {
+    let dx: (i: number) => number | undefined
+    let dy: (i: number) => number | undefined
+
+    if (settings.animation === 'horizontalScroll') {
+      dx = (i: number) => i * outputImageWidth
+    } else if (settings.animation === 'verticalScroll') {
+      dy = (i: number) => i * outputImageHeight
+    }
+
+    return {
+      dx: dx!,
+      dy: dy!,
+    }
+  }
+
+  gsap.set(positions, {
+    ...getGsapSetOptions(),
+  })
+
+  const getGsapToOptions = (): gsap.TweenVars => {
+    let dx: number | string = 0
+    let dy: number | string = 0
+
+    if (settings.animation === 'horizontalScroll') {
+      dx = `-=${outputImageWidth}`
+    } else if (settings.animation === 'verticalScroll') {
+      dy = `-=${outputImageHeight}`
+    }
+
+    return {
+      delay: 0,
+      duration: 0.6,
+      dx,
+      dy,
+      ease: 'none',
+      onUpdate: animateCanvas,
+      onComplete: complateAnimate,
+    }
+  }
+
+  gsap.to(positions, {
+    ...getGsapToOptions(),
+  })
+}
+
 export const useAnimationRenderer = () => {
   const {
     freehandCanvasWidth,
@@ -55,73 +133,19 @@ export const useAnimationRenderer = () => {
       outputImageHeight
     )
 
-    const positions = [
-      { dx: 0, dy: 0 },
-      { dx: 0, dy: 0 },
-      { dx: 0, dy: 0 },
-    ]
-
-    const animateCanvas = () => {
-      ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
-      for (const position of positions) {
-        ctx.drawImage(image, position.dx, position.dy)
-      }
-
-      gif.addFrame(canvas, {
-        copy: true,
-        // minimum delay limited by browser spec
-        delay: 20,
-      })
+    if (settings.animation === 'horizontalScroll' || settings.animation === 'verticalScroll') {
+      animatePosition(
+        gif,
+        image,
+        ctx,
+        canvas,
+        settings,
+        outputImageWidth,
+        outputImageHeight
+      )
+    } else if (settings.animation === 'rotation') {
+      console.log('TODO: rotation animation')
     }
-
-    const complateAnimate = () => {
-      gif.render()
-    }
-
-    const getGsapSetOptions = (): gsap.TweenVars => {
-      let dx: (i: number) => number | undefined
-      let dy: (i: number) => number | undefined
-
-      if (settings.animationType === 'horizontalScroll') {
-        dx = (i: number) => i * outputImageWidth
-      } else if (settings.animationType === 'verticalScroll') {
-        dy = (i: number) => i * outputImageHeight
-      }
-
-      return {
-        dx: dx!,
-        dy: dy!,
-      }
-    }
-
-    gsap.set(positions, {
-      ...getGsapSetOptions(),
-    })
-
-    const getGsapToOptions = (): gsap.TweenVars => {
-      let dx: number | string = 0
-      let dy: number | string = 0
-
-      if (settings.animationType === 'horizontalScroll') {
-        dx = `-=${outputImageWidth}`
-      } else if (settings.animationType === 'verticalScroll') {
-        dy = `-=${outputImageHeight}`
-      }
-
-      return {
-        delay: 0,
-        duration: 0.6,
-        dx,
-        dy,
-        ease: 'none',
-        onUpdate: animateCanvas,
-        onComplete: complateAnimate,
-      }
-    }
-
-    gsap.to(positions, {
-      ...getGsapToOptions(),
-    })
 
     const result = await firstValueFrom(fromEvent(gif, 'finished'))
     return readFilePromise((result as [Blob, any])[0] as Blob)
