@@ -1,7 +1,7 @@
 <template>
   <v-btn-toggle v-model="toggle" dense>
-    <v-btn>{{ $t('line') }}</v-btn>
-    <v-btn>{{ $t('background') }}</v-btn>
+    <v-btn class="text-capitalize">{{ $t('line') }}</v-btn>
+    <v-btn class="text-capitalize">{{ $t('background') }}</v-btn>
   </v-btn-toggle>
 </template>
 

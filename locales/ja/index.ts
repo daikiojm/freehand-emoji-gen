@@ -23,6 +23,8 @@ export default {
   fileName: '名前(オプション)',
   useFileName: '名前をつける',
   preview: 'プレビュー',
+  back: '戻る',
+  forward: '進む',
   history: '履歴 / クリア',
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',

@@ -10,9 +10,9 @@
     {{ snackbar.message }}
 
     <template #action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="handleDismiss">{{
-        $t('dismiss')
-      }}</v-btn>
+      <v-btn class="text-capitalize" text v-bind="attrs" @click="handleDismiss">
+        {{ $t('dismiss') }}</v-btn
+      >
     </template>
   </v-snackbar>
 </template>

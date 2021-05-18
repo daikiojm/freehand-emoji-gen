@@ -28,7 +28,7 @@
     </div>
 
     <v-btn
-      class="mx-auto setting-reset-button"
+      class="mx-auto setting-reset-button text-capitalize"
       outlined
       color="indigo"
       :disabled="!settingsHasChanged"

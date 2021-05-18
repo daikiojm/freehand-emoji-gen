@@ -23,6 +23,8 @@ export default {
   fileName: 'File Name (Optional)',
   useFileName: 'Custom Name',
   preview: 'Preview',
+  back: 'Back',
+  forward: 'Forward',
   history: 'History / Clear',
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',

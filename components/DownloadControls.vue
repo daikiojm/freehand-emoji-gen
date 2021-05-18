@@ -21,25 +21,25 @@
       <AppLabel>{{ $t('history') }}</AppLabel>
       <div class="d-flex justify-center mt-4">
         <v-btn
-          class="my-auto font-weight-bold"
+          class="text-capitalize my-auto font-weight-bold"
           width="80"
           outlined
           color="indigo"
           :disabled="!canUndoMark"
           @click.prevent="handleUndo"
-          >戻る</v-btn
+          >{{ $t('back') }}</v-btn
         >
         <v-btn
-          class="ml-4 my-auto font-weight-bold"
+          class="text-capitalize ml-4 my-auto font-weight-bold"
           width="80"
           outlined
           color="indigo"
           :disabled="!canRedoMark"
           @click.prevent="handleRedo"
-          >進む</v-btn
+          >{{ $t('forward') }}</v-btn
         >
         <v-btn
-          class="ml-4 my-auto font-weight-bold"
+          class="text-capitalize ml-4 my-auto font-weight-bold"
           width="80"
           outlined
           color="indigo"
@@ -63,7 +63,7 @@
         <v-text-field
           v-model="download.fileName"
           :disabled="!download.useCustomFileName"
-          class="mx-auto my-4"
+          class="text-capitalize mx-auto my-4"
           :label="$t('fileName')"
           placeholder="avocado_freehand"
           style="width: 200px"
