@@ -167,7 +167,10 @@ export const useAnimationRenderer = () => {
       transparent:
         settings.backgroundColor === '#FFFFFFFF' ? null : '#00000000',
       background: settings.strokeColor,
-      workerScript: '/js/gif.worker.js',
+      workerScript: `${
+        // gh-pages workaround
+        process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '/'
+      }js/gif.worker.js`,
     })
 
     const canvas = document.createElement('canvas')
