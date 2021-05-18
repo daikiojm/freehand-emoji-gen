@@ -86,8 +86,10 @@ export const nuxtConfig: NuxtConfig = {
     },
   },
   googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID || 'NO_UA',
-    dev: process.env.NODE_ENV !== 'production',
+    id: 'UA-197325163-1',
+    debug: {
+      sendHitTask: process.env.NODE_ENV === 'production',
+    },
   },
 }
 
