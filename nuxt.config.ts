@@ -87,7 +87,7 @@ export const nuxtConfig: NuxtConfig = {
   },
   googleAnalytics: {
     id: process.env.GOOGLE_ANALYTICS_ID || 'NO_UA',
-    dev: process.env.NODE_ENV === 'production',
+    dev: process.env.NODE_ENV !== 'production',
     autoTracking: {
       screenview: true,
     },
