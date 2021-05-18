@@ -40,6 +40,7 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/stylelint-module',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-analytics',
   ],
   generate: {
     interval: 2000,
@@ -82,6 +83,13 @@ export const nuxtConfig: NuxtConfig = {
     defaultLocale: 'ja',
     vueI18n: {
       messages,
+    },
+  },
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID || 'NO_UA',
+    dev: process.env.NODE_ENV === 'production',
+    autoTracking: {
+      screenview: true,
     },
   },
 }
