@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{428:function(t,e,n){"use strict";n.r(e);var l=n(20),c=Object(l.b)({}),o=n(53),component=Object(o.a)(c,(function(){var t=this,e=t.$createElement;return(t._self._c||e)("label",{staticClass:"text-caption"},[t._t("default")],2)}),[],!1,null,null,null);e.default=component.exports}}]);
