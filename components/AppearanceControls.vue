@@ -6,7 +6,7 @@
     outlined
   >
     <div v-for="(option, index) of strokeOptions" :key="index">
-      <label class="text-caption">{{ $t(option.title) }}</label>
+      <AppLabel>{{ $t(option.title) }}</AppLabel>
       <v-slider
         v-model="settings[option.key]"
         class="mt-n1"
@@ -16,11 +16,11 @@
       ></v-slider>
     </div>
 
-    <label class="text-caption">{{ $t('lineAndBackgroundColor') }}</label>
+    <AppLabel>{{ $t('lineAndBackgroundColor') }}</AppLabel>
     <div class="d-flex justify-start">
-      <AppColorPicker v-model="color" />
+      <AppearanceControlsColorPicker v-model="color" />
       <div>
-        <AppActiveColorPickerToggle
+        <AppearanceControlsActiveColorPickerToggle
           v-model="settings.activeColorPicker"
           class="ml-4 mt-4"
         />
@@ -30,6 +30,7 @@
     <v-btn
       class="mx-auto setting-reset-button"
       outlined
+      color="indigo"
       :disabled="!settingsHasChanged"
       @click="handleSettingReset"
       >{{ $t('resetSetting') }}</v-btn
@@ -41,8 +42,8 @@
 import { computed, defineComponent } from '@nuxtjs/composition-api'
 import { reactivePick, get, set, toRefs } from '@vueuse/core'
 
-import AppColorPicker from '@/components/AppColorPicker.vue'
-import AppActiveColorPickerToggle from '@/components/AppActiveColorPickerToggle.vue'
+import AppearanceControlsActiveColorPickerToggle from '~/components/AppearanceControlsActiveColorPickerToggle.vue'
+import AppearanceControlsColorPicker from '~/components/AppearanceControlsColorPicker.vue'
 
 import { useStore } from '~/store'
 import { useStaticConfig } from '~/composables/useStaticConfig'
@@ -50,8 +51,8 @@ import type { AppStrokeOption } from '~/composables/useStaticConfig'
 
 export default defineComponent({
   components: {
-    AppColorPicker,
-    AppActiveColorPickerToggle,
+    AppearanceControlsColorPicker,
+    AppearanceControlsActiveColorPickerToggle,
   },
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight, strokeOptions } =

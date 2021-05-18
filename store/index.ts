@@ -1,15 +1,19 @@
-import { InjectionKey, inject, computed } from '@nuxtjs/composition-api'
+import {
+  InjectionKey,
+  inject,
+  reactive,
+  computed,
+} from '@nuxtjs/composition-api'
 import {
   debouncedWatch,
-  useLocalStorage,
   toRefs,
   Fn,
   get,
   set,
+  useManualRefHistory,
 } from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
-import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
 import { useSvgRef } from '~/composables/useSvgRef'
 import { useAnimationRenderer } from '~/composables/useAnimationRenderer'
@@ -83,34 +87,37 @@ const defaultData: Data = {
 }
 
 export const store = () => {
-  const { localStorageKey } = useStaticConfig()
   const { renderPngFromSvg } = useImageRender()
   const { svgElement } = useSvgRef()
   const { renderWithAnimation } = useAnimationRenderer()
 
-  const state = useLocalStorage<State>(
-    localStorageKey,
-    {
-      ui: {
-        darkMode: false,
-        snackbar: {
-          show: false,
-          message: '',
-          type: 'info',
-        },
-      },
-      settings: { ...defaultSettings },
-      data: { ...defaultData },
-      download: {
-        resultImage: '',
-        useCustomFileName: false,
-        fileName: null,
+  const state = reactive<State>({
+    ui: {
+      darkMode: false,
+      snackbar: {
+        show: false,
+        message: '',
+        type: 'info',
       },
     },
-    { deep: true, listenToStorageChanges: true }
-  )
+    settings: { ...defaultSettings },
+    data: { ...defaultData },
+    download: {
+      resultImage: '',
+      useCustomFileName: false,
+      fileName: null,
+    },
+  })
 
   const { ui, settings, data, download } = toRefs(state)
+
+  const { commit, undo, redo, canUndo, canRedo, clear } = useManualRefHistory(
+    data,
+    {
+      clone: true,
+      capacity: 20,
+    }
+  )
 
   const downloadFileName = computed(
     () => (get(download).useCustomFileName && get(download).fileName) || ''
@@ -118,6 +125,7 @@ export const store = () => {
 
   const resetData = () => {
     set(data, { ...defaultData })
+    clear()
   }
 
   const resetSettings = () => {
@@ -133,17 +141,19 @@ export const store = () => {
 
   const updateCurrentMark = (mark: Mark) => {
     data.value.currentMark.points = [
-      ...data.value.currentMark.points,
+      ...get(data).currentMark.points,
       ...mark.points,
     ]
   }
 
   const endMark = () => {
-    data.value.marks = [
-      ...data.value.marks,
-      { ...state.value.data.currentMark },
-    ]
+    data.value.marks = [...get(data).marks, { ...get(data).currentMark }]
+    commit()
   }
+
+  const undoMark = () => undo()
+
+  const redoMark = () => redo()
 
   const settingsHasChanged = computed(
     () => JSON.stringify(get(settings)) !== JSON.stringify(defaultSettings)
@@ -152,6 +162,9 @@ export const store = () => {
   const dataHasChanged = computed(
     () => JSON.stringify(get(data)) !== JSON.stringify(defaultData)
   )
+
+  const canUndoMark = canUndo
+  const canRedoMark = canRedo
 
   debouncedWatch(
     [settings, data],
@@ -179,9 +192,13 @@ export const store = () => {
     setCurrentMark,
     updateCurrentMark,
     endMark,
+    undoMark,
+    redoMark,
     settingsHasChanged,
     dataHasChanged,
     downloadFileName,
+    canUndoMark,
+    canRedoMark,
   }
 }
 

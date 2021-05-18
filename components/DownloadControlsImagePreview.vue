@@ -5,7 +5,7 @@
         v-if="showImgElement"
         :height="outputImageHeight"
         :width="outputImageWidth"
-        :src="image"
+        :src="image || null"
       />
     </picture>
     <picture class="preview-image ml-2 --dark">
@@ -13,7 +13,7 @@
         v-if="showImgElement"
         :height="outputImageHeight"
         :width="outputImageWidth"
-        :src="image"
+        :src="image || null"
       />
     </picture>
   </div>

@@ -13,12 +13,45 @@
     outlined
   >
     <section>
-      <label class="text-caption">{{ $t('preview') }}</label>
-      <ImagePreview :image="download.resultImage" />
+      <AppLabel>{{ $t('preview') }}</AppLabel>
+      <DownloadControlsImagePreview :image="download.resultImage" />
     </section>
 
     <section>
-      <label class="text-caption">{{ $t('saveSettingLabel') }}</label>
+      <AppLabel>{{ $t('history') }}</AppLabel>
+      <div class="d-flex justify-center mt-4">
+        <v-btn
+          class="my-auto font-weight-bold"
+          width="80"
+          outlined
+          color="indigo"
+          :disabled="!canUndoMark"
+          @click.prevent="handleUndo"
+          >戻る</v-btn
+        >
+        <v-btn
+          class="ml-4 my-auto font-weight-bold"
+          width="80"
+          outlined
+          color="indigo"
+          :disabled="!canRedoMark"
+          @click.prevent="handleRedo"
+          >進む</v-btn
+        >
+        <v-btn
+          class="ml-4 my-auto font-weight-bold"
+          width="80"
+          outlined
+          color="indigo"
+          :disabled="!dataHasChanged"
+          @click.prevent="handleClear"
+          >{{ $t('clear') }}</v-btn
+        >
+      </div>
+    </section>
+
+    <section>
+      <AppLabel>{{ $t('saveSettingLabel') }}</AppLabel>
       <div class="d-flex justify-center">
         <v-checkbox
           v-model="download.useCustomFileName"
@@ -44,14 +77,6 @@
         <v-btn
           class="my-auto font-weight-bold"
           width="80"
-          outlined
-          :disabled="!dataHasChanged"
-          @click.prevent="handleClear"
-          >{{ $t('clear') }}</v-btn
-        >
-        <v-btn
-          class="ml-4 my-auto font-weight-bold"
-          width="80"
           color="primary"
           :disabled="!dataHasChanged"
           depressed
@@ -66,7 +91,7 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-import ImagePreview from './ImagePreview.vue'
+import DownloadControlsImagePreview from '~/components/DownloadControlsImagePreview.vue'
 
 import { useStore } from '~/store'
 
@@ -77,11 +102,19 @@ import { useI18n } from '~/composables/useI18n'
 
 export default defineComponent({
   components: {
-    ImagePreview,
+    DownloadControlsImagePreview,
   },
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
-    const { dataHasChanged, resetData, download } = useStore()
+    const {
+      canUndoMark,
+      canRedoMark,
+      undoMark,
+      redoMark,
+      dataHasChanged,
+      resetData,
+      download,
+    } = useStore()
     const { downloadImage } = useImageDownload()
     const snackbar = useSnackbar()
     const i18n = useI18n()
@@ -107,12 +140,20 @@ export default defineComponent({
       snackbar.success(i18n.t('clearSuccessMessage').toString())
     }
 
+    const handleUndo = () => undoMark()
+
+    const handleRedo = () => redoMark()
+
     return {
       controlsContainerStyle,
       dataHasChanged,
       download,
       handlePngDownload,
       handleClear,
+      handleUndo,
+      handleRedo,
+      canUndoMark,
+      canRedoMark,
     }
   },
 })

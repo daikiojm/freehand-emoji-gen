@@ -5,10 +5,11 @@
     elevation="2"
     outlined
   >
-    <label class="text-caption">{{ $t('animation') }}</label>
+    <AppLabel>{{ $t('animation') }}</AppLabel>
     <v-select
       v-model="settings.animation"
-      style="width: 200px"
+      class="mt-2"
+      style="width: 300px"
       :items="animationTypes"
       dense
       outlined

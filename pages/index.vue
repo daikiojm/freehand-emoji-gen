@@ -52,7 +52,7 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-import AppSubheader from '~/components/AppSubheader.vue'
+import AppSubheader from '~/components/base/AppSubheader.vue'
 import FreehandCanvas from '~/components/FreehandCanvas.vue'
 import AppearanceControls from '~/components/AppearanceControls.vue'
 import AnimationControls from '~/components/AnimationControls.vue'

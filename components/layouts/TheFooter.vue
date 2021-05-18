@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="d-flex flex-column px-2">
+  <v-footer class="d-flex flex-column px-4">
     <p
       class="
         text-caption

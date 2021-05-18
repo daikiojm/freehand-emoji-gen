@@ -7,7 +7,7 @@
       </v-container>
     </v-main>
     <TheFooter />
-    <AppSnackbar />
+    <TheSnackbar />
   </v-app>
 </template>
 <script lang="ts">
@@ -15,7 +15,7 @@ import { defineComponent, provide } from '@nuxtjs/composition-api'
 
 import TheNavigation from '~/components/layouts/TheNavigation.vue'
 import TheFooter from '~/components/layouts/TheFooter.vue'
-import AppSnackbar from '~/components/AppSnackbar.vue'
+import TheSnackbar from '~/components/layouts/TheSnackbar.vue'
 
 import { SvgRefKey, svgRef } from '~/composables/useSvgRef'
 import { StoreKey, store } from '~/store'
@@ -24,7 +24,7 @@ export default defineComponent({
   components: {
     TheNavigation,
     TheFooter,
-    AppSnackbar,
+    TheSnackbar,
   },
   setup() {
     provide(SvgRefKey, svgRef())

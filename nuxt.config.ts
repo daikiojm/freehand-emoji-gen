@@ -33,7 +33,7 @@ export const nuxtConfig: NuxtConfig = {
   router: {
     base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
   },
-  components: true,
+  components: ['~/components/base/'],
   modules: ['nuxt-i18n'],
   buildModules: [
     '@nuxt/typescript-build',

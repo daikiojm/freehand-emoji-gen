@@ -1,7 +1,11 @@
 <template>
-  <v-app-bar flat app class="px-2">
-    <v-toolbar-title class="text-h5 mb-n2" style="height: 48px"
-      ><span class="font-weight-bold" style="font-family: 'Pacifico', cursive"
+  <v-app-bar app elevate-on-scroll height="80" class="px-4">
+    <v-toolbar-title
+      class="text-h5 mb-n2"
+      style="height: 48px; cursor: pointer"
+      @click="handleTitleClick"
+    >
+      <span class="font-weight-bold" style="font-family: 'Pacifico', cursive"
         >Freehand Emoji Gen</span
       >
       |
@@ -20,21 +24,32 @@
     >
       <v-icon>mdi-github</v-icon>
     </v-btn>
-    <LocaleSelector class="mx-2" />
-    <ToggleDarkModeIconButton class="ml-2" />
+    <NavigationLocaleSelector class="mx-2" />
+    <NavigationToggleDarkModeIconButton class="ml-2" />
   </v-app-bar>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, useRouter } from '@nuxtjs/composition-api'
 
-import ToggleDarkModeIconButton from '@/components/ToggleDarkModeIconButton.vue'
-import LocaleSelector from '../LocaleSelector.vue'
+import NavigationLocaleSelector from '~/components/NavigationLocaleSelector.vue'
+import NavigationToggleDarkModeIconButton from '~/components/NavigationToggleDarkModeIconButton.vue'
 
 export default defineComponent({
   components: {
-    ToggleDarkModeIconButton,
-    LocaleSelector,
+    NavigationToggleDarkModeIconButton,
+    NavigationLocaleSelector,
+  },
+  setup() {
+    const router = useRouter()
+
+    const handleTitleClick = () => {
+      router.push('/')
+    }
+
+    return {
+      handleTitleClick,
+    }
   },
 })
 </script>
