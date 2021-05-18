@@ -93,6 +93,54 @@ const animatePosition = (
   })
 }
 
+const animateRotation = (
+  gif: GIF,
+  image: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  _settings: Settings,
+  outputImageWidth: number,
+  outputImageHeight: number
+) => {
+  const rotations = {
+    angle: 0,
+  }
+
+  const animateCanvas = () => {
+    ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
+    ctx.drawImage(image, 0, 0)
+
+    ctx.translate(outputImageWidth / 2, outputImageHeight / 2)
+    ctx.rotate((rotations.angle * Math.PI) / 180)
+    ctx.translate(-outputImageWidth / 2, -outputImageHeight / 2)
+
+    gif.addFrame(canvas, {
+      copy: true,
+      // minimum delay limited by browser spec
+      delay: 20,
+    })
+  }
+
+  const complateAnimate = () => {
+    gif.render()
+  }
+
+  const getGsapToOptions = (): gsap.TweenVars => {
+    return {
+      delay: 0,
+      duration: 0.6,
+      angle: 30,
+      ease: 'none',
+      onUpdate: animateCanvas,
+      onComplete: complateAnimate,
+    }
+  }
+
+  gsap.to(rotations, {
+    ...getGsapToOptions(),
+  })
+}
+
 export const useAnimationRenderer = () => {
   const {
     freehandCanvasWidth,
@@ -133,7 +181,10 @@ export const useAnimationRenderer = () => {
       outputImageHeight
     )
 
-    if (settings.animation === 'horizontalScroll' || settings.animation === 'verticalScroll') {
+    if (
+      settings.animation === 'horizontalScroll' ||
+      settings.animation === 'verticalScroll'
+    ) {
       animatePosition(
         gif,
         image,
@@ -144,7 +195,15 @@ export const useAnimationRenderer = () => {
         outputImageHeight
       )
     } else if (settings.animation === 'rotation') {
-      console.log('TODO: rotation animation')
+      animateRotation(
+        gif,
+        image,
+        ctx,
+        canvas,
+        settings,
+        outputImageWidth,
+        outputImageHeight
+      )
     }
 
     const result = await firstValueFrom(fromEvent(gif, 'finished'))

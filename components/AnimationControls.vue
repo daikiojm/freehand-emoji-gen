@@ -7,8 +7,8 @@
   >
     <label class="text-caption">{{ $t('animation') }}</label>
     <v-select
-      style="width: 200px"
       v-model="settings.animation"
+      style="width: 200px"
       :items="animationTypes"
       dense
       outlined
@@ -20,6 +20,7 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 import { useStore, AnimationTypes } from '~/store'
+
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useI18n } from '~/composables/useI18n'
 

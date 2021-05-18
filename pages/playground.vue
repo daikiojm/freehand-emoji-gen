@@ -13,8 +13,5 @@ export default defineComponent({
   components: {
     Playground,
   },
-  setup() {
-    console.log('hello playground')
-  },
 })
 </script>

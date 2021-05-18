@@ -26,7 +26,12 @@ export type Snackbar = {
   dismissTimerRef?: Fn | null
 }
 
-export const AnimationTypes = ['none', 'horizontalScroll', 'verticalScroll', 'rotation'] as const
+export const AnimationTypes = [
+  'none',
+  'horizontalScroll',
+  'verticalScroll',
+  'rotation',
+] as const
 export type AnimationType = typeof AnimationTypes[number]
 
 export type State = {
@@ -151,7 +156,7 @@ export const store = () => {
   debouncedWatch(
     [settings, data],
     async () => {
-      if (get(settings).animation  === 'none') {
+      if (get(settings).animation === 'none') {
         const image = await renderPngFromSvg(get(svgElement)!)
         download.value.resultImage = image
       } else {
