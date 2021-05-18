@@ -8,7 +8,17 @@
     <AppLabel>{{ $t('animation') }}</AppLabel>
     <v-select
       v-model="settings.animation"
-      class="mt-2"
+      class="mt-2 mx-auto"
+      style="width: 300px"
+      :items="animationTypes"
+      dense
+      outlined
+    ></v-select>
+
+    <AppLabel>{{ $t('effects') }}</AppLabel>
+    <v-select
+      v-model="settings.animation"
+      class="mt-2 mx-auto"
       style="width: 300px"
       :items="animationTypes"
       dense

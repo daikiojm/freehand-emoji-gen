@@ -29,6 +29,7 @@ export default {
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',
   animationEnable: 'アニメーションを有効にする',
+  effects: 'エフェクト',
 
   none: 'なし',
   horizontalScroll: '横スクロール',
