@@ -1,5 +1,6 @@
 <template>
   <v-card class="mx-auto svg-container" outlined :style="svgContainerStyle">
+    <FreehandCanvasPlaceholder v-if="!dataHasChanged" />
     <svg
       ref="svgElement"
       :style="svgStyle"
@@ -22,6 +23,8 @@
 import { defineComponent, computed } from '@nuxtjs/composition-api'
 import { get } from '@vueuse/core'
 
+import FreehandCanvasPlaceholder from './FreehandCanvasPlaceholder.vue'
+
 import { useEvents } from '~/composables/useEvents'
 import { useSvgStroke } from '~/composables/useSvgStroke'
 import { useSvgRef } from '~/composables/useSvgRef'
@@ -33,9 +36,12 @@ const checkerboard = `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAK
 const transparentColor = '#00000000'
 
 export default defineComponent({
+  components: {
+    FreehandCanvasPlaceholder,
+  },
   setup() {
     const { freehandCanvasWidth, freehandCanvasHeight } = useStaticConfig()
-    const { settings } = useStore()
+    const { dataHasChanged, settings } = useStore()
 
     const svgContainerStyle = {
       minWidth: `${freehandCanvasWidth}px`,
@@ -70,6 +76,7 @@ export default defineComponent({
       svgStyle,
       strokeColor,
       svgGroupStyle,
+      dataHasChanged,
     }
   },
 })
@@ -84,5 +91,14 @@ svg {
 
 .svg-container {
   position: relative;
+}
+
+.canvas-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  opacity: 0.3;
+  pointer-events: none;
 }
 </style>

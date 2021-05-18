@@ -35,6 +35,9 @@ export default {
   verticalScroll: 'Vertical Scroll',
   rotation: 'Rotation',
 
+  canvasPlaceholderL1: 'FreeHandwrite in this area',
+  canvasPlaceholderL2: 'using the mouse cursor',
+
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',
   saveErrorMessage: 'Save Error',

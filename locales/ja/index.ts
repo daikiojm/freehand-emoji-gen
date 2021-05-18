@@ -35,6 +35,9 @@ export default {
   verticalScroll: '縦スクロール',
   rotation: '回転',
 
+  canvasPlaceholderL1: 'マウスカーソルを使って',
+  canvasPlaceholderL2: 'この領域に手書き入力',
+
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',
   saveErrorMessage: '絵文字の保存に失敗しました',
