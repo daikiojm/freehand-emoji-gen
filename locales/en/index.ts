@@ -5,7 +5,9 @@ export default {
   editorSubtitle: 'You can draw a line by moving the cursor while clicking',
   appearanceTitle: 'Emoji Setting',
   appearanceSubtitle: 'Adjust thickness and color of the tip',
-  saveSettingTitle: 'Save Setting',
+  saveSettingTitle: 'Preview / Save Setting',
+  animationTitle: 'Animation Setting',
+  animationSubtitle: '-',
 
   lineSize: 'Line Size',
   option1: 'Thinning',
@@ -20,6 +22,15 @@ export default {
   background: 'Background',
   fileName: 'File Name (Optional)',
   useFileName: 'Custom Name',
+  preview: 'Preview',
+  saveSettingLabel: 'Save Setting',
+  animation: 'Animation',
+  animationEnable: 'Enable Animation',
+
+  none: 'None',
+  horizontalScroll: 'Horizontal Scroll',
+  verticalScroll: 'Vertical Scroll',
+  rotation: 'Rotation',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',

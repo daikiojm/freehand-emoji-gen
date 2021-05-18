@@ -1,14 +1,18 @@
+import { InjectionKey, inject, computed } from '@nuxtjs/composition-api'
 import {
-  ref,
-  InjectionKey,
-  inject,
-  computed,
-  WatchStopHandle,
-} from '@nuxtjs/composition-api'
-import { debouncedWatch, useLocalStorage, toRefs, Fn } from '@vueuse/core'
+  debouncedWatch,
+  useLocalStorage,
+  toRefs,
+  Fn,
+  get,
+  set,
+} from '@vueuse/core'
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
+import { useImageRender } from '~/composables/useImageRender'
+import { useSvgRef } from '~/composables/useSvgRef'
+import { useAnimationRenderer } from '~/composables/useAnimationRenderer'
 
 export type Mark = {
   type: string
@@ -22,6 +26,14 @@ export type Snackbar = {
   dismissTimerRef?: Fn | null
 }
 
+export const AnimationTypes = [
+  'none',
+  'horizontalScroll',
+  'verticalScroll',
+  'rotation',
+] as const
+export type AnimationType = typeof AnimationTypes[number]
+
 export type State = {
   ui: {
     darkMode: boolean
@@ -33,18 +45,23 @@ export type State = {
     // hex(a)
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
+    animation: AnimationType
   }
   data: {
     currentMark: Mark
     marks: Mark[]
   }
   download: {
+    resultImage: string
     useCustomFileName: boolean
     fileName: string | null
   }
 }
 
-const defaultSettings: State['settings'] = {
+export type Settings = State['settings']
+export type Data = State['data']
+
+const defaultSettings: Settings = {
   // prefect-freehand StrokeOptions
   size: 24,
   thinning: 0.75,
@@ -54,9 +71,10 @@ const defaultSettings: State['settings'] = {
   strokeColor: '#000000FF',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
+  animation: 'none',
 }
 
-const defaultData: State['data'] = {
+const defaultData: Data = {
   currentMark: {
     type: '',
     points: [],
@@ -66,6 +84,9 @@ const defaultData: State['data'] = {
 
 export const store = () => {
   const { localStorageKey } = useStaticConfig()
+  const { renderPngFromSvg } = useImageRender()
+  const { svgElement } = useSvgRef()
+  const { renderWithAnimation } = useAnimationRenderer()
 
   const state = useLocalStorage<State>(
     localStorageKey,
@@ -81,6 +102,7 @@ export const store = () => {
       settings: { ...defaultSettings },
       data: { ...defaultData },
       download: {
+        resultImage: '',
         useCustomFileName: false,
         fileName: null,
       },
@@ -88,70 +110,70 @@ export const store = () => {
     { deep: true, listenToStorageChanges: true }
   )
 
-  const unsubscribeOnUpdate = ref<WatchStopHandle>(() => undefined)
+  const { ui, settings, data, download } = toRefs(state)
 
   const downloadFileName = computed(
-    () =>
-      (state.value.download.useCustomFileName &&
-        state.value.download.fileName) ||
-      ''
+    () => (get(download).useCustomFileName && get(download).fileName) || ''
   )
 
   const resetData = () => {
-    state.value.data = { ...defaultData }
+    set(data, { ...defaultData })
   }
 
   const resetSettings = () => {
-    state.value.settings = { ...defaultSettings }
+    set(settings, { ...defaultSettings })
   }
 
   const setCurrentMark = (mark: Mark) => {
-    state.value.data.currentMark = {
+    data.value.currentMark = {
       type: mark.type,
       points: mark.points,
     }
   }
 
   const updateCurrentMark = (mark: Mark) => {
-    state.value.data.currentMark.points = [
-      ...state.value.data.currentMark.points,
+    data.value.currentMark.points = [
+      ...data.value.currentMark.points,
       ...mark.points,
     ]
   }
 
   const endMark = () => {
-    state.value.data.marks = [
-      ...state.value.data.marks,
+    data.value.marks = [
+      ...data.value.marks,
       { ...state.value.data.currentMark },
     ]
   }
 
   const settingsHasChanged = computed(
-    () =>
-      JSON.stringify(state.value.settings) !== JSON.stringify(defaultSettings)
+    () => JSON.stringify(get(settings)) !== JSON.stringify(defaultSettings)
   )
 
   const dataHasChanged = computed(
-    () => JSON.stringify(state.value.data) !== JSON.stringify(defaultData)
+    () => JSON.stringify(get(data)) !== JSON.stringify(defaultData)
   )
 
-  const onUpdate = (
-    callbackFn: (state: State) => void,
-    options?: { debounce: number }
-  ) => {
-    unsubscribeOnUpdate.value = debouncedWatch(
-      state.value,
-      (data: State) => {
-        callbackFn(data)
-      },
-      { debounce: options?.debounce || 100 }
-    )
-  }
+  debouncedWatch(
+    [settings, data],
+    async () => {
+      if (get(settings).animation === 'none') {
+        const image = await renderPngFromSvg(get(svgElement)!)
+        download.value.resultImage = image
+      } else {
+        download.value.resultImage = await renderWithAnimation(
+          get(svgElement)!,
+          get(settings)
+        )
+      }
+    },
+    { deep: true, debounce: 200 }
+  )
 
   return {
-    ...toRefs(state),
-    onUpdate,
-    unsubscribeOnUpdate,
+    ui,
+    settings,
+    data,
+    download,
     resetData,
     resetSettings,
     setCurrentMark,

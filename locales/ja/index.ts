@@ -5,7 +5,9 @@ export default {
   editorSubtitle: 'クリックしたままカーソルを動かして線を描けます',
   appearanceTitle: '絵文字設定',
   appearanceSubtitle: 'お好みの見た目になるように先の太さや色を調整できます',
-  saveSettingTitle: '保存設定',
+  saveSettingTitle: 'プレビュー / 保存設定',
+  animationTitle: 'アニメーション/エフェクト',
+  animationSubtitle: 'アニメーション',
 
   lineSize: '線の太さ (size)',
   option1: 'オプション1 (thinning)',
@@ -20,6 +22,15 @@ export default {
   background: '背景',
   fileName: '名前(オプション)',
   useFileName: '名前をつける',
+  preview: 'プレビュー',
+  saveSettingLabel: '保存設定',
+  animation: 'アニメーション',
+  animationEnable: 'アニメーションを有効にする',
+
+  none: 'なし',
+  horizontalScroll: '横スクロール',
+  verticalScroll: '縦スクロール',
+  rotation: '回転',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',
