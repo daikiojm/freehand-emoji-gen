@@ -32,8 +32,8 @@ import { useStaticConfig } from '~/composables/useStaticConfig'
 
 import { useStore } from '~/store'
 
-const checkerboard = `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
-const transparentColor = '#00000000'
+// const checkerboard = `url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWNgYGCQwoKxgqGgcJA5h3yFAAs8BRWVSwooAAAAAElFTkSuQmCC) repeat`
+// const transparentColor = '#00000000'
 
 export default defineComponent({
   components: {
@@ -53,12 +53,15 @@ export default defineComponent({
     const strokeColor = computed(() => get(settings).strokeColor)
 
     const svgStyle = computed(() => {
-      return {
-        background:
-          get(settings).backgroundColor !== transparentColor
-            ? get(settings).backgroundColor
-            : checkerboard,
-      }
+      // debug
+      return {}
+
+      // return {
+      //   background:
+      //     get(settings).backgroundColor !== transparentColor
+      //       ? get(settings).backgroundColor
+      //       : checkerboard,
+      // }
     })
 
     const svgGroupStyle = computed(() => {

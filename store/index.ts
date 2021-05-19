@@ -36,6 +36,7 @@ export const AnimationTypes = [
   'verticalScroll',
   'rotation',
   'effectTest',
+  'effectTest2',
 ] as const
 export type AnimationType = typeof AnimationTypes[number]
 
@@ -73,7 +74,8 @@ const defaultSettings: Settings = {
   smoothing: 0.5,
   streamline: 0.5,
   // application options
-  strokeColor: '#000000FF',
+  // strokeColor: '#000000FF',
+  strokeColor: '#4287f5',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: 'none',

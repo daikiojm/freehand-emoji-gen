@@ -150,7 +150,7 @@ export const useAnimationRenderer = () => {
     outputImageHeight,
   } = useStaticConfig()
   const { convertSvgToResizedCanvas } = useImageRender()
-  const { testEffect } = useEffects()
+  const { testEffect, testEffect2 } = useEffects()
 
   const renderWithAnimation = async (svg: SVGElement, settings: Settings) => {
     const gif = new GIF({
@@ -168,7 +168,8 @@ export const useAnimationRenderer = () => {
        */
       transparent:
         settings.backgroundColor === '#FFFFFFFF' ? null : '#00000000',
-      background: settings.strokeColor,
+      // background: settings.strokeColor,
+      background: settings.backgroundColor,
       workerScript: `${
         // gh-pages workaround
         process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '/'
@@ -211,6 +212,16 @@ export const useAnimationRenderer = () => {
       )
     } else if (settings.animation === 'effectTest') {
       testEffect(
+        gif,
+        image,
+        ctx,
+        canvas,
+        settings,
+        outputImageWidth,
+        outputImageHeight
+      )
+    } else if (settings.animation === 'effectTest2') {
+      testEffect2(
         gif,
         image,
         ctx,
