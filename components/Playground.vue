@@ -1,136 +1,150 @@
 <template>
   <div>
-    <p>playground</p>
-    <svg
-      ref="playgroundSvgElement"
-      class="mt-10 mx-auto"
-      xmlns="http://www.w3.org/2000/svg"
-      height="24px"
-      viewBox="0 0 24 24"
-      width="24px"
-      fill="#4287f5"
-    >
-      <path d="M0 0h24v24H0V0z" fill="none" />
-      <path
-        d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.09-.16-.26-.25-.44-.25-.06 0-.12.01-.17.03l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.06-.02-.12-.03-.18-.03-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.09.16.26.25.44.25.06 0 .12-.01.17-.03l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73 0 .21-.02.43-.05.73l-.14 1.13.89.7 1.08.84-.7 1.21-1.27-.51-1.04-.42-.9.68c-.43.32-.84.56-1.25.73l-1.06.43-.16 1.13-.2 1.35h-1.4l-.19-1.35-.16-1.13-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7-1.06.43-1.27.51-.7-1.21 1.08-.84.89-.7-.14-1.13c-.03-.31-.05-.54-.05-.74s.02-.43.05-.73l.14-1.13-.89-.7-1.08-.84.7-1.21 1.27.51 1.04.42.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43.16-1.13.2-1.35h1.39l.19 1.35.16 1.13 1.06.43c.43.18.83.41 1.23.71l.91.7 1.06-.43 1.27-.51.7 1.21-1.07.85-.89.7.14 1.13zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"
-      />
-    </svg>
-    <canvas
-      ref="playgroundCanvasElement"
-      class="ml-10"
-      width="100px"
-      height="100px"
-    ></canvas>
-    <img :src="resultImage" />
-    <v-btn class="mt-10" small @click="handleClick">button</v-btn>
+    <h2>playground</h2>
+    <section>
+      <p>canvas effects</p>
+      <svg
+        ref="svgRef"
+        style="width: 100px; height: 100px"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 0 24 24"
+        width="24px"
+        fill="#000000"
+      >
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+        />
+      </svg>
+      <div ref="containerRef" class="pixi-container"></div>
+      <img :src="src" style="width: 128px; height: 128px" />
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 /* eslint-disable no-console */
 
-import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api'
+import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api'
+
 import GIF from 'gif.js'
-import gsap, { Linear } from 'gsap'
+import type PIXIType from 'pixi.js'
 
 import { useImageRender } from '~/composables/useImageRender'
 
-// const FRAME_RATE = 60
+export const readFilePromise = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => resolve(reader.result as string))
+    reader.addEventListener('error', (err) => reject(err))
+    reader.readAsDataURL(blob)
+  })
+}
+
 const SIZE = 128
 
 export default defineComponent({
   setup() {
-    const playgroundSvgElement = ref<SVGElement>()
-    const playgroundCanvasElement = ref<HTMLCanvasElement>()
-    const ctx = ref<CanvasRenderingContext2D>()
+    const containerRef = ref<HTMLDivElement>()
+    const svgRef = ref<SVGElement>()
+    const src = ref<string>()
     const { convertSvgToResizedCanvas } = useImageRender()
-    const resultImage = ref<string>('')
 
-    onMounted(async (): Promise<void> => {
-      if (process.client) {
-        console.log('svg element', playgroundSvgElement)
-        console.log('canvas element', playgroundCanvasElement)
-        ctx.value = playgroundCanvasElement.value?.getContext('2d')!
-        playgroundCanvasElement.value!.width = SIZE
-        playgroundCanvasElement.value!.height = SIZE
+    onMounted(async () => {
+      console.log('onMounted')
+      if (!process.client) {
+        return
+      }
 
-        const image = await convertSvgToResizedCanvas(
-          playgroundSvgElement.value!,
-          SIZE,
-          SIZE,
-          SIZE,
-          SIZE
-        )
+      const gif = new GIF({
+        // forever
+        repeat: 0,
+        // lower is better
+        quality: 6,
+        workers: 4,
+        width: SIZE,
+        height: SIZE,
+        debug: true,
+        workerScript: `${
+          // gh-pages workaround
+          process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '/'
+        }js/gif.worker.js`,
+      })
 
-        const positions = { dx: 0, dy: 50 }
+      const PIXI: typeof PIXIType = require('pixi.js')
+      const app = new PIXI.Application({
+        width: SIZE,
+        height: SIZE,
+        preserveDrawingBuffer: true,
+      })
+      containerRef.value?.appendChild(app.view)
 
-        const gif = new GIF({
-          workers: 2,
-          quality: 10,
-          width: SIZE,
-          height: SIZE,
-          debug: true,
-          transparent: '#ffffff00',
-          workerScript: '/js/gif.worker.js',
-        })
+      const imageCanvas = await convertSvgToResizedCanvas(
+        svgRef.value!,
+        SIZE,
+        SIZE,
+        SIZE,
+        SIZE
+      )
 
-        const animateCanvas = () => {
-          console.log('animateCanvas')
-          ctx.value?.clearRect(0, 0, SIZE, SIZE)
-          ctx.value?.drawImage(image, positions.dx, positions.dy)
-          gif.addFrame(playgroundCanvasElement.value!, {
+      const image = PIXI.Sprite.from(imageCanvas)
+      image.anchor.set(0.5)
+      image.x = app.screen.width / 2
+      image.y = app.screen.height / 2
+      app.stage.addChild(image)
+
+      // filter
+      const filter = new PIXI.filters.ColorMatrixFilter()
+      // app.stage.filters = [filter]
+      image.filters = [filter]
+
+      app.ticker.maxFPS = 12
+
+      let framecount = 0
+      app.ticker.speed = 2
+      app.ticker.add((delta) => {
+        image.rotation += 0.1 * delta
+        const { matrix } = filter
+        const count = framecount
+
+        matrix[1] = Math.sin(count) * 3
+        matrix[2] = Math.cos(count)
+        matrix[3] = Math.cos(count) * 1.5
+        matrix[4] = Math.sin(count / 3) * 2
+        matrix[5] = Math.sin(count / 2)
+        matrix[6] = Math.sin(count / 4)
+
+        if (framecount >= 12) {
+          app.ticker.stop()
+          gif.render()
+        }
+        const snapshot = app.view.toDataURL('imp/png')
+        console.log(snapshot)
+
+        if (framecount !== 0) {
+          gif.addFrame(app.view, {
             copy: true,
-            delay: 20,
+            delay: 100,
           })
         }
 
-        const complateAnimate = () => {
-          gif.render()
-        }
+        framecount++
 
-        gsap.to(positions, {
-          delay: 0,
-          duration: 1,
-          dx: 100,
-          dy: 50,
-          ease: Linear.easeNone,
-          onUpdate: animateCanvas,
-          onComplete: complateAnimate,
-        })
+        // const dataUrl = app.view.toDataURL('img/png')
+        // console.log(dataUrl)
+      })
 
-        gif.on('start', () => {
-          console.log('start')
-        })
-
-        gif.on('abort', () => {
-          console.log('abort')
-        })
-
-        gif.on('progress', (percent: number) => {
-          console.log('progress', percent)
-        })
-
-        gif.on('finished', (blob) => {
-          console.log('finished', blob)
-          const reader = new FileReader()
-          reader.readAsDataURL(blob)
-          reader.onload = () => {
-            console.log(reader.result)
-            resultImage.value = reader.result as string
-          }
-        })
-      }
+      gif.addListener('finished', async (blob: Blob) => {
+        const dataUrl = await readFilePromise(blob)
+        src.value = dataUrl
+      })
     })
 
-    const handleClick = () => {
-      console.log(playgroundSvgElement)
-    }
-
     return {
-      playgroundSvgElement,
-      playgroundCanvasElement,
-      handleClick,
-      resultImage,
+      containerRef,
+      svgRef,
+      src,
     }
   },
 })

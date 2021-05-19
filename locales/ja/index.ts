@@ -30,6 +30,7 @@ export default {
   animation: 'アニメーション',
   animationEnable: 'アニメーションを有効にする',
   effects: 'エフェクト',
+  speed: 'スピード',
 
   none: 'なし',
   horizontalScroll: '横スクロール',

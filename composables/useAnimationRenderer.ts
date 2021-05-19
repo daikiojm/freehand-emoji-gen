@@ -4,6 +4,7 @@ import { firstValueFrom, fromEvent } from 'rxjs'
 
 import { useStaticConfig } from './useStaticConfig'
 import { useImageRender } from './useImageRender'
+import { useEffects } from './useEffects'
 import { Settings } from '~/store'
 
 const readFilePromise = (blob: Blob): Promise<string> => {
@@ -149,6 +150,7 @@ export const useAnimationRenderer = () => {
     outputImageHeight,
   } = useStaticConfig()
   const { convertSvgToResizedCanvas } = useImageRender()
+  const { testEffect } = useEffects()
 
   const renderWithAnimation = async (svg: SVGElement, settings: Settings) => {
     const gif = new GIF({
@@ -199,6 +201,16 @@ export const useAnimationRenderer = () => {
       )
     } else if (settings.animation === 'rotation') {
       animateRotation(
+        gif,
+        image,
+        ctx,
+        canvas,
+        settings,
+        outputImageWidth,
+        outputImageHeight
+      )
+    } else if (settings.animation === 'effectTest') {
+      testEffect(
         gif,
         image,
         ctx,

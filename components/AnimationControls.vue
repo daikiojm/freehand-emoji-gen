@@ -1,29 +1,52 @@
 <template>
   <v-card
-    class="mx-auto controls-container pa-4"
+    class="
+      mx-auto
+      controls-container
+      pa-4
+      d-flex
+      flex-column
+      justify-space-around
+    "
     :style="controlsContainerStyle"
     elevation="2"
     outlined
   >
-    <AppLabel>{{ $t('animation') }}</AppLabel>
-    <v-select
-      v-model="settings.animation"
-      class="mt-2 mx-auto"
-      style="width: 300px"
-      :items="animationTypes"
-      dense
-      outlined
-    ></v-select>
+    <section>
+      <AppLabel>{{ $t('animation') }}</AppLabel>
+      <v-select
+        v-model="settings.animation"
+        class="mt-2 mx-auto"
+        style="width: 300px"
+        :items="animationTypes"
+        dense
+        outlined
+      ></v-select>
+    </section>
 
-    <AppLabel>{{ $t('effects') }}</AppLabel>
-    <v-select
-      v-model="settings.animation"
-      class="mt-2 mx-auto"
-      style="width: 300px"
-      :items="animationTypes"
-      dense
-      outlined
-    ></v-select>
+    <section>
+      <AppLabel>{{ $t('effects') }}</AppLabel>
+      <!-- wip -->
+      <v-select
+        disabled
+        class="mt-2 mx-auto"
+        style="width: 300px"
+        dense
+        outlined
+      ></v-select>
+    </section>
+
+    <section>
+      <AppLabel>{{ $t('speed') }}</AppLabel>
+      <!-- wip -->
+      <v-select
+        disabled
+        class="mt-2 mx-auto"
+        style="width: 300px"
+        dense
+        outlined
+      ></v-select>
+    </section>
   </v-card>
 </template>
 
