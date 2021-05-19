@@ -29,6 +29,8 @@ export default {
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',
   animationEnable: 'Enable Animation',
+  effects: 'Effects',
+  speed: 'Speed',
 
   none: 'None',
   horizontalScroll: 'Horizontal Scroll',

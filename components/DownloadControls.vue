@@ -75,7 +75,7 @@
 
       <div class="d-flex justify-center">
         <v-btn
-          class="my-auto font-weight-bold"
+          class="text-capitalize my-auto font-weight-bold"
           width="80"
           color="primary"
           :disabled="!dataHasChanged"
