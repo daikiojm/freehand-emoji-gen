@@ -3,13 +3,17 @@ import type PIXIasType from 'pixi.js'
 
 import { Settings } from '~/store'
 
+export const convertMaybeHexaToHex = (maybeHexa: string) => {
+  return maybeHexa.length >= 8 ? maybeHexa.slice(0, 7) : maybeHexa
+}
+
 // for pixi.js animation and effects
 const testEffect = (
   gif: GIF,
   image: HTMLCanvasElement,
   _ctx: CanvasRenderingContext2D,
   _canvas: HTMLCanvasElement,
-  _settings: Settings,
+  settings: Settings,
   outputImageWidth: number,
   outputImageHeight: number
 ) => {
@@ -17,7 +21,9 @@ const testEffect = (
   const app = new PIXI.Application({
     width: outputImageWidth,
     height: outputImageHeight,
-    backgroundColor: +_settings.backgroundColor.slice(1),
+    backgroundColor: PIXI.utils.string2hex(
+      convertMaybeHexaToHex(settings.backgroundColor)
+    ),
     preserveDrawingBuffer: true,
   })
   const imageAsSprite = PIXI.Sprite.from(image)
@@ -32,17 +38,24 @@ const testEffect = (
   let framecount = 0
   app.ticker.speed = 2
 
+  const animate = (time: number) => {
+    app.ticker.update(time)
+    app.renderer.render(app.stage)
+    requestAnimationFrame(animate)
+  }
+  animate(performance.now())
+
   app.ticker.add((delta) => {
     imageAsSprite.rotation += 0.1 * delta
-    const { matrix } = filter
-    const count = framecount
+    // const { matrix } = filter
+    // const count = framecount
 
-    matrix[1] = Math.sin(count) * 3
-    matrix[2] = Math.cos(count)
-    matrix[3] = Math.cos(count) * 1.5
-    matrix[4] = Math.sin(count / 3) * 2
-    matrix[5] = Math.sin(count / 2)
-    matrix[6] = Math.sin(count / 4)
+    // matrix[1] = Math.sin(count) * 3
+    // matrix[2] = Math.cos(count)
+    // matrix[3] = Math.cos(count) * 1.5
+    // matrix[4] = Math.sin(count / 3) * 2
+    // matrix[5] = Math.sin(count / 2)
+    // matrix[6] = Math.sin(count / 4)
 
     const data = app.view.toDataURL('image/png')
     console.log(data)
@@ -68,7 +81,7 @@ const testEffect2 = (
   image: HTMLCanvasElement,
   _ctx: CanvasRenderingContext2D,
   _canvas: HTMLCanvasElement,
-  _settings: Settings,
+  settings: Settings,
   outputImageWidth: number,
   outputImageHeight: number
 ) => {
@@ -76,25 +89,30 @@ const testEffect2 = (
   const app = new PIXI.Application({
     width: outputImageWidth,
     height: outputImageHeight,
-    backgroundColor: +_settings.backgroundColor.slice(1),
+    backgroundColor: PIXI.utils.string2hex(
+      convertMaybeHexaToHex(settings.backgroundColor)
+    ),
     preserveDrawingBuffer: true,
   })
   const imageAsSprite = PIXI.Sprite.from(image)
   imageAsSprite.anchor.set(0.5)
   imageAsSprite.x = app.screen.width / 2
   imageAsSprite.y = app.screen.width / 2
+  imageAsSprite.visible = false
   app.stage.addChild(imageAsSprite)
 
   const imageAsSprite2 = PIXI.Sprite.from(image)
   imageAsSprite2.anchor.set(0.5)
   imageAsSprite2.x = 0
   imageAsSprite2.y = app.screen.width / 2
+  imageAsSprite2.visible = false
   app.stage.addChild(imageAsSprite2)
 
   const imageAsSprite3 = PIXI.Sprite.from(image)
   imageAsSprite3.anchor.set(0.5)
   imageAsSprite3.x = app.screen.width
   imageAsSprite3.y = app.screen.width / 2
+  imageAsSprite3.visible = false
   app.stage.addChild(imageAsSprite3)
 
   app.ticker.maxFPS = 12
@@ -113,9 +131,9 @@ const testEffect2 = (
 
   app.ticker.add((_delta) => {
     // imageAsSprite.rotation += 0.1 * delta
-    imageAsSprite.visible = false
-    imageAsSprite2.visible = false
-    imageAsSprite3.visible = false
+    if (framecount > 5) {
+      imageAsSprite3.visible = true
+    }
 
     imageAsSprite.x -= outputImageWidth / 12
     imageAsSprite2.x -= outputImageWidth / 12
