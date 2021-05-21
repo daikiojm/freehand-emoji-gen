@@ -88,16 +88,21 @@ export default defineComponent({
         app.stage.addChild(image)
       }
 
+      app.ticker.minFPS = 12
       app.ticker.maxFPS = 12
+      // app.ticker.speed = 1
+
+      // const fps = 60
+      const fps = 1
+      const delay = (1 / fps) * 1000
+      console.log('delay', delay)
 
       let framecount = 0
-      app.ticker.speed = 2
       app.ticker.add((_delta) => {
         // delta (12fps: 0~12)
 
         const move = 128 / 12
         for (const image of images) {
-          console.log(image.x)
           image.x += move
         }
 
@@ -109,7 +114,8 @@ export default defineComponent({
         if (framecount !== 0) {
           gif.addFrame(app.view, {
             copy: true,
-            delay: 100,
+            // delay: 120,
+            delay,
           })
         }
 
