@@ -37,6 +37,12 @@ export default {
   verticalScroll: '縦スクロール',
   rotation: '回転',
 
+  sanfrancisco: 'サンフランシスコ',
+
+  high: '速い',
+  middle: '普通',
+  low: '遅い',
+
   canvasPlaceholderL1: 'マウスカーソルを使って',
   canvasPlaceholderL2: 'この領域に手書き入力',
 

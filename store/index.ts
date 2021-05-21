@@ -38,7 +38,16 @@ export const AnimationTypes = [
   'effectTest',
   'effectTest2',
 ] as const
+
 export type AnimationType = typeof AnimationTypes[number]
+
+export const EffectTypes = ['none', 'sanfrancisco'] as const
+
+export type EffectType = typeof EffectTypes[number]
+
+export const AnimationSpeeds = ['high', 'middle', 'low'] as const
+
+export type AnimationSpeed = typeof AnimationSpeeds[number]
 
 export type State = {
   ui: {
@@ -52,6 +61,8 @@ export type State = {
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
     animation: AnimationType
+    effect: EffectType
+    animationSpeed: AnimationSpeed
   }
   data: {
     currentMark: Mark
@@ -79,6 +90,8 @@ const defaultSettings: Settings = {
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: 'none',
+  effect: 'none',
+  animationSpeed: 'middle',
 }
 
 const defaultData: Data = {

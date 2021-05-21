@@ -37,6 +37,12 @@ export default {
   verticalScroll: 'Vertical Scroll',
   rotation: 'Rotation',
 
+  sanfrancisco: 'Sanfrancisco',
+
+  high: 'Hight',
+  middle: 'Middle',
+  low: 'Low',
+
   canvasPlaceholderL1: 'FreeHandwrite in this area',
   canvasPlaceholderL2: 'using the mouse cursor',
 
