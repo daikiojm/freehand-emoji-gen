@@ -58,6 +58,8 @@ import AppearanceControls from '~/components/AppearanceControls.vue'
 import AnimationControls from '~/components/AnimationControls.vue'
 import DownloadControls from '~/components/DownloadControls.vue'
 
+import { useKeyboardShortcuts } from '~/composables/useKeyboardShortcuts'
+
 export default defineComponent({
   components: {
     AppSubheader,
@@ -65,6 +67,9 @@ export default defineComponent({
     AppearanceControls,
     AnimationControls,
     DownloadControls,
+  },
+  setup() {
+    useKeyboardShortcuts()
   },
 })
 </script>
