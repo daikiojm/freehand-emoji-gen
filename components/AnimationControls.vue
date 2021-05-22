@@ -100,11 +100,5 @@ export default defineComponent({
 <style scoped lang="scss">
 .controls-container {
   position: relative;
-
-  .setting-reset-button {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-  }
 }
 </style>

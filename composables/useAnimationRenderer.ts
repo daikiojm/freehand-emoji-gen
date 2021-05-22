@@ -1,11 +1,12 @@
 import GIF from 'gif.js'
 import gsap from 'gsap'
 import { firstValueFrom, fromEvent } from 'rxjs'
+import PIXIasType, { graphicsUtils } from 'pixi.js'
+import type { Sprite } from 'pixi.js'
 
 import { useStaticConfig } from './useStaticConfig'
 import { useImageRender } from './useImageRender'
-import { useEffects } from './useEffects'
-import { Settings } from '~/store'
+import { AnimationSpeed, Settings } from '~/store'
 
 const readFilePromise = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -16,129 +17,139 @@ const readFilePromise = (blob: Blob): Promise<string> => {
   })
 }
 
-const animatePosition = (
+export const convertMaybeHexaToHex = (maybeHexa: string) => {
+  return maybeHexa.length >= 8 ? maybeHexa.slice(0, 7) : maybeHexa
+}
+
+export const getAnimationSpeedByType = (type: AnimationSpeed) => {
+  switch (type) {
+    case 'high': {
+      return 60
+    }
+    case 'middle': {
+      return 20
+    }
+    case 'low': {
+      return 12
+    }
+  }
+}
+
+export const renaderAll = (
   gif: GIF,
   image: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
   settings: Settings,
   outputImageWidth: number,
   outputImageHeight: number
 ) => {
-  const positions = [
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-  ]
-
-  const animateCanvas = () => {
-    ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
-    for (const position of positions) {
-      ctx.drawImage(image, position.dx, position.dy)
-    }
-
-    gif.addFrame(canvas, {
-      copy: true,
-      // minimum delay limited by browser spec
-      delay: 20,
-    })
-  }
-
-  const complateAnimate = () => {
-    gif.render()
-  }
-
-  const getGsapSetOptions = (): gsap.TweenVars => {
-    let dx: (i: number) => number | undefined
-    let dy: (i: number) => number | undefined
-
-    if (settings.animation === 'horizontalScroll') {
-      dx = (i: number) => i * outputImageWidth
-    } else if (settings.animation === 'verticalScroll') {
-      dy = (i: number) => i * outputImageHeight
-    }
-
-    return {
-      dx: dx!,
-      dy: dy!,
-    }
-  }
-
-  gsap.set(positions, {
-    ...getGsapSetOptions(),
+  const PIXI = require('pixi.js') as typeof PIXIasType
+  const app = new PIXI.Application({
+    width: outputImageWidth,
+    height: outputImageHeight,
+    backgroundColor: PIXI.utils.string2hex(
+      convertMaybeHexaToHex(settings.backgroundColor)
+    ),
+    preserveDrawingBuffer: true,
   })
 
-  const getGsapToOptions = (): gsap.TweenVars => {
-    let dx: number | string = 0
-    let dy: number | string = 0
+  let sprites: Sprite[] = []
+  let sprite: Sprite
+  if (
+    settings.animation === 'horizontalScroll' ||
+    settings.animation === 'verticalScroll'
+  ) {
+    sprites = Array(3)
+      .fill(null)
+      .map(() => PIXI.Sprite.from(image))
 
+    for (let i = 0; i < sprites.length; i++) {
+      const image = sprites[i]
+      image.anchor.set(0.5)
+
+      if (settings.animation === 'horizontalScroll') {
+        image.y = app.screen.height / 2
+      } else if (settings.animation === 'verticalScroll') {
+        image.x = app.screen.width / 2
+      }
+
+      switch (i) {
+        case 0: {
+          if (settings.animation === 'horizontalScroll') {
+            image.x = -(image.width / 2)
+          } else if (settings.animation === 'verticalScroll') {
+            image.y = -(image.height / 2)
+          }
+          break
+        }
+        case 1: {
+          if (settings.animation === 'horizontalScroll') {
+            image.x = image.width / 2
+          } else if (settings.animation === 'verticalScroll') {
+            image.y = image.height / 2
+          }
+          break
+        }
+        case 2: {
+          if (settings.animation === 'horizontalScroll') {
+            image.x = image.width * 2
+          } else if (settings.animation === 'verticalScroll') {
+            image.y = image.height * 2
+          }
+          break
+        }
+      }
+
+      app.stage.addChild(image)
+    }
+  } else {
+    sprite = PIXI.Sprite.from(image)
+    sprite.anchor.set(0.5)
+    sprite.x = app.screen.width / 2
+    sprite.y = app.screen.height / 2
+    app.stage.addChild(sprite)
+  }
+
+  const fps = getAnimationSpeedByType(settings.animationSpeed)
+  const maxFrameCount = 12
+  const delay = (1 / fps) * 1000
+  let framecount = 0
+
+  const animate = (time: number) => {
+    app.ticker.update(time)
+    app.renderer.render(app.stage)
+    if (framecount < maxFrameCount) {
+      requestAnimationFrame(animate)
+    }
+  }
+  animate(performance.now())
+
+  app.ticker.add((_delta) => {
     if (settings.animation === 'horizontalScroll') {
-      dx = `-=${outputImageWidth}`
+      const move = outputImageWidth / maxFrameCount
+      for (const image of sprites) {
+        image.x += move
+      }
     } else if (settings.animation === 'verticalScroll') {
-      dy = `-=${outputImageHeight}`
+      const move = outputImageHeight / maxFrameCount
+      for (const image of sprites) {
+        image.y += move
+      }
+    } else if (settings.animation === 'rotation') {
+      const angle = 360 / maxFrameCount
+      sprite.rotation += angle
     }
 
-    return {
-      delay: 0,
-      duration: 0.6,
-      dx,
-      dy,
-      ease: 'none',
-      onUpdate: animateCanvas,
-      onComplete: complateAnimate,
+    if (framecount >= maxFrameCount - 1) {
+      gif.render()
+      app.ticker.stop()
     }
-  }
 
-  gsap.to(positions, {
-    ...getGsapToOptions(),
-  })
-}
-
-const animateRotation = (
-  gif: GIF,
-  image: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
-  _settings: Settings,
-  outputImageWidth: number,
-  outputImageHeight: number
-) => {
-  const rotations = {
-    angle: 0,
-  }
-
-  const animateCanvas = () => {
-    ctx.clearRect(0, 0, outputImageWidth, outputImageHeight)
-    ctx.drawImage(image, 0, 0)
-
-    ctx.translate(outputImageWidth / 2, outputImageHeight / 2)
-    ctx.rotate((rotations.angle * Math.PI) / 180)
-    ctx.translate(-outputImageWidth / 2, -outputImageHeight / 2)
-
-    gif.addFrame(canvas, {
+    gif.addFrame(app.view, {
       copy: true,
-      // minimum delay limited by browser spec
-      delay: 20,
+      delay,
     })
-  }
 
-  const complateAnimate = () => {
-    gif.render()
-  }
-
-  const getGsapToOptions = (): gsap.TweenVars => {
-    return {
-      delay: 0,
-      duration: 0.6,
-      angle: 30,
-      ease: 'none',
-      onUpdate: animateCanvas,
-      onComplete: complateAnimate,
-    }
-  }
-
-  gsap.to(rotations, {
-    ...getGsapToOptions(),
+    framecount++
   })
 }
 
@@ -150,7 +161,6 @@ export const useAnimationRenderer = () => {
     outputImageHeight,
   } = useStaticConfig()
   const { convertSvgToResizedCanvas } = useImageRender()
-  const { testEffect, testEffect2 } = useEffects()
 
   const renderWithAnimation = async (svg: SVGElement, settings: Settings) => {
     const gif = new GIF({
@@ -176,9 +186,6 @@ export const useAnimationRenderer = () => {
       }js/gif.worker.js`,
     })
 
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')!
-
     const image = await convertSvgToResizedCanvas(
       svg,
       freehandCanvasWidth,
@@ -187,50 +194,7 @@ export const useAnimationRenderer = () => {
       outputImageHeight
     )
 
-    if (
-      settings.animation === 'horizontalScroll' ||
-      settings.animation === 'verticalScroll'
-    ) {
-      animatePosition(
-        gif,
-        image,
-        ctx,
-        canvas,
-        settings,
-        outputImageWidth,
-        outputImageHeight
-      )
-    } else if (settings.animation === 'rotation') {
-      animateRotation(
-        gif,
-        image,
-        ctx,
-        canvas,
-        settings,
-        outputImageWidth,
-        outputImageHeight
-      )
-    } else if (settings.animation === 'effectTest') {
-      testEffect(
-        gif,
-        image,
-        ctx,
-        canvas,
-        settings,
-        outputImageWidth,
-        outputImageHeight
-      )
-    } else if (settings.animation === 'effectTest2') {
-      testEffect2(
-        gif,
-        image,
-        ctx,
-        canvas,
-        settings,
-        outputImageWidth,
-        outputImageHeight
-      )
-    }
+    renaderAll(gif, image, settings, outputImageWidth, outputImageHeight)
 
     const result = await firstValueFrom(fromEvent(gif, 'finished'))
     return readFilePromise((result as [Blob, any])[0] as Blob)
