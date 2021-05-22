@@ -38,6 +38,8 @@ export default {
   rotation: '回転',
 
   sanfrancisco: 'サンフランシスコ',
+  blur: 'ぼかし',
+  zoomBlur: 'ズームぼかし',
 
   high: '速い',
   middle: '普通',

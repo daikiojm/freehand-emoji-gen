@@ -2,10 +2,12 @@ import GIF from 'gif.js'
 import { firstValueFrom, fromEvent } from 'rxjs'
 import PIXIasType from 'pixi.js'
 import type { Sprite } from 'pixi.js'
+import type { ColorMatrixFilter } from '@pixi/filter-color-matrix'
+import type { ZoomBlurFilter as ZoomBlurFilterType } from '@pixi/filter-zoom-blur'
 
 import { useStaticConfig } from './useStaticConfig'
 import { useImageRender } from './useImageRender'
-import { AnimationSpeed, Settings } from '~/store'
+import { AnimationSpeed, Settings, EffectType } from '~/store'
 
 const readFilePromise = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -108,6 +110,37 @@ export const renaderAll = (
     app.stage.addChild(sprite)
   }
 
+  const filters: { type: EffectType; filter: PIXIasType.Filter }[] = []
+
+  if (settings.effect !== 'none') {
+    if (settings.effect === 'sanfrancisco') {
+      const filter = new PIXI.filters.ColorMatrixFilter()
+      filters.push({ type: 'sanfrancisco', filter })
+    }
+    if (settings.effect === 'blur') {
+      const filter = new PIXI.filters.BlurFilter()
+      filter.blur = 3
+      filters.push({ type: 'blur', filter })
+    }
+    if (settings.effect === 'zoomBlur') {
+      const { ZoomBlurFilter } = require('@pixi/filter-zoom-blur') as {
+        ZoomBlurFilter: typeof ZoomBlurFilterType
+      }
+      const filter = new ZoomBlurFilter()
+      filter.center = [outputImageWidth / 2, outputImageHeight / 2]
+      filter.strength = 0.3
+      filters.push({ type: 'blur', filter })
+    }
+
+    for (const s of sprites) {
+      s.filters = filters.map((f) => f.filter)
+    }
+
+    if (sprite! !== undefined) {
+      sprite.filters = filters.map((f) => f.filter)
+    }
+  }
+
   const fps = getAnimationSpeedByType(settings.animationSpeed)
   const maxFrameCount = 12
   const delay = (1 / fps) * 1000
@@ -136,6 +169,18 @@ export const renaderAll = (
     } else if (settings.animation === 'rotation') {
       const angle = 360 / maxFrameCount
       sprite.rotation += angle
+    }
+
+    for (const f of filters) {
+      if (f.type === 'sanfrancisco') {
+        const filter = f.filter as ColorMatrixFilter
+        filter.contrast(Math.random(), false)
+        filter.hue(Math.random() * 360, false)
+      }
+      if (f.type === 'zoomBlur') {
+        const filter = f.filter as ZoomBlurFilterType
+        filter.strength = Math.random() / 2
+      }
     }
 
     if (framecount >= maxFrameCount - 1) {

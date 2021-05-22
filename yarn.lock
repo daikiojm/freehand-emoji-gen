@@ -1896,6 +1896,11 @@
   dependencies:
     "@pixi/core" "6.0.4"
 
+"@pixi/filter-zoom-blur@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-zoom-blur/-/filter-zoom-blur-4.1.0.tgz#afa05db16a760138514af361f3d0faac838ddcc9"
+  integrity sha512-bAhR61jC/TuOnVgQdB3lb/ymj8kEMFV18Apbw9poeggvr8QNUQFJqRt6eop548qmKTA3qd/keZPHoL3t1vOD5Q==
+
 "@pixi/graphics@6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@pixi/graphics/-/graphics-6.0.4.tgz#3d2e75acb8145a80275b194413b06fb28505c663"

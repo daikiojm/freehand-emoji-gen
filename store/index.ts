@@ -39,7 +39,7 @@ export const AnimationTypes = [
 
 export type AnimationType = typeof AnimationTypes[number]
 
-export const EffectTypes = ['none', 'sanfrancisco'] as const
+export const EffectTypes = ['none', 'sanfrancisco', 'blur', 'zoomBlur'] as const
 
 export type EffectType = typeof EffectTypes[number]
 

@@ -38,6 +38,8 @@ export default {
   rotation: 'Rotation',
 
   sanfrancisco: 'Sanfrancisco',
+  blur: 'Blur',
+  zoomBlur: 'Zoom Blur',
 
   high: 'Hight',
   middle: 'Middle',
