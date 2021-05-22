@@ -14,6 +14,7 @@
       ></v-toolbar-title
     >
     <v-spacer></v-spacer>
+
     <NavigationGithubLinkButton />
     <NavigationLocaleSelector />
     <NavigationToggleDarkModeIconButton />

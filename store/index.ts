@@ -51,6 +51,7 @@ export type State = {
   ui: {
     darkMode: boolean
     snackbar: Snackbar
+    helpDialog: boolean
   }
   settings: StrokeOptions & {
     // hex(a)
@@ -111,6 +112,7 @@ export const store = () => {
         message: '',
         type: 'info',
       },
+      helpDialog: false,
     },
     settings: { ...defaultSettings },
     data: { ...defaultData },
@@ -130,6 +132,9 @@ export const store = () => {
       capacity: 20,
     }
   )
+
+  const openHelpDialog = () => (ui.value.helpDialog = true)
+  const closeHelpDialog = () => (ui.value.helpDialog = false)
 
   const downloadFileName = computed(
     () => (get(download).useCustomFileName && get(download).fileName) || ''
@@ -199,6 +204,8 @@ export const store = () => {
     settings,
     data,
     download,
+    openHelpDialog,
+    closeHelpDialog,
     resetData,
     resetSettings,
     setCurrentMark,
