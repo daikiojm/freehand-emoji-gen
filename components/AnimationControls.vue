@@ -26,11 +26,11 @@
 
     <section>
       <AppLabel>{{ $t('effects') }}</AppLabel>
-      <!-- wip -->
       <v-select
-        disabled
+        v-model="settings.effect"
         class="mt-2 mx-auto"
         style="width: 300px"
+        :items="effectTypes"
         dense
         outlined
       ></v-select>
@@ -38,11 +38,11 @@
 
     <section>
       <AppLabel>{{ $t('speed') }}</AppLabel>
-      <!-- wip -->
       <v-select
-        disabled
+        v-model="settings.animationSpeed"
         class="mt-2 mx-auto"
         style="width: 300px"
+        :items="animationSpeeds"
         dense
         outlined
       ></v-select>
@@ -53,7 +53,7 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 
-import { useStore, AnimationTypes } from '~/store'
+import { useStore, AnimationTypes, AnimationSpeeds, EffectTypes } from '~/store'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useI18n } from '~/composables/useI18n'
@@ -76,8 +76,20 @@ export default defineComponent({
       text: i18n.t(type).toString() || type,
     }))
 
+    const effectTypes = EffectTypes.map((type) => ({
+      value: type,
+      text: i18n.t(type).toString() || type,
+    }))
+
+    const animationSpeeds = AnimationSpeeds.map((type) => ({
+      value: type,
+      text: i18n.t(type).toString() || type,
+    }))
+
     return {
       animationTypes,
+      effectTypes,
+      animationSpeeds,
       settings,
       controlsContainerStyle,
     }
@@ -88,11 +100,5 @@ export default defineComponent({
 <style scoped lang="scss">
 .controls-container {
   position: relative;
-
-  .setting-reset-button {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-  }
 }
 </style>

@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.23.4",
+    "@pixi/filter-zoom-blur": "^4.1.0",
     "@vueuse/core": "^4.9.2",
     "add": "^2.0.6",
     "core-js": "^3.12.1",

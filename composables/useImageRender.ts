@@ -1,5 +1,7 @@
 import { useStaticConfig } from './useStaticConfig'
 
+import { Settings } from '~/store'
+
 const loadImagePromise = (src: string): Promise<HTMLImageElement> => {
   return new Promise((resolve, reject) => {
     const image = new Image()
@@ -70,9 +72,16 @@ export const useImageRender = () => {
     outputImageHeight,
   } = useStaticConfig()
 
-  const renderPngFromSvg = async (svg: SVGElement) => {
+  const renderPngFromSvg = async (svg: SVGElement, settings: Settings) => {
+    const newSvg = svg.cloneNode(true) as SVGElement
+
+    if (settings.backgroundColor === '#00000000') {
+      newSvg.style.background = 'none'
+      newSvg.style.backgroundColor = 'none'
+    }
+
     const canvas = await convertSvgToResizedCanvas(
-      svg,
+      newSvg,
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,

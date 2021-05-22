@@ -35,9 +35,17 @@ export const AnimationTypes = [
   'horizontalScroll',
   'verticalScroll',
   'rotation',
-  'effectTest',
 ] as const
+
 export type AnimationType = typeof AnimationTypes[number]
+
+export const EffectTypes = ['none', 'sanfrancisco', 'blur', 'zoomBlur'] as const
+
+export type EffectType = typeof EffectTypes[number]
+
+export const AnimationSpeeds = ['high', 'middle', 'low'] as const
+
+export type AnimationSpeed = typeof AnimationSpeeds[number]
 
 export type State = {
   ui: {
@@ -51,6 +59,8 @@ export type State = {
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
     animation: AnimationType
+    effect: EffectType
+    animationSpeed: AnimationSpeed
   }
   data: {
     currentMark: Mark
@@ -72,11 +82,12 @@ const defaultSettings: Settings = {
   thinning: 0.75,
   smoothing: 0.5,
   streamline: 0.5,
-  // application options
-  strokeColor: '#000000FF',
+  strokeColor: '#000000',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: 'none',
+  effect: 'none',
+  animationSpeed: 'middle',
 }
 
 const defaultData: Data = {
@@ -171,7 +182,7 @@ export const store = () => {
     [settings, data],
     async () => {
       if (get(settings).animation === 'none') {
-        const image = await renderPngFromSvg(get(svgElement)!)
+        const image = await renderPngFromSvg(get(svgElement)!, get(settings))
         download.value.resultImage = image
       } else {
         download.value.resultImage = await renderWithAnimation(
