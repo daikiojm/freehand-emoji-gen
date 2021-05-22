@@ -48,11 +48,28 @@ export default {
   canvasPlaceholderL1: 'マウスカーソルを使って',
   canvasPlaceholderL2: 'この領域に手書き入力',
 
+  helpDialogTitle: 'ヘルプ',
+  helpDialogShortcutTab: 'ショートカット',
+  helpDialogInfoTab: 'コンタクト',
+  close: '閉じる',
+
+  shortcutLabel:
+    '絵文字作成画面で使えるキーボードショートカットは以下のとおりです',
+  shortcutCommandSlash: 'Command(Ctrl) + / : ヘルプ',
+  shortcutEsc: 'Esc : ヘルプを閉じる',
+  shortcutCommandZ: 'Command(Ctrl) + z : 戻る(手書き入力)',
+  shortcutCommandY: 'Command(Ctrl) + y : 進む(手書き入力)',
+  contactAuthorLabel: '作者',
+  contactIssueLabel: 'バグ報告 / 機能リクエスト',
+  contactIssueMessage:
+    'バグ報告や機能リクエストは、GitHubのIssueからお願いします。GitHubのアカウントがない場合はTwitterでも大丈夫です。機能追加のPRなどありましたらじゃんじゃんマージするのでお願いします!',
+
   github: 'GitHub',
   localeSelector: '言語選択',
   darkMode: 'ダークモード',
   resetSettingTooltip: 'アニメーションを含む全ての設定が初期状態に戻ります',
   clearTooltip: '「手書き入力」の内容が全て消えます',
+  help: 'ヘルプ (Command + /)',
 
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',

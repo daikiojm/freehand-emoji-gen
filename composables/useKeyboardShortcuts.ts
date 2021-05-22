@@ -3,9 +3,17 @@ import { useMagicKeys, whenever, or, and } from '@vueuse/core'
 import { useStore } from '~/store'
 
 export const useKeyboardShortcuts = () => {
-  const { meta, ctrl, shift, z, y, slash } = useMagicKeys()
+  const { meta, ctrl, shift, z, y, slash, escape } = useMagicKeys()
 
-  const { canUndoMark, canRedoMark, undoMark, redoMark } = useStore()
+  const {
+    canUndoMark,
+    canRedoMark,
+    undoMark,
+    redoMark,
+    ui,
+    openHelpDialog,
+    closeHelpDialog,
+  } = useStore()
 
   // undo: ctrl + z || command + z
   // bug: https://github.com/vueuse/vueuse/issues/491
@@ -34,8 +42,16 @@ export const useKeyboardShortcuts = () => {
 
   // help: ctrl + / || command + /
   whenever(and(or(meta, ctrl), slash), () => {
+    if (!ui.value.helpDialog) {
+      openHelpDialog()
+    }
     // todo
   })
 
-  return {}
+  // close help: escape
+  whenever(escape, () => {
+    if (ui.value.helpDialog) {
+      closeHelpDialog()
+    }
+  })
 }

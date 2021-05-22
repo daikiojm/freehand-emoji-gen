@@ -48,12 +48,28 @@ export default {
   canvasPlaceholderL1: 'FreeHandwrite in this area',
   canvasPlaceholderL2: 'using the mouse cursor',
 
+  helpDialogTitle: 'Help',
+  helpDialogShortcutTab: 'Shortcut',
+  helpDialogInfoTab: 'Contact',
+  close: 'Close',
+
+  shortcutLabel: 'The keyboard shortcuts that can be used are as follows',
+  shortcutCommandSlash: 'Command(Ctrl) + / : Help',
+  shortcutEsc: 'Esc : Close Help',
+  shortcutCommandZ: 'Command(Ctrl) + z : Undo Canvas',
+  shortcutCommandY: 'Command(Ctrl) + y : Redo Canvas',
+  contactAuthorLabel: 'Author',
+  contactIssueLabel: 'Bug Report / Feature Request',
+  contactIssueMessage:
+    'For bug reports and feature requests, please use the Issue on GitHub. We also accept it on Twitter. Feel free to PR for additional features',
+
   github: 'GitHub',
   localeSelector: 'Langage',
   darkMode: 'Dark Mode',
   resetSettingTooltip:
     'All settings including animation will be returned to the initial state',
   clearTooltip: 'All the contents of "Free hand Input" disappear',
+  help: 'Help (Command + /)',
 
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',
