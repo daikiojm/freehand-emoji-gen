@@ -211,7 +211,7 @@ export const useAnimationRenderer = () => {
       // forever
       repeat: 0,
       // lower is better
-      quality: 6,
+      quality: 1,
       workers: 4,
       width: outputImageWidth,
       height: outputImageHeight,
@@ -222,7 +222,6 @@ export const useAnimationRenderer = () => {
        */
       transparent:
         settings.backgroundColor === '#FFFFFFFF' ? null : '#00000000',
-      // background: settings.strokeColor,
       background: settings.backgroundColor,
       workerScript: `${
         // gh-pages workaround
@@ -230,8 +229,14 @@ export const useAnimationRenderer = () => {
       }js/gif.worker.js`,
     })
 
+    const newSvg = svg.cloneNode(true) as SVGElement
+
+    // reset background color
+    newSvg.style.background = 'none'
+    newSvg.style.backgroundColor = 'none'
+
     const image = await convertSvgToResizedCanvas(
-      svg,
+      newSvg,
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,

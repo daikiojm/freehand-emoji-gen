@@ -82,9 +82,7 @@ const defaultSettings: Settings = {
   thinning: 0.75,
   smoothing: 0.5,
   streamline: 0.5,
-  // application options
-  // strokeColor: '#000000FF',
-  strokeColor: '#4287f5',
+  strokeColor: '#000000',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: 'none',
@@ -184,7 +182,7 @@ export const store = () => {
     [settings, data],
     async () => {
       if (get(settings).animation === 'none') {
-        const image = await renderPngFromSvg(get(svgElement)!)
+        const image = await renderPngFromSvg(get(svgElement)!, get(settings))
         download.value.resultImage = image
       } else {
         download.value.resultImage = await renderWithAnimation(
