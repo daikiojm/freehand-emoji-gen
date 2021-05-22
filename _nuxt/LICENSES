@@ -47,10 +47,10 @@ object-assign
  */
 
 /*!
- * @pixi/app - v6.0.4
+ * @pixi/constants - v6.0.4
  * Compiled Tue, 11 May 2021 18:00:23 UTC
  *
- * @pixi/app is licensed under the MIT License.
+ * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 
@@ -83,6 +83,14 @@ object-assign
  * Compiled Tue, 11 May 2021 18:00:23 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+
+/*!
+ * @pixi/filter-zoom-blur - v4.1.0
+ * Compiled Mon, 03 May 2021 02:14:46 UTC
+ *
+ * @pixi/filter-zoom-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 
@@ -143,6 +151,14 @@ object-assign
  */
 
 /*!
+ * @pixi/runner - v6.0.4
+ * Compiled Tue, 11 May 2021 18:00:23 UTC
+ *
+ * @pixi/runner is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+
+/*!
  * @pixi/settings - v6.0.4
  * Compiled Tue, 11 May 2021 18:00:23 UTC
  *
@@ -157,34 +173,6 @@ object-assign
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-
-/*!
- * @pixi/utils - v6.0.4
- * Compiled Tue, 11 May 2021 18:00:23 UTC
- *
- * @pixi/utils is licensed under the MIT License.
- * http://www.opensource.org/licenses/mit-license
- */
-
-/*!
- * CSSPlugin 3.6.1
- * https://greensock.com
- *
- * Copyright 2008-2021, GreenSock. All rights reserved.
- * Subject to the terms at https://greensock.com/standard-license or for
- * Club GreenSock members, the agreement issued with that membership.
- * @author: Jack Doyle, jack@greensock.com
-*/
-
-/*!
- * GSAP 3.6.1
- * https://greensock.com
- *
- * @license Copyright 2008-2021, GreenSock. All rights reserved.
- * Subject to the terms at https://greensock.com/standard-license or for
- * Club GreenSock members, the agreement issued with that membership.
- * @author: Jack Doyle, jack@greensock.com
-*/
 
 /*!
  * pixi.js - v6.0.4
