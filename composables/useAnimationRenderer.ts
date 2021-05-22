@@ -5,8 +5,8 @@ import type { Sprite } from 'pixi.js'
 import type { ColorMatrixFilter } from '@pixi/filter-color-matrix'
 import type { ZoomBlurFilter as ZoomBlurFilterType } from '@pixi/filter-zoom-blur'
 
-import { useStaticConfig } from './useStaticConfig'
-import { useImageRender } from './useImageRender'
+import { useStaticConfig } from '~/composables/useStaticConfig'
+import { useImageRender } from '~/composables/useImageRender'
 import { AnimationSpeed, Settings, EffectType } from '~/store'
 
 const readFilePromise = (blob: Blob): Promise<string> => {
