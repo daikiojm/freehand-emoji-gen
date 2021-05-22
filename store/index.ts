@@ -35,8 +35,6 @@ export const AnimationTypes = [
   'horizontalScroll',
   'verticalScroll',
   'rotation',
-  'effectTest',
-  'effectTest2',
 ] as const
 
 export type AnimationType = typeof AnimationTypes[number]

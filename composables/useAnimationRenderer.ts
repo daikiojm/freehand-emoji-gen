@@ -1,7 +1,6 @@
 import GIF from 'gif.js'
-import gsap from 'gsap'
 import { firstValueFrom, fromEvent } from 'rxjs'
-import PIXIasType, { graphicsUtils } from 'pixi.js'
+import PIXIasType from 'pixi.js'
 import type { Sprite } from 'pixi.js'
 
 import { useStaticConfig } from './useStaticConfig'
