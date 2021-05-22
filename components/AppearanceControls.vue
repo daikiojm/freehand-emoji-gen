@@ -27,14 +27,21 @@
       </div>
     </div>
 
-    <v-btn
-      class="mx-auto setting-reset-button text-capitalize"
-      outlined
-      color="indigo"
-      :disabled="!settingsHasChanged"
-      @click="handleSettingReset"
-      >{{ $t('resetSetting') }}</v-btn
-    >
+    <v-tooltip bottom>
+      <template #activator="{ on, attrs }">
+        <v-btn
+          class="mx-auto setting-reset-button text-capitalize"
+          outlined
+          color="indigo"
+          :disabled="!settingsHasChanged"
+          v-bind="attrs"
+          @click="handleSettingReset"
+          v-on="on"
+          >{{ $t('resetSetting') }}</v-btn
+        >
+      </template>
+      <span>{{ $t('resetSettingTooltip') }}</span>
+    </v-tooltip>
   </v-card>
 </template>
 

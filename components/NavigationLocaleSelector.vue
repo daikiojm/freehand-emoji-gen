@@ -1,7 +1,7 @@
 <template>
-  <v-menu left offset-y bottom>
+  <v-menu left offset-y open-on-hover bottom>
     <template #activator="{ on, attrs }">
-      <v-btn v-bind="attrs" icon v-on="on">
+      <v-btn v-bind="attrs" icon class="mx-2" v-on="on">
         <v-icon>mdi-translate</v-icon>
         <v-icon class="hidden-sm-and-down" size="14">mdi-chevron-down</v-icon>
       </v-btn>

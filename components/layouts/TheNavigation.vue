@@ -14,18 +14,9 @@
       ></v-toolbar-title
     >
     <v-spacer></v-spacer>
-    <v-btn
-      class="mx-2"
-      icon
-      rel="noopener"
-      target="_blank"
-      aria-label="github"
-      href="https://github.com/daikiojm/freehand-emoji-gen"
-    >
-      <v-icon>mdi-github</v-icon>
-    </v-btn>
-    <NavigationLocaleSelector class="mx-2" />
-    <NavigationToggleDarkModeIconButton class="ml-2" />
+    <NavigationGithubLinkButton />
+    <NavigationLocaleSelector />
+    <NavigationToggleDarkModeIconButton />
   </v-app-bar>
 </template>
 
@@ -33,11 +24,13 @@
 import { defineComponent, useRouter } from '@nuxtjs/composition-api'
 
 import NavigationLocaleSelector from '~/components/NavigationLocaleSelector.vue'
+import NavigationGithubLinkButton from '~/components/NavigationGithubLinkButton.vue'
 import NavigationToggleDarkModeIconButton from '~/components/NavigationToggleDarkModeIconButton.vue'
 
 export default defineComponent({
   components: {
     NavigationToggleDarkModeIconButton,
+    NavigationGithubLinkButton,
     NavigationLocaleSelector,
   },
   setup() {

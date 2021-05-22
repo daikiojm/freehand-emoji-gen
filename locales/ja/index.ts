@@ -48,6 +48,12 @@ export default {
   canvasPlaceholderL1: 'マウスカーソルを使って',
   canvasPlaceholderL2: 'この領域に手書き入力',
 
+  github: 'GitHub',
+  localeSelector: '言語選択',
+  darkMode: 'ダークモード',
+  resetSettingTooltip: 'アニメーションを含む全ての設定が初期状態に戻ります',
+  clearTooltip: '「手書き入力」の内容が全て消えます',
+
   clearSuccessMessage: 'クリアしました',
   saveSuccessMessage: '絵文字を保存しました',
   saveErrorMessage: '絵文字の保存に失敗しました',

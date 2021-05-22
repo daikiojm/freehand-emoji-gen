@@ -48,6 +48,13 @@ export default {
   canvasPlaceholderL1: 'FreeHandwrite in this area',
   canvasPlaceholderL2: 'using the mouse cursor',
 
+  github: 'GitHub',
+  localeSelector: 'Langage',
+  darkMode: 'Dark Mode',
+  resetSettingTooltip:
+    'All settings including animation will be returned to the initial state',
+  clearTooltip: 'All the contents of "Free hand Input" disappear',
+
   clearSuccessMessage: 'Clear Success',
   saveSuccessMessage: 'Save Success',
   saveErrorMessage: 'Save Error',

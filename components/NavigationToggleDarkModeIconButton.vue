@@ -1,7 +1,12 @@
 <template>
-  <v-btn icon @click="toggle">
-    <v-icon>{{ btnIcon }}</v-icon>
-  </v-btn>
+  <v-tooltip bottom>
+    <template #activator="{ on, attrs }">
+      <v-btn icon v-bind="attrs" class="ml-2" @click="toggle" v-on="on">
+        <v-icon>{{ btnIcon }}</v-icon>
+      </v-btn>
+    </template>
+    <span>{{ $t('darkMode') }}</span>
+  </v-tooltip>
 </template>
 
 <script lang="ts">

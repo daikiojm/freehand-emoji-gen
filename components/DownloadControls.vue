@@ -38,15 +38,23 @@
           @click.prevent="handleRedo"
           >{{ $t('forward') }}</v-btn
         >
-        <v-btn
-          class="text-capitalize ml-4 my-auto font-weight-bold"
-          width="80"
-          outlined
-          color="indigo"
-          :disabled="!dataHasChanged"
-          @click.prevent="handleClear"
-          >{{ $t('clear') }}</v-btn
-        >
+
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="text-capitalize ml-4 my-auto font-weight-bold"
+              width="80"
+              outlined
+              color="indigo"
+              :disabled="!dataHasChanged"
+              v-bind="attrs"
+              @click.prevent="handleClear"
+              v-on="on"
+              >{{ $t('clear') }}</v-btn
+            >
+          </template>
+          <span>{{ $t('clearTooltip') }}</span>
+        </v-tooltip>
       </div>
     </section>
 
