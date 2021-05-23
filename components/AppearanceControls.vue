@@ -2,7 +2,6 @@
   <v-card
     class="mx-auto controls-container pa-4"
     :style="controlsContainerStyle"
-    elevation="2"
     outlined
   >
     <div v-for="(option, index) of strokeOptions" :key="index">

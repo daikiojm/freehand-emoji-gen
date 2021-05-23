@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app elevate-on-scroll height="80" class="px-4">
+  <v-app-bar app color="secondary" elevate-on-scroll height="80" class="px-4">
     <v-toolbar-title
       class="text-h5 mb-n2"
       style="height: 48px; cursor: pointer"

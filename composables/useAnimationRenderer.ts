@@ -112,24 +112,26 @@ export const renaderAll = (
 
   const filters: { type: EffectType; filter: PIXIasType.Filter }[] = []
 
-  if (settings.effect !== 'none') {
-    if (settings.effect === 'sanfrancisco') {
-      const filter = new PIXI.filters.ColorMatrixFilter()
-      filters.push({ type: 'sanfrancisco', filter })
-    }
-    if (settings.effect === 'blur') {
-      const filter = new PIXI.filters.BlurFilter()
-      filter.blur = 3
-      filters.push({ type: 'blur', filter })
-    }
-    if (settings.effect === 'zoomBlur') {
-      const { ZoomBlurFilter } = require('@pixi/filter-zoom-blur') as {
-        ZoomBlurFilter: typeof ZoomBlurFilterType
+  for (const effect of settings.effect) {
+    if (effect !== 'none') {
+      if (effect === 'sanfrancisco') {
+        const filter = new PIXI.filters.ColorMatrixFilter()
+        filters.push({ type: 'sanfrancisco', filter })
       }
-      const filter = new ZoomBlurFilter()
-      filter.center = [outputImageWidth / 2, outputImageHeight / 2]
-      filter.strength = 0.3
-      filters.push({ type: 'blur', filter })
+      if (effect === 'blur') {
+        const filter = new PIXI.filters.BlurFilter()
+        filter.blur = 3
+        filters.push({ type: 'blur', filter })
+      }
+      if (effect === 'zoomBlur') {
+        const { ZoomBlurFilter } = require('@pixi/filter-zoom-blur') as {
+          ZoomBlurFilter: typeof ZoomBlurFilterType
+        }
+        const filter = new ZoomBlurFilter()
+        filter.center = [outputImageWidth / 2, outputImageHeight / 2]
+        filter.strength = 0.3
+        filters.push({ type: 'blur', filter })
+      }
     }
 
     for (const s of sprites) {

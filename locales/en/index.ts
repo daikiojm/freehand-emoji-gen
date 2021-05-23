@@ -29,8 +29,9 @@ export default {
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',
   animationEnable: 'Enable Animation',
-  effects: 'Effects',
+  effects: 'Effects (can multi)',
   speed: 'Speed',
+  effectsNoneMessage: 'Other effects are ignored if none is included',
 
   none: 'None',
   horizontalScroll: 'Horizontal Scroll',

@@ -12,7 +12,10 @@ export const useImageDownload = () => {
 
     const linkElement = document.createElement('a')
 
-    const extention = settings.value.animation !== 'none' ? 'gif' : 'png'
+    const extention =
+      settings.value.animation === 'none' && settings.value.effect === ['none']
+        ? 'png'
+        : 'gif'
 
     linkElement.href = download.value.resultImage
     linkElement.setAttribute(

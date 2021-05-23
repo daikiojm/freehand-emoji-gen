@@ -9,7 +9,6 @@
       justify-space-around
     "
     :style="controlsContainerStyle"
-    elevation="2"
     outlined
   >
     <section>

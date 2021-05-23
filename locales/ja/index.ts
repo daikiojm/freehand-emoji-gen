@@ -29,7 +29,8 @@ export default {
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',
   animationEnable: 'アニメーションを有効にする',
-  effects: 'エフェクト',
+  effects: 'エフェクト(複数選択可)',
+  effectsNoneMessage: 'なしが含まれている場合他のエフェクトは無視されます',
   speed: 'スピード',
 
   none: 'なし',

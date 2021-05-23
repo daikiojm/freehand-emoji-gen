@@ -9,7 +9,6 @@
       justify-space-around
     "
     :style="controlsContainerStyle"
-    elevation="2"
     outlined
   >
     <section>
@@ -33,6 +32,7 @@
         :items="effectTypes"
         dense
         outlined
+        multiple
       ></v-select>
     </section>
 
@@ -51,9 +51,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent } from '@nuxtjs/composition-api'
+import { ignorableWatch } from '@vueuse/core'
 
-import { useStore, AnimationTypes, AnimationSpeeds, EffectTypes } from '~/store'
+import {
+  useStore,
+  AnimationTypes,
+  AnimationSpeeds,
+  EffectTypes,
+  EffectType,
+} from '~/store'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useI18n } from '~/composables/useI18n'
@@ -79,12 +86,32 @@ export default defineComponent({
     const effectTypes = EffectTypes.map((type) => ({
       value: type,
       text: i18n.t(type).toString() || type,
+      disabled: false,
     }))
 
     const animationSpeeds = AnimationSpeeds.map((type) => ({
       value: type,
       text: i18n.t(type).toString() || type,
     }))
+
+    const effect = computed(() => settings.value.effect)
+
+    const { ignoreUpdates } = ignorableWatch(
+      effect,
+      (values: EffectType[], oldValues: EffectType[]) => {
+        if (values.includes('none') && values.length > oldValues.length) {
+          ignoreUpdates(() => {
+            settings.value.effect = values.filter((e) => e !== 'none')
+          })
+        }
+
+        if (!oldValues.includes('none') && values.includes('none')) {
+          ignoreUpdates(() => {
+            settings.value.effect = values.filter((e) => e === 'none')
+          })
+        }
+      }
+    )
 
     return {
       animationTypes,

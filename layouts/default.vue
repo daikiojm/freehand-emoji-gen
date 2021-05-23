@@ -1,5 +1,11 @@
 <template>
-  <v-app>
+  <v-app
+    :style="{
+      background: $vuetify.theme.dark
+        ? $vuetify.theme.themes.dark.background
+        : $vuetify.theme.themes.light.background,
+    }"
+  >
     <TheNavigation />
     <v-main>
       <v-container fill-height fluid>

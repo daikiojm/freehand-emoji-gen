@@ -60,7 +60,7 @@ export type State = {
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
     animation: AnimationType
-    effect: EffectType
+    effect: EffectType[]
     animationSpeed: AnimationSpeed
   }
   data: {
@@ -87,7 +87,7 @@ const defaultSettings: Settings = {
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
   animation: 'none',
-  effect: 'none',
+  effect: ['none'],
   animationSpeed: 'middle',
 }
 
@@ -186,7 +186,10 @@ export const store = () => {
   debouncedWatch(
     [settings, data],
     async () => {
-      if (get(settings).animation === 'none') {
+      if (
+        get(settings).animation === 'none' &&
+        get(settings).effect === ['none']
+      ) {
         const image = await renderPngFromSvg(get(svgElement)!, get(settings))
         download.value.resultImage = image
       } else {
