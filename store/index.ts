@@ -188,7 +188,7 @@ export const store = () => {
     async () => {
       if (
         get(settings).animation === 'none' &&
-        get(settings).effect === ['none']
+        JSON.stringify(get(settings).effect) === JSON.stringify(['none'])
       ) {
         const image = await renderPngFromSvg(get(svgElement)!, get(settings))
         download.value.resultImage = image

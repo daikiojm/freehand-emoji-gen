@@ -13,7 +13,8 @@ export const useImageDownload = () => {
     const linkElement = document.createElement('a')
 
     const extention =
-      settings.value.animation === 'none' && settings.value.effect === ['none']
+      settings.value.animation === 'none' &&
+      JSON.stringify(settings.value.effect) === JSON.stringify(['none'])
         ? 'png'
         : 'gif'
 
