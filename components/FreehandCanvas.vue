@@ -4,6 +4,8 @@
     <svg
       ref="svgElement"
       :style="svgStyle"
+      :width="svgContainerStyle.width"
+      :height="svgContainerStyle.height"
       @pointerdown="handlePointerDown"
       @pointerup="handlePointerUp"
       @pointermove="handlePointerMove"
