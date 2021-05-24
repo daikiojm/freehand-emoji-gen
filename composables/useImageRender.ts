@@ -16,7 +16,8 @@ const convertSvgToResizedCanvas = async (
   canvasWidth: number,
   canvasHeight: number,
   outputWidth: number,
-  outputHeight: number
+  outputHeight: number,
+  zoom = 1
 ) => {
   const svgData = new XMLSerializer().serializeToString(svg)
   const canvas = document.createElement('canvas')
@@ -55,10 +56,10 @@ const convertSvgToResizedCanvas = async (
     0,
     outputWidth,
     outputHeight,
-    0,
-    0,
-    outputWidth,
-    outputHeight
+    (-outputWidth * (zoom - 1)) / 2,
+    (-outputHeight * (zoom - 1)) / 2,
+    outputWidth * zoom,
+    outputHeight * zoom
   )
 
   return croppedCanvas
@@ -85,7 +86,8 @@ export const useImageRender = () => {
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,
-      outputImageHeight
+      outputImageHeight,
+      settings.zoom
     )
 
     const croppedImageStr = canvas.toDataURL(`image/png`)

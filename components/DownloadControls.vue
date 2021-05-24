@@ -17,6 +17,21 @@
     </section>
 
     <section>
+      <AppLabel>{{ $t('zoom') }}</AppLabel>
+      <v-slider
+        v-model="settings.zoom"
+        min="0.5"
+        max="1.5"
+        step="0.01"
+        class="mt-n1"
+        dense
+        thumb-label
+        thumb-size="28"
+        hide-details
+      ></v-slider>
+    </section>
+
+    <section>
       <AppLabel>{{ $t('history') }}</AppLabel>
       <div class="d-flex justify-center mt-4">
         <v-btn
@@ -121,6 +136,7 @@ export default defineComponent({
       dataHasChanged,
       resetData,
       download,
+      settings,
     } = useStore()
     const { downloadImage } = useImageDownload()
     const snackbar = useSnackbar()
@@ -161,6 +177,7 @@ export default defineComponent({
       handleRedo,
       canUndoMark,
       canRedoMark,
+      settings,
     }
   },
 })

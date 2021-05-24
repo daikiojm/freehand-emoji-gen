@@ -39,7 +39,15 @@ export const AnimationTypes = [
 
 export type AnimationType = typeof AnimationTypes[number]
 
-export const EffectTypes = ['none', 'sanfrancisco', 'blur', 'zoomBlur'] as const
+export const EffectTypes = [
+  'none',
+  'sanfrancisco',
+  'shadow',
+  'glitch',
+  'mosaic',
+  'blur',
+  'zoomBlur',
+] as const
 
 export type EffectType = typeof EffectTypes[number]
 
@@ -59,6 +67,7 @@ export type State = {
     // hex(a)
     backgroundColor: string
     activeColorPicker: 'stroke' | 'background'
+    zoom: number
     animation: AnimationType
     effect: EffectType[]
     animationSpeed: AnimationSpeed
@@ -86,6 +95,7 @@ const defaultSettings: Settings = {
   strokeColor: '#000000',
   backgroundColor: '#FFFFFFFF',
   activeColorPicker: 'stroke',
+  zoom: 1,
   animation: 'none',
   effect: ['none'],
   animationSpeed: 'middle',

@@ -25,6 +25,7 @@ export default {
   preview: 'Preview',
   back: 'Back',
   forward: 'Forward',
+  zoom: 'Zoom',
   history: 'History / Clear',
   saveSettingLabel: 'Save Setting',
   animation: 'Animation',
@@ -41,6 +42,9 @@ export default {
   rotation: 'Rotation',
 
   sanfrancisco: 'Sanfrancisco',
+  shadow: 'Shadow',
+  glitch: 'Glitch',
+  mosaic: 'Mosaic',
   blur: 'Blur',
   zoomBlur: 'Zoom Blur',
 
