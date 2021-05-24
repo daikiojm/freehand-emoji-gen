@@ -6,8 +6,7 @@
 
 https://daikiojm.github.io/freehand-emoji-gen/
 
-
-## Build Setup
+## ⚙️ Setup
 
 ```bash
 # install dependencies
@@ -15,13 +14,17 @@ $ yarn install
 
 # serve with hot reload at localhost:3000
 $ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## 🎯 Features
+
+- Freehand input & Style setting change
+- Real-time preview
+- Animations and Effects
+- `png` and `gif` output
+- Keyboard Shortcuts
+
+## ‎‍💻 Contributing
+
+First of all, thank you so much for wanting to contribute to the project!  
+Please opening issues or creating pull requests.
