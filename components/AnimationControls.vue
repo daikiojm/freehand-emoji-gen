@@ -16,7 +16,7 @@
       <v-select
         v-model="settings.animation"
         class="mt-2 mx-auto"
-        style="width: 300px"
+        style="width: 400px"
         :items="animationTypes"
         dense
         outlined
@@ -28,8 +28,11 @@
       <v-select
         v-model="settings.effect"
         class="mt-2 mx-auto"
-        style="width: 300px"
+        style="width: 400px"
         :items="effectTypes"
+        :messages="
+          hasEffectSanfrancisco ? [$t('effectsSanfranciscoMessage')] : []
+        "
         dense
         outlined
         multiple
@@ -41,8 +44,9 @@
       <v-select
         v-model="settings.animationSpeed"
         class="mt-2 mx-auto"
-        style="width: 300px"
+        style="width: 400px"
         :items="animationSpeeds"
+        :disabled="disableSpeed"
         dense
         outlined
       ></v-select>
@@ -99,6 +103,14 @@ export default defineComponent({
     const { ignoreUpdates } = ignorableWatch(
       effect,
       (values: EffectType[], oldValues: EffectType[]) => {
+        if (
+          oldValues.includes('none') &&
+          oldValues.length === 1 &&
+          values.length === 0
+        ) {
+          settings.value.effect = ['none']
+        }
+
         if (values.includes('none') && values.length > oldValues.length) {
           ignoreUpdates(() => {
             settings.value.effect = values.filter((e) => e !== 'none')
@@ -110,7 +122,23 @@ export default defineComponent({
             settings.value.effect = values.filter((e) => e === 'none')
           })
         }
+
+        if (!oldValues.includes('none') && values.length === 0) {
+          ignoreUpdates(() => {
+            settings.value.effect = ['none']
+          })
+        }
       }
+    )
+
+    const disableSpeed = computed(
+      () =>
+        settings.value.animation === 'none' &&
+        JSON.stringify(settings.value.effect) === JSON.stringify(['none'])
+    )
+
+    const hasEffectSanfrancisco = computed(() =>
+      settings.value.effect.includes('sanfrancisco')
     )
 
     return {
@@ -119,6 +147,8 @@ export default defineComponent({
       animationSpeeds,
       settings,
       controlsContainerStyle,
+      disableSpeed,
+      hasEffectSanfrancisco,
     }
   },
 })

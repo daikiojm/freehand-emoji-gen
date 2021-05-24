@@ -30,8 +30,10 @@ export default {
   animation: 'アニメーション',
   animationEnable: 'アニメーションを有効にする',
   effects: 'エフェクト(複数選択可)',
-  effectsNoneMessage: 'なしが含まれている場合他のエフェクトは無視されます',
   speed: 'スピード',
+  effectsNoneMessage: 'なしが含まれている場合他のエフェクトは無視されます',
+  effectsSanfranciscoMessage:
+    'サンフランシスコが含まれている場合は線の色に黒以外を指定してください',
 
   none: 'なし',
   horizontalScroll: '横スクロール',

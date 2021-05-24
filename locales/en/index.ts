@@ -32,6 +32,8 @@ export default {
   effects: 'Effects (can multi)',
   speed: 'Speed',
   effectsNoneMessage: 'Other effects are ignored if none is included',
+  effectsSanfranciscoMessage:
+    'If San Francisco is included Specify a line color other than black',
 
   none: 'None',
   horizontalScroll: 'Horizontal Scroll',
