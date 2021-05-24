@@ -3,19 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
+    "dev": "yarn run current-git-sha nuxt",
+    "build": "yarn run current-git-sha nuxt build",
     "predev": "yarn run copy:gifjs",
     "prebuild": "yarn run copy:gifjs",
     "pregenerate": "yarn run copy:gifjs",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "start": "yarn run current-git-sha nuxt start",
+    "generate": "yarn run current-git-sha nuxt generate",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
     "lint": "yarn lint:js && yarn lint:style",
     "test": "jest",
     "upgrade:interactive": "yarn upgrade-interactive --latest",
-    "copy:gifjs": "cp ./node_modules/gif.js/dist/gif.worker.js* ./static/js/"
+    "copy:gifjs": "cp ./node_modules/gif.js/dist/gif.worker.js* ./static/js/",
+    "current-git-sha": "NUXT_ENV_CURRENT_GIT_SHA=`git rev-parse --short HEAD`"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint",

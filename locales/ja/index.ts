@@ -58,6 +58,8 @@ export default {
   helpDialogTitle: 'ヘルプ',
   helpDialogShortcutTab: 'ショートカット',
   helpDialogInfoTab: 'コンタクト',
+  helpDialogDebugTab: 'デバッグ情報',
+  deployVersion: 'デプロイバージョン',
   close: '閉じる',
 
   shortcutLabel:

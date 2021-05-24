@@ -1,17 +1,27 @@
 <template>
   <v-dialog scrollable persistent :value="open" width="600">
-    <v-card>
+    <v-card min-height="460">
       <v-card-title>{{ $t('helpDialogTitle') }} </v-card-title>
       <v-divider></v-divider>
 
       <v-tabs vertical>
-        <v-tab class="text-capitalize">
-          <v-icon left> mdi-keyboard </v-icon>
-          {{ $t('helpDialogShortcutTab') }}
+        <v-tab class="text-capitalize text-left">
+          <v-icon left class="mr-auto"> mdi-keyboard </v-icon>
+          <span class="mr-auto">
+            {{ $t('helpDialogShortcutTab') }}
+          </span>
         </v-tab>
-        <v-tab class="text-capitalize">
-          <v-icon left> mdi-chat-alert </v-icon>
-          {{ $t('helpDialogInfoTab') }}
+        <v-tab class="text-capitalize text-left">
+          <v-icon left class="mr-auto"> mdi-chat-alert </v-icon>
+          <span class="mr-auto">
+            {{ $t('helpDialogInfoTab') }}
+          </span>
+        </v-tab>
+        <v-tab class="text-capitalize text-left">
+          <v-icon left class="mr-auto"> mdi-bug </v-icon>
+          <span class="mr-auto">
+            {{ $t('helpDialogDebugTab') }}
+          </span>
         </v-tab>
 
         <v-tab-item>
@@ -83,6 +93,21 @@
             </v-card-text>
           </v-card>
         </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <AppLabel class="d-block mb-4">{{
+                $t('deployVersion')
+              }}</AppLabel>
+              <a
+                :href="`https://github.com/daikiojm/freehand-emoji-gen/commit/${currentGitHash}`"
+                target="_blank"
+              >
+                <p>{{ currentGitHash }}</p>
+              </a>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
       </v-tabs>
 
       <v-divider></v-divider>
@@ -114,9 +139,11 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const handleCloseClick = () => emit('close')
+    const currentGitHash = process.env.NUXT_ENV_CURRENT_GIT_SHA
 
     return {
       handleCloseClick,
+      currentGitHash,
     }
   },
 })

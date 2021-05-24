@@ -58,6 +58,8 @@ export default {
   helpDialogTitle: 'Help',
   helpDialogShortcutTab: 'Shortcut',
   helpDialogInfoTab: 'Contact',
+  helpDialogDebugTab: 'Debug Info',
+  deployVersion: 'Deploy Version',
   close: 'Close',
 
   shortcutLabel: 'The keyboard shortcuts that can be used are as follows',
