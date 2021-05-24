@@ -1,13 +1,20 @@
 import GIF from 'gif.js'
 import { firstValueFrom, fromEvent } from 'rxjs'
 import PIXIasType from 'pixi.js'
+import tinycolor2 from 'tinycolor2'
 import type { Sprite } from 'pixi.js'
 import type { ColorMatrixFilter } from '@pixi/filter-color-matrix'
 import type { ZoomBlurFilter as ZoomBlurFilterType } from '@pixi/filter-zoom-blur'
+import type { GlitchFilter as GlitchFilterType } from '@pixi/filter-glitch'
+import type { PixelateFilter as PixelateFilterType } from '@pixi/filter-pixelate'
+import type { DropShadowFilter as DropShadowFilterType } from '@pixi/filter-drop-shadow'
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
 import { AnimationSpeed, Settings, EffectType } from '~/store'
+
+export const getRandomColor = () =>
+  Math.floor(Math.random() * 16777215).toString(16)
 
 const readFilePromise = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -118,6 +125,34 @@ export const renaderAll = (
         const filter = new PIXI.filters.ColorMatrixFilter()
         filters.push({ type: 'sanfrancisco', filter })
       }
+      if (effect === 'sanfrancisco') {
+        const filter = new PIXI.filters.ColorMatrixFilter()
+        filters.push({ type: 'sanfrancisco', filter })
+      }
+      if (effect === 'shadow') {
+        const { DropShadowFilter } = require('@pixi/filter-drop-shadow') as {
+          DropShadowFilter: typeof DropShadowFilterType
+        }
+        const filter = new DropShadowFilter()
+        filter.distance = 0
+        filter.blur = 4
+        filters.push({ type: 'shadow', filter })
+      }
+      if (effect === 'glitch') {
+        const { GlitchFilter } = require('@pixi/filter-glitch') as {
+          GlitchFilter: typeof GlitchFilterType
+        }
+        const filter = new GlitchFilter()
+        filter.slices = 20
+        filters.push({ type: 'glitch', filter })
+      }
+      if (effect === 'mosaic') {
+        const { PixelateFilter } = require('@pixi/filter-pixelate') as {
+          PixelateFilter: typeof PixelateFilterType
+        }
+        const filter = new PixelateFilter()
+        filters.push({ type: 'mosaic', filter })
+      }
       if (effect === 'blur') {
         const filter = new PIXI.filters.BlurFilter()
         filter.blur = 3
@@ -178,6 +213,15 @@ export const renaderAll = (
         const filter = f.filter as ColorMatrixFilter
         filter.contrast(Math.random(), false)
         filter.hue(Math.random() * 360, false)
+      }
+      if (f.type === 'shadow') {
+        const filter = f.filter as DropShadowFilterType
+        const color = tinycolor2(`hsv(${Math.floor(360 * Math.random())} 1 1)`)
+        filter.color = PIXI.utils.string2hex(color.toHex())
+      }
+      if (f.type === 'glitch') {
+        const filter = f.filter as GlitchFilterType
+        filter.seed = Math.random()
       }
       if (f.type === 'zoomBlur') {
         const filter = f.filter as ZoomBlurFilterType
@@ -242,7 +286,8 @@ export const useAnimationRenderer = () => {
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,
-      outputImageHeight
+      outputImageHeight,
+      settings.zoom
     )
 
     renaderAll(gif, image, settings, outputImageWidth, outputImageHeight)

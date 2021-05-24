@@ -25,6 +25,7 @@ export default {
   preview: 'プレビュー',
   back: '戻る',
   forward: '進む',
+  zoom: 'ズーム',
   history: '履歴 / クリア',
   saveSettingLabel: '保存設定',
   animation: 'アニメーション',
@@ -41,6 +42,9 @@ export default {
   rotation: '回転',
 
   sanfrancisco: 'サンフランシスコ',
+  shadow: '影',
+  glitch: 'グリッジ',
+  mosaic: 'モザイク',
   blur: 'ぼかし',
   zoomBlur: 'ズームぼかし',
 

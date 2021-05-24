@@ -1882,6 +1882,13 @@
     "@pixi/core" "6.0.4"
     "@pixi/math" "6.0.4"
 
+"@pixi/filter-drop-shadow@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-drop-shadow/-/filter-drop-shadow-4.1.0.tgz#55a7eec6f5c8b773819cc5bc9d3507f1ba148f73"
+  integrity sha512-yC1XCimqpo6qPc/uYDYoHtQSYV+jNTMB2O2QNO6MRbGjqffZBtcuAkDKWXOmxBKjEAdAM0pqqLs0I7adcWCfqg==
+  dependencies:
+    "@pixi/filter-kawase-blur" "4.1.0"
+
 "@pixi/filter-fxaa@6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@pixi/filter-fxaa/-/filter-fxaa-6.0.4.tgz#da8b4bd2349f2e2b4969b805a3375e67e4187cc2"
@@ -1889,12 +1896,27 @@
   dependencies:
     "@pixi/core" "6.0.4"
 
+"@pixi/filter-glitch@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-glitch/-/filter-glitch-4.1.1.tgz#cb008a2678e197bd54ac0b0590073415389805ef"
+  integrity sha512-rFkBvzNcZJt+65fQNzq4DQcZSnfR2ZGsNTt85OF055nEHDvgVkdgYR31qiKdfQhRXqVtApYWl0M49pMszTxpXQ==
+
+"@pixi/filter-kawase-blur@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-kawase-blur/-/filter-kawase-blur-4.1.0.tgz#73e520f1c0a9f53a940c337084546455887e5572"
+  integrity sha512-iPWBiI9vMS6zVnAwc01Jd7jsPVxwh1iexbglOpQmr9lYMmzhgTZPhGJ3lg5kYgb/j1AN7hfoljVg/XTmYzmQIQ==
+
 "@pixi/filter-noise@6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@pixi/filter-noise/-/filter-noise-6.0.4.tgz#2264b2555c64de23f213e7c8fe64cf3fd9fef32a"
   integrity sha512-Fpex0tpKCwZIsN03zAmN7hAOCocFF/w4XVVIkuNgYR5A90OkK+omR6p/fDtlJtlAjWarsWq0y+c5wvvUMfqsmg==
   dependencies:
     "@pixi/core" "6.0.4"
+
+"@pixi/filter-pixelate@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-4.1.0.tgz#150e8bbd81960e51a0869abd946823b3c7220181"
+  integrity sha512-wIa2VuIQfMDt4nQh4xlexlGq8ZnVV1EMLJHWsA/L/FKo8ilt8/Asf+DehZRpttVkYgcTw1GtiDU2BhsGYZf3gw==
 
 "@pixi/filter-zoom-blur@^4.1.0":
   version "4.1.0"
@@ -2493,6 +2515,11 @@
   dependencies:
     "@types/webpack" "^4"
     terser "^4.6.13"
+
+"@types/tinycolor2@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
+  integrity sha512-PeHg/AtdW6aaIO2a+98Xj7rWY4KC1E6yOy7AFknJQ7VXUGNrMlyxDFxJo7HqLtjQms/ZhhQX52mLVW/EX3JGOw==
 
 "@types/uglify-js@*":
   version "3.13.0"
@@ -11897,6 +11924,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
+
+tinycolor2@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
+  integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
 
 tmp@^0.0.33:
   version "0.0.33"
