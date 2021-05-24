@@ -41,6 +41,7 @@ export const nuxtConfig: NuxtConfig = {
     '@nuxtjs/composition-api/module',
     '@nuxtjs/vuetify',
     '@nuxtjs/google-analytics',
+    '@nuxtjs/pwa',
   ],
   generate: {
     interval: 2000,
@@ -91,6 +92,13 @@ export const nuxtConfig: NuxtConfig = {
     id: 'UA-197325163-1',
     debug: {
       sendHitTask: process.env.NODE_ENV === 'production',
+    },
+  },
+  pwa: {
+    manifest: {
+      name: 'Freehand Emoji Gen',
+      lang: 'ja',
+      useWebmanifestExtension: false,
     },
   },
 }
