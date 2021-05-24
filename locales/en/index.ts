@@ -1,6 +1,6 @@
 export default {
   title: 'Freehand Emoji Gen',
-  subtitle: 'freehand emoji generator',
+  subtitle: 'Freehand Emoji Generator',
   editorTitle: 'Freehand Input',
   editorSubtitle: 'You can draw a line by moving the cursor while clicking',
   appearanceTitle: 'Pallet',

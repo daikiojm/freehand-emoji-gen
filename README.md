@@ -2,7 +2,9 @@
 
 [![github pages](https://github.com/daikiojm/freehand-emoji-gen/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/daikiojm/freehand-emoji-gen/actions/workflows/gh-pages.yml)
 
-![Screenshot](.github/screenshot.png)
+Development repository for `Freehand Emoji Generator 📝` that create custom emoji for use in Slack, Discord, and other chats.
+
+<img width=400 src=".github/screenshot.png"/><img width=400 src=".github/screenshot_dark.png"/>
 
 https://daikiojm.github.io/freehand-emoji-gen/
 
@@ -23,6 +25,17 @@ $ yarn dev
 - Animations and Effects
 - `png` and `gif` output
 - Keyboard Shortcuts
+
+## 🏛 Libraries
+
+- [perfect-freehand](https://github.com/steveruizok/perfect-freehand) - Freehand Path Strokes 
+- [PixiJS](https://github.com/pixijs/pixijs) - Animations and Effects
+- [and more](package.json) 
+
+## 🧘‍♂️ Inspirations
+
+- [Emoji Generator](https://github.com/emoji-gen/web-main)
+- [MEGAMOJI](https://github.com/zk-phi/MEGAMOJI)
 
 ## ‎‍💻 Contributing
 
