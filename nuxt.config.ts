@@ -33,7 +33,7 @@ export const nuxtConfig: NuxtConfig = {
         hid: 'og:description',
         property: 'og:description',
         content:
-          'フリーハンド(手書き)でSlack, Discordなど向けの絵文字画像を作成',
+          'フリーハンド(手書き)でSlack, Discordなど向けの絵文字画像を作成できるジェネレーターです',
       },
       {
         hid: 'og:image',
