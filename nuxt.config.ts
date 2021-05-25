@@ -15,7 +15,30 @@ export const nuxtConfig: NuxtConfig = {
       {
         hid: 'description',
         name: 'description',
-        content: 'フリーハンド(手書き)でSlackなど向けの絵文字画像を作成',
+        content:
+          'フリーハンド(手書き)でSlack, Discordなど向けの絵文字画像を作成できるジェネレーターです',
+      },
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: 'Freehand Emoji Gen',
+      },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'https://daikiojm.github.io/freehand-emoji-gen/',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content:
+          'フリーハンド(手書き)でSlack, Discordなど向けの絵文字画像を作成',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://daikiojm.github.io/freehand-emoji-gen/ogp_image.png',
       },
     ],
     link: [
