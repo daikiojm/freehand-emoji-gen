@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/en/playground", {data:[{}],fetch:{},mutations:[]});
