@@ -35,7 +35,8 @@ async function convertPathToResizedCanvas(
   canvasHeight: number,
   outputWidth: number,
   outputHeight: number,
-  settings: Settings
+  settings: Settings,
+  fillBackground = false
 ) {
   const canvas = document.createElement('canvas')
   canvas.width = canvasWidth
@@ -63,6 +64,12 @@ async function convertPathToResizedCanvas(
   croppedCanvas.height = outputWidth
 
   const croppedCtx = croppedCanvas.getContext('2d')
+
+  if (fillBackground) {
+    croppedCtx!.fillStyle = settings.backgroundColor
+    croppedCtx?.fillRect(0, 0, outputWidth, outputHeight)
+  }
+
   croppedCtx?.drawImage(
     croppedImage,
     0,
@@ -93,7 +100,8 @@ export const useImageRender = () => {
       freehandCanvasHeight,
       outputImageWidth,
       outputImageHeight,
-      settings
+      settings,
+      true
     )
 
     return canvas.toDataURL(`image/png`)
