@@ -249,7 +249,7 @@ export function renaderAll(
  * see: https://github.com/jnordberg/gif.js/pull/77
  * このバグを背景色の調整で目立ちにくくする
  */
-function getGifEncorderTransparent(settings: Settings) {
+function getGifEncorderColor(settings: Settings) {
   let strokeColor: string | null = settings.strokeColor
   let transparent: string | null = null
 
@@ -264,6 +264,30 @@ function getGifEncorderTransparent(settings: Settings) {
   return { strokeColor, transparent }
 }
 
+function gifFactory(
+  outputImageWidth: number,
+  outputImageHeight: number,
+  settings: Settings,
+  transparent: string | null
+) {
+  return new GIF({
+    // forever
+    repeat: 0,
+    // lower is better
+    quality: 1,
+    workers: 4,
+    width: outputImageWidth,
+    height: outputImageHeight,
+    debug: true,
+    transparent,
+    background: settings.backgroundColor,
+    workerScript: `${
+      // gh-pages workaround
+      process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '/'
+    }js/gif.worker.js`,
+  })
+}
+
 export const useAnimationRenderer = () => {
   const {
     freehandCanvasWidth,
@@ -274,23 +298,14 @@ export const useAnimationRenderer = () => {
   const { convertPathToResizedCanvas } = useImageRender()
 
   const renderWithAnimation = async (paths: Mark[], settings: Settings) => {
-    const { strokeColor, transparent } = getGifEncorderTransparent(settings)
-    const gif = new GIF({
-      // forever
-      repeat: 0,
-      // lower is better
-      quality: 1,
-      workers: 4,
-      width: outputImageWidth,
-      height: outputImageHeight,
-      debug: true,
-      transparent,
-      background: settings.backgroundColor,
-      workerScript: `${
-        // gh-pages workaround
-        process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '/'
-      }js/gif.worker.js`,
-    })
+    const { strokeColor, transparent } = getGifEncorderColor(settings)
+
+    const gif = gifFactory(
+      outputImageWidth,
+      outputImageHeight,
+      settings,
+      transparent
+    )
 
     const image = await convertPathToResizedCanvas(
       paths,
