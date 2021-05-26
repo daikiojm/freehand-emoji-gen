@@ -5,7 +5,7 @@ import getStroke from 'perfect-freehand'
 import { useStore } from '~/store'
 
 // Create SVG path data using the points from perfect-freehand.
-const getSvgPathFromStroke = (stroke: number[][]) => {
+export const getSvgPathFromStroke = (stroke: number[][]) => {
   const d: (number | string)[] = []
 
   if (stroke.length < 3) {
