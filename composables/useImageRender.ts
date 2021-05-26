@@ -1,8 +1,12 @@
+import getStroke, { StrokeOptions } from 'perfect-freehand'
+import { get } from '@vueuse/core'
+
 import { useStaticConfig } from './useStaticConfig'
+import { getSvgPathFromStroke } from './useSvgStroke'
 
-import { Settings } from '~/store'
+import { Settings, Mark } from '~/store'
 
-const loadImagePromise = (src: string): Promise<HTMLImageElement> => {
+function loadImagePromise(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.addEventListener('load', () => resolve(image))
@@ -11,36 +15,46 @@ const loadImagePromise = (src: string): Promise<HTMLImageElement> => {
   })
 }
 
-const convertSvgToResizedCanvas = async (
-  svg: SVGElement,
+function getPath2dFromMark(mark: Mark, strokeOptions: StrokeOptions) {
+  return new Path2D(
+    getSvgPathFromStroke(
+      getStroke(mark.points, {
+        size: strokeOptions.size,
+        thinning: strokeOptions.thinning,
+        smoothing: strokeOptions.smoothing,
+        streamline: strokeOptions.streamline,
+        simulatePressure: mark.type !== 'pen',
+      })
+    )
+  )
+}
+
+async function convertPathToResizedCanvas(
+  paths: Mark[],
   canvasWidth: number,
   canvasHeight: number,
   outputWidth: number,
   outputHeight: number,
-  zoom = 1
-) => {
-  const svgData = new XMLSerializer().serializeToString(svg)
+  settings: Settings,
+  fillBackground = false
+) {
   const canvas = document.createElement('canvas')
   canvas.width = canvasWidth
   canvas.height = canvasHeight
 
   const ctx = canvas.getContext('2d')
-  const src =
-    'data:image/svg+xml;charset=utf-8;base64,' +
-    btoa(unescape(encodeURIComponent(svgData)))
-  const image = await loadImagePromise(src)
 
-  ctx?.drawImage(
-    image,
-    0,
-    0,
-    canvasWidth,
-    canvasHeight,
-    0,
-    0,
-    outputWidth,
-    outputHeight
+  ctx?.translate(
+    -(canvasWidth * (settings.zoom - 1)) / 2,
+    -(canvasWidth * (settings.zoom - 1)) / 2
   )
+  ctx?.scale(settings.zoom, settings.zoom)
+
+  for (const p of paths) {
+    const path2d = getPath2dFromMark(p, get(settings))
+    ctx!.fillStyle = settings.strokeColor
+    ctx?.fill(path2d)
+  }
 
   const imageStr = canvas.toDataURL('image/png')
 
@@ -50,16 +64,22 @@ const convertSvgToResizedCanvas = async (
   croppedCanvas.height = outputWidth
 
   const croppedCtx = croppedCanvas.getContext('2d')
+
+  if (fillBackground) {
+    croppedCtx!.fillStyle = settings.backgroundColor
+    croppedCtx?.fillRect(0, 0, outputWidth, outputHeight)
+  }
+
   croppedCtx?.drawImage(
     croppedImage,
     0,
     0,
+    canvasWidth,
+    canvasHeight,
+    0,
+    0,
     outputWidth,
-    outputHeight,
-    (-outputWidth * (zoom - 1)) / 2,
-    (-outputHeight * (zoom - 1)) / 2,
-    outputWidth * zoom,
-    outputHeight * zoom
+    outputHeight
   )
 
   return croppedCanvas
@@ -73,30 +93,22 @@ export const useImageRender = () => {
     outputImageHeight,
   } = useStaticConfig()
 
-  const renderPngFromSvg = async (svg: SVGElement, settings: Settings) => {
-    const newSvg = svg.cloneNode(true) as SVGElement
-
-    if (settings.backgroundColor === '#00000000') {
-      newSvg.style.background = 'none'
-      newSvg.style.backgroundColor = 'none'
-    }
-
-    const canvas = await convertSvgToResizedCanvas(
-      newSvg,
+  const renderImage = async (path: Mark[], settings: Settings) => {
+    const canvas = await convertPathToResizedCanvas(
+      path,
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,
       outputImageHeight,
-      settings.zoom
+      settings,
+      true
     )
 
-    const croppedImageStr = canvas.toDataURL(`image/png`)
-
-    return croppedImageStr
+    return canvas.toDataURL(`image/png`)
   }
 
   return {
-    convertSvgToResizedCanvas,
-    renderPngFromSvg,
+    convertPathToResizedCanvas,
+    renderImage,
   }
 }

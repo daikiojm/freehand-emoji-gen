@@ -15,7 +15,6 @@ import {
 import { StrokeOptions } from 'perfect-freehand'
 
 import { useImageRender } from '~/composables/useImageRender'
-import { useSvgRef } from '~/composables/useSvgRef'
 import { useAnimationRenderer } from '~/composables/useAnimationRenderer'
 
 export type Mark = {
@@ -110,8 +109,7 @@ const defaultData: Data = {
 }
 
 export const store = () => {
-  const { renderPngFromSvg } = useImageRender()
-  const { svgElement } = useSvgRef()
+  const { renderImage } = useImageRender()
   const { renderWithAnimation } = useAnimationRenderer()
 
   const state = reactive<State>({
@@ -200,11 +198,11 @@ export const store = () => {
         get(settings).animation === 'none' &&
         JSON.stringify(get(settings).effect) === JSON.stringify(['none'])
       ) {
-        const image = await renderPngFromSvg(get(svgElement)!, get(settings))
+        const image = await renderImage(get(data.value.marks), get(settings))
         download.value.resultImage = image
       } else {
         download.value.resultImage = await renderWithAnimation(
-          get(svgElement)!,
+          get(data.value.marks),
           get(settings)
         )
       }

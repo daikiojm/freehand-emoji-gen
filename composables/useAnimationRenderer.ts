@@ -11,12 +11,13 @@ import type { DropShadowFilter as DropShadowFilterType } from '@pixi/filter-drop
 
 import { useStaticConfig } from '~/composables/useStaticConfig'
 import { useImageRender } from '~/composables/useImageRender'
-import { AnimationSpeed, Settings, EffectType } from '~/store'
+import { AnimationSpeed, Settings, EffectType, Mark } from '~/store'
 
-export const getRandomColor = () =>
-  Math.floor(Math.random() * 16777215).toString(16)
+export function getRandomColor() {
+  return Math.floor(Math.random() * 16777215).toString(16)
+}
 
-const readFilePromise = (blob: Blob): Promise<string> => {
+function readFilePromise(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.addEventListener('load', () => resolve(reader.result as string))
@@ -25,11 +26,11 @@ const readFilePromise = (blob: Blob): Promise<string> => {
   })
 }
 
-export const convertMaybeHexaToHex = (maybeHexa: string) => {
+export function convertMaybeHexaToHex(maybeHexa: string) {
   return maybeHexa.length >= 8 ? maybeHexa.slice(0, 7) : maybeHexa
 }
 
-export const getAnimationSpeedByType = (type: AnimationSpeed) => {
+export function getAnimationSpeedByType(type: AnimationSpeed) {
   switch (type) {
     case 'high': {
       return 60
@@ -43,13 +44,13 @@ export const getAnimationSpeedByType = (type: AnimationSpeed) => {
   }
 }
 
-export const renaderAll = (
+export function renaderAll(
   gif: GIF,
   image: HTMLCanvasElement,
   settings: Settings,
   outputImageWidth: number,
   outputImageHeight: number
-) => {
+) {
   const PIXI = require('pixi.js') as typeof PIXIasType
   const app = new PIXI.Application({
     width: outputImageWidth,
@@ -136,6 +137,7 @@ export const renaderAll = (
         const filter = new DropShadowFilter()
         filter.distance = 0
         filter.blur = 4
+        filter.alpha = 1
         filters.push({ type: 'shadow', filter })
       }
       if (effect === 'glitch') {
@@ -243,6 +245,25 @@ export const renaderAll = (
   })
 }
 
+/*
+ * see: https://github.com/jnordberg/gif.js/pull/77
+ * このバグを背景色の調整で目立ちにくくする
+ */
+function getGifEncorderTransparent(settings: Settings) {
+  let strokeColor: string | null = settings.strokeColor
+  let transparent: string | null = null
+
+  if (settings.backgroundColor === '#00000000') {
+    transparent = '00000000'
+
+    if (settings.strokeColor === '#000000') {
+      strokeColor = '#030303'
+    }
+  }
+
+  return { strokeColor, transparent }
+}
+
 export const useAnimationRenderer = () => {
   const {
     freehandCanvasWidth,
@@ -250,9 +271,10 @@ export const useAnimationRenderer = () => {
     outputImageWidth,
     outputImageHeight,
   } = useStaticConfig()
-  const { convertSvgToResizedCanvas } = useImageRender()
+  const { convertPathToResizedCanvas } = useImageRender()
 
-  const renderWithAnimation = async (svg: SVGElement, settings: Settings) => {
+  const renderWithAnimation = async (paths: Mark[], settings: Settings) => {
+    const { strokeColor, transparent } = getGifEncorderTransparent(settings)
     const gif = new GIF({
       // forever
       repeat: 0,
@@ -262,12 +284,7 @@ export const useAnimationRenderer = () => {
       width: outputImageWidth,
       height: outputImageHeight,
       debug: true,
-      /*
-       * see: https://github.com/jnordberg/gif.js/pull/77
-       * このバグを背景色の調整で目立ちにくくする
-       */
-      transparent:
-        settings.backgroundColor === '#FFFFFFFF' ? null : '#00000000',
+      transparent,
       background: settings.backgroundColor,
       workerScript: `${
         // gh-pages workaround
@@ -275,19 +292,13 @@ export const useAnimationRenderer = () => {
       }js/gif.worker.js`,
     })
 
-    const newSvg = svg.cloneNode(true) as SVGElement
-
-    // reset background color
-    newSvg.style.background = 'none'
-    newSvg.style.backgroundColor = 'none'
-
-    const image = await convertSvgToResizedCanvas(
-      newSvg,
+    const image = await convertPathToResizedCanvas(
+      paths,
       freehandCanvasWidth,
       freehandCanvasHeight,
       outputImageWidth,
       outputImageHeight,
-      settings.zoom
+      { ...settings, strokeColor }
     )
 
     renaderAll(gif, image, settings, outputImageWidth, outputImageHeight)

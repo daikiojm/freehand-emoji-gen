@@ -16,7 +16,7 @@
         <div class="mb-4">
           <AppSubheader>
             <template #default
-              ><span class="mr-2">⚙️</span>️
+              ><span class="mr-2">️🎨</span>️
               {{ $t('appearanceTitle') }}</template
             >
             <template #caption> ({{ $t('appearanceSubtitle') }}) </template>
