@@ -137,6 +137,7 @@ export function renaderAll(
         const filter = new DropShadowFilter()
         filter.distance = 0
         filter.blur = 4
+        filter.alpha = 1
         filters.push({ type: 'shadow', filter })
       }
       if (effect === 'glitch') {
