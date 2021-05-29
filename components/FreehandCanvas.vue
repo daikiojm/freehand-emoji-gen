@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from '@nuxtjs/composition-api'
-import { get } from '@vueuse/core'
+import { get, useEventListener } from '@vueuse/core'
 
 import FreehandCanvasPlaceholder from './FreehandCanvasPlaceholder.vue'
 
@@ -60,15 +60,9 @@ export default defineComponent({
     const { dataHasChanged, settings } = useStore()
     const svgContainer = ref<HTMLDivElement>()
 
-    if (svgContainer) {
-      ignoreEvents.forEach((evName) => {
-        svgContainer.value?.removeEventListener(
-          evName,
-          (e) => e.preventDefault(),
-          false
-        )
-      })
-    }
+    ignoreEvents.forEach((evName) => {
+      useEventListener(svgContainer, evName, (e) => e.preventDefault())
+    })
 
     const svgContainerStyle = {
       minWidth: `${freehandCanvasWidth}px`,

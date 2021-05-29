@@ -53,6 +53,9 @@ export const nuxtConfig: NuxtConfig = {
       },
     ],
   },
+  server: {
+    host: '0',
+  },
   router: {
     base: process.env.NODE_ENV === 'production' ? '/freehand-emoji-gen/' : '',
   },
