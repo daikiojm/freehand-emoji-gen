@@ -1956,12 +1956,12 @@
     "@pixi/core" "6.0.4"
     "@pixi/math" "6.0.4"
 
-"@pixi/filter-drop-shadow@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-drop-shadow/-/filter-drop-shadow-4.1.0.tgz#55a7eec6f5c8b773819cc5bc9d3507f1ba148f73"
-  integrity sha512-yC1XCimqpo6qPc/uYDYoHtQSYV+jNTMB2O2QNO6MRbGjqffZBtcuAkDKWXOmxBKjEAdAM0pqqLs0I7adcWCfqg==
+"@pixi/filter-drop-shadow@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-drop-shadow/-/filter-drop-shadow-4.1.3.tgz#31f9f6815c4c7f58a308f617e75fff0b71299bac"
+  integrity sha512-H6oGNmfg6fT/6yOgg8qe8LhAviqPquJmyQ9GIEItaY27rQ3virgIRjNzptlTXbH+mCHrRl5VNA9+4pLJbUMsuA==
   dependencies:
-    "@pixi/filter-kawase-blur" "4.1.0"
+    "@pixi/filter-kawase-blur" "4.1.3"
 
 "@pixi/filter-fxaa@6.0.4":
   version "6.0.4"
@@ -1970,15 +1970,15 @@
   dependencies:
     "@pixi/core" "6.0.4"
 
-"@pixi/filter-glitch@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-glitch/-/filter-glitch-4.1.1.tgz#cb008a2678e197bd54ac0b0590073415389805ef"
-  integrity sha512-rFkBvzNcZJt+65fQNzq4DQcZSnfR2ZGsNTt85OF055nEHDvgVkdgYR31qiKdfQhRXqVtApYWl0M49pMszTxpXQ==
+"@pixi/filter-glitch@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-glitch/-/filter-glitch-4.1.3.tgz#efb370f174d2fb839e5e3e86357432604773f238"
+  integrity sha512-lPxpQOE5EY/06lTdy1xAGvLcjK07zB41NuendVXXOzvezvecI+CwqRAG8LKF1s+o0Cwf/p6XHV3WOvC+tM1CSw==
 
-"@pixi/filter-kawase-blur@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-kawase-blur/-/filter-kawase-blur-4.1.0.tgz#73e520f1c0a9f53a940c337084546455887e5572"
-  integrity sha512-iPWBiI9vMS6zVnAwc01Jd7jsPVxwh1iexbglOpQmr9lYMmzhgTZPhGJ3lg5kYgb/j1AN7hfoljVg/XTmYzmQIQ==
+"@pixi/filter-kawase-blur@4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-kawase-blur/-/filter-kawase-blur-4.1.3.tgz#4d2bf0cbcc3250f06f25dc8e3579255a6fc1b4fa"
+  integrity sha512-T5nypyWjEwjLIqR9MrOYXduxuMaXr8zRBvwSDeSmhZpp4oPDE+ChxiIWKoruZ8pTDDqdIhHJ5ZeXMTFEOlOlgA==
 
 "@pixi/filter-noise@6.0.4":
   version "6.0.4"
@@ -1987,15 +1987,15 @@
   dependencies:
     "@pixi/core" "6.0.4"
 
-"@pixi/filter-pixelate@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-4.1.0.tgz#150e8bbd81960e51a0869abd946823b3c7220181"
-  integrity sha512-wIa2VuIQfMDt4nQh4xlexlGq8ZnVV1EMLJHWsA/L/FKo8ilt8/Asf+DehZRpttVkYgcTw1GtiDU2BhsGYZf3gw==
+"@pixi/filter-pixelate@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-pixelate/-/filter-pixelate-4.1.3.tgz#8200ccf4e47803a5b2f86ab3a755d438769b0e37"
+  integrity sha512-1YEc46GO08C2nc54P/9yxWH7TaVTNoJe+EEvuXKiSITVadr4fEizkm607m+VAt6Ngv6bYpCAxO36HoRTFf3mAw==
 
-"@pixi/filter-zoom-blur@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@pixi/filter-zoom-blur/-/filter-zoom-blur-4.1.0.tgz#afa05db16a760138514af361f3d0faac838ddcc9"
-  integrity sha512-bAhR61jC/TuOnVgQdB3lb/ymj8kEMFV18Apbw9poeggvr8QNUQFJqRt6eop548qmKTA3qd/keZPHoL3t1vOD5Q==
+"@pixi/filter-zoom-blur@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@pixi/filter-zoom-blur/-/filter-zoom-blur-4.1.3.tgz#a65a548d208584c332acad7c8dedefbe856f9522"
+  integrity sha512-fXdexlzfmZxLAcCq86fOUyPI+Fb7nwyn2FzBYVQ1GALAASEBEzCVJup4gYpZkMUn1c3sjrSAkE33EVf9cuis6A==
 
 "@pixi/graphics@6.0.4":
   version "6.0.4"
